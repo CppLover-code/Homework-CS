@@ -31,7 +31,7 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
             //for (int i = 0; i < 3; i++)                                 // заполнение 2d массива рандомом
             //    for (int j = 0; j < 4; j++)
             //        B[i, j] = i + j + 1 + Math.Round(rnd.NextDouble(), 1);  // записываем в массив случайное число
-  
+
             //Console.WriteLine("\n 2d массив: ");                  
 
             //for (int i = 0; i < 3; i++)                         // вывод 2d массива в виде матрицы
@@ -47,7 +47,7 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
             //double product = 1;     // общее произведение всех элементов 1d и 2d
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////
-            
+
             //double maxA = A.Max();  // максимальный элемент 1d массива
             //double minA = A.Min();  // минимальный элемент 1d массива
             //double sumEvenA = 0;    // сумма чётных элементов 1d массива
@@ -106,14 +106,85 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
             //Console.WriteLine(" Сумма нечётных столбцов 2d массива B: " + sumOddB);
 
 
+            //Console.WriteLine("----------------------------------------");
+            //Console.WriteLine(" Задание 2. Работа с 2d массивом\n");
+
+            //int s = 5;
+            //int[,] arrInt = new int[s, s];
+
+            //Random rndInt = new Random();                  // объект для генерации случайных чисел
+
+            //for (int i = 0; i < s; i++)
+            //{
+            //    for (int j = 0; j < s; j++)
+            //    {
+            //        arrInt[i, j] = rndInt.Next(-100, 101);   // заполнение массива случайными числами
+            //    }
+            //}
+
+            //Console.ForegroundColor = ConsoleColor.Green;
+            //Console.WriteLine(" 2D массив 5х5");
+            //Console.ResetColor();
+            //for (int i = 0; i < s; i++)
+            //{
+            //    for (int j = 0; j < s; j++)
+            //    {
+            //        Console.Write(arrInt[i, j] + "\t");    // выводим массив 
+            //    }
+            //    Console.WriteLine();
+            //}
+ 
+
+            //int size = s * s;               // размер 1d массива
+            //int[] arrCopy = new int[size];  // создаем и выделяем память для 1d массива
+            //int w = 0;                      // переменная для индексации массива
+
+            //    for (int k = 0; k < s; k++)
+            //    {
+            //        for (int j = 0; j < s; j++)
+            //        {
+            //            arrCopy[w] = arrInt[k, j];
+            //            w++;
+            //        }
+            //    }
+
+            //int minC = arrCopy.Min();
+            //int maxC = arrCopy.Max();
+
+            //int minI = 0; 
+            //int maxI = 0;
+
+            //int rangeSum = 0;
+
+            //for (int i = 0; i < arrCopy.Length; i++)
+            //{
+            //    if (arrCopy[i] == minC) minI = i;         // находим индексы мин и макс элементов
+            //    else if (arrCopy[i] == maxC) maxI = i;
+            //}
+
+            //if (minI > maxI)                              // если индекс минимального элемента
+            //{                                             // больше индекса макс элемента,
+            //    int temp = minI;                          // то меняем значения индексов местами
+            //    minI = maxI;
+            //    maxI = temp;
+            //}
+
+            //for (int i = minI + 1; i < maxI; i++)
+            //{
+            //    rangeSum += arrCopy[i];                   // суммируем элементы в диапазоне от мин. до макс.
+            //}
+
+            //Console.ForegroundColor = ConsoleColor.Green;
+            //Console.WriteLine("\n Сумма элементов массива в диапазоне от мин. до макс.: " + rangeSum);
+            //Console.ResetColor();
+
+
             Console.WriteLine("----------------------------------------");
 
-            Console.WriteLine(" Задание 2. Работа с 2d массивом");
+            Console.WriteLine(" Задание 3. Шифр Цезаря");
 
 
-            //Console.WriteLine("----------------------------------------");
 
-            //Console.WriteLine(" Задание 3. Шифр Цезаря");
             //Console.WriteLine("----------------------------------------");
 
             //Console.WriteLine(" Задание 4. Операции над матрицами");
