@@ -307,38 +307,18 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
             Console.WriteLine(" Задание 4. Операции над матрицами");
             int h = 3, w = 4;
 
+            Random rand = new Random();
+
             int[,] matrix1 = new int[h, w];
             int[,] matrix2 = new int[h, w];
-
-            Random rand = new Random();
-            for (int i = 0; i < h; i++)
-                for (int k = 0; k < w; k++)
-                    matrix1[i, k] = rand.Next(1, 21);
-
+                  
             Console.WriteLine("\n Матрица 1 - " + h + "*" + w);
-            for (int i = 0; i < h; i++)
-            {
-                for (int k = 0; k < w; k++)
-                {
-                    Console.Write(matrix1[i, k] + "\t");
-                }
-                Console.WriteLine();
-            }
-
-            for (int i = 0; i < h; i++)
-                for (int k = 0; k < w; k++)
-                    matrix2[i, k] = rand.Next(21, 41);
-
-
+            FillArray(matrix1, h, w, rand);
+            ShowArray(matrix1, h, w);
+          
             Console.WriteLine("\n Матрица 2 - " + h + "*" +  w);
-            for (int i = 0; i < h; i++)
-            {
-                for (int k = 0; k < w; k++)
-                {
-                    Console.Write(matrix2[i, k] + "\t");
-                }
-                Console.WriteLine();
-            }
+            FillArray(matrix2, h, w, rand);
+            ShowArray(matrix2, h, w);            
 
             int choice;
             do
@@ -390,6 +370,25 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
             //Console.WriteLine(" Задание 7. Проверка текста на недопустимые слова");
             //Console.WriteLine("----------------------------------------");
 
+        }
+
+        static void FillArray(int[,] arr, int h, int w, Random rand)
+        {           
+            for (int i = 0; i < h; i++)
+                for (int k = 0; k < w; k++)
+                    arr[i, k] = rand.Next(1, 101);
+        }
+
+        static void ShowArray(int[,] arr, int h,int w)
+        {
+            for (int i = 0; i < h; i++)
+            {
+                for (int k = 0; k < w; k++)
+                {
+                    Console.Write(arr[i, k] + "\t");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
