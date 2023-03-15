@@ -302,107 +302,171 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
             //Console.WriteLine(str);
 
 
-            Console.WriteLine("----------------------------------------");
-            Console.WriteLine(" Задание 4. Операции над матрицами");
-
-            int h = 3, w = 4;                       // размер массива
-
-            Random rand = new Random();
-
-            int[,] matrix1 = new int[h, w];
-            int[,] matrix2 = new int[h, w];
-            int[,] res = new int[h, w];             // массив для хранения результата
-
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine("\n Матрица 1 - " + h + "*" + w);
-            Console.ResetColor();
-            FillArray(matrix1, h, w, rand);         // заполняем массив 
-            ShowArray(matrix1, h, w);               // показ массива
-
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine("\n Матрица 2 - " + h + "*" +  w);
-            Console.ResetColor();
-            FillArray(matrix2, h, w, rand);
-            ShowArray(matrix2, h, w);            
-
-            int choice;
-            do
-            {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("\n Выберите операцию над матрицами: ");
-                Console.WriteLine(" 1 - умножение матрицы на число");
-                Console.WriteLine(" 2 - сложение матриц");
-                Console.WriteLine(" 3 - произведение матриц");
-                Console.WriteLine(" 0 - выход");
-                Console.ResetColor();
-
-                while (true)
-                {
-                    while (!int.TryParse(Console.ReadLine(), out choice))
-                    {
-                        Console.WriteLine(" Ошибочный ввод! Введите целое число:");
-                    }
-                    if (choice >= 0 && choice <= 3) break;
-                    else Console.WriteLine(" Ошибочный ввод! ");
-                }
-
-                switch(choice)
-                {
-                    case 1:
-                        Console.WriteLine(" Введите число для умножения матрицы:");
-                        int multNumb = int.Parse(Console.ReadLine());
-
-                        Console.WriteLine($" Выберите матрицу, которую необходимо умножить на {multNumb}:");
-                        Console.WriteLine(" 1 - Матрица 1\n 2 - Матрица 2");
-                        int ch = int.Parse(Console.ReadLine());
-
-                        if(ch == 1)
-                        {
-                            MultNumber(matrix1, res, h, w, multNumb);
-                            Console.BackgroundColor = ConsoleColor.Yellow;
-                            Console.ForegroundColor = ConsoleColor.Black;
-                            Console.WriteLine(" Результат умножения Матрицы 1 на число:");
-                            Console.ResetColor();
-                            ShowArray(res, h, w);
-                        }
-                        else if(ch == 2)
-                        {
-                            MultNumber(matrix2, res, h, w, multNumb);
-                            Console.BackgroundColor = ConsoleColor.Yellow;
-                            Console.ForegroundColor = ConsoleColor.Black;
-                            Console.WriteLine(" Результат умножения Матрицы 2 на число:");
-                            Console.ResetColor();
-                            ShowArray(res, h, w);
-                        }
-
-                        break;
-
-                    case 2:
-                        Addition(matrix1, matrix2, res, h, w);
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.WriteLine(" Результат сложения двух матриц:");
-                        Console.ResetColor();
-                        ShowArray(res, h, w);
-                        break;
-
-                    case 3:
-                        Product(matrix1, matrix2, res, h, w);
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.WriteLine(" Результат произведения двух матриц:");
-                        Console.ResetColor();
-                        ShowArray(res, h, w);
-                        break;
-
-                }
-            } while (choice != 0);
-            
             //Console.WriteLine("----------------------------------------");
+            //Console.WriteLine(" Задание 4. Операции над матрицами");
 
-            //Console.WriteLine(" Задание 5. Арифметическое выражение");
+            //int h = 3, w = 4;                       // размер массива
+
+            //Random rand = new Random();
+
+            //int[,] matrix1 = new int[h, w];
+            //int[,] matrix2 = new int[h, w];
+            //int[,] res = new int[h, w];             // массив для хранения результата
+
+            //Console.BackgroundColor = ConsoleColor.Yellow;
+            //Console.ForegroundColor = ConsoleColor.Black;
+            //Console.WriteLine("\n Матрица 1 - " + h + "*" + w);
+            //Console.ResetColor();
+            //FillArray(matrix1, h, w, rand);         // заполняем массив 
+            //ShowArray(matrix1, h, w);               // показ массива
+
+            //Console.BackgroundColor = ConsoleColor.Yellow;
+            //Console.ForegroundColor = ConsoleColor.Black;
+            //Console.WriteLine("\n Матрица 2 - " + h + "*" +  w);
+            //Console.ResetColor();
+            //FillArray(matrix2, h, w, rand);
+            //ShowArray(matrix2, h, w);            
+
+            //int choice;
+            //do
+            //{
+            //    Console.ForegroundColor = ConsoleColor.Cyan;
+            //    Console.WriteLine("\n Выберите операцию над матрицами: ");
+            //    Console.WriteLine(" 1 - умножение матрицы на число");
+            //    Console.WriteLine(" 2 - сложение матриц");
+            //    Console.WriteLine(" 3 - произведение матриц");
+            //    Console.WriteLine(" 0 - выход");
+            //    Console.ResetColor();
+
+            //    while (true)
+            //    {
+            //        while (!int.TryParse(Console.ReadLine(), out choice))
+            //        {
+            //            Console.WriteLine(" Ошибочный ввод! Введите целое число:");
+            //        }
+            //        if (choice >= 0 && choice <= 3) break;
+            //        else Console.WriteLine(" Ошибочный ввод! ");
+            //    }
+
+            //    switch(choice)
+            //    {
+            //        case 1:
+            //            Console.WriteLine(" Введите число для умножения матрицы:");
+            //            int multNumb = int.Parse(Console.ReadLine());
+
+            //            Console.WriteLine($" Выберите матрицу, которую необходимо умножить на {multNumb}:");
+            //            Console.WriteLine(" 1 - Матрица 1\n 2 - Матрица 2");
+            //            int ch = int.Parse(Console.ReadLine());
+
+            //            if(ch == 1)
+            //            {
+            //                MultNumber(matrix1, res, h, w, multNumb);
+            //                Console.BackgroundColor = ConsoleColor.Yellow;
+            //                Console.ForegroundColor = ConsoleColor.Black;
+            //                Console.WriteLine(" Результат умножения Матрицы 1 на число:");
+            //                Console.ResetColor();
+            //                ShowArray(res, h, w);
+            //            }
+            //            else if(ch == 2)
+            //            {
+            //                MultNumber(matrix2, res, h, w, multNumb);
+            //                Console.BackgroundColor = ConsoleColor.Yellow;
+            //                Console.ForegroundColor = ConsoleColor.Black;
+            //                Console.WriteLine(" Результат умножения Матрицы 2 на число:");
+            //                Console.ResetColor();
+            //                ShowArray(res, h, w);
+            //            }
+
+            //            break;
+
+            //        case 2:
+            //            Addition(matrix1, matrix2, res, h, w);
+            //            Console.BackgroundColor = ConsoleColor.Yellow;
+            //            Console.ForegroundColor = ConsoleColor.Black;
+            //            Console.WriteLine(" Результат сложения двух матриц:");
+            //            Console.ResetColor();
+            //            ShowArray(res, h, w);
+            //            break;
+
+            //        case 3:
+            //            Product(matrix1, matrix2, res, h, w);
+            //            Console.BackgroundColor = ConsoleColor.Yellow;
+            //            Console.ForegroundColor = ConsoleColor.Black;
+            //            Console.WriteLine(" Результат произведения двух матриц:");
+            //            Console.ResetColor();
+            //            ShowArray(res, h, w);
+            //            break;
+
+            //    }
+            //} while (choice != 0);
+
+            Console.WriteLine("----------------------------------------");
+            Console.WriteLine(" Задание 5. Арифметическое выражение");
+
+            Console.WriteLine(" Введите арифметическое выражение с '+' или '-'");
+            StringBuilder exp = new StringBuilder(Console.ReadLine());
+            Console.WriteLine(exp);
+
+            for (int i = 0; i < exp.Length; i++)  // показ кодов
+            {
+                Console.Write((int)exp[i] + " ");
+            }
+
+            for (int i = 0; i < exp.Length; i++)
+            {
+                if (((int)exp[i] < 48 || (int)exp[i] > 57) &&                         // если текущий символ не является буквой или "+" или "-"
+                   (int)exp[i] != 43 && (int)exp[i] != 45)
+                {
+                    exp.Remove(i, 1);                                                 // удаляем данный символ
+                    i--;
+                }
+            }
+            for (int i = 0; i < exp.Length; i++)                                      // выполняем проверку введенного выражения и удаляем лишние символы
+            {
+                if (exp[0] == '+' || exp[0] == '-')                                   // если первый символ является "+" или "-"
+                {
+                    exp.Remove(i, 1);                                                 // удаляем данный символ
+                    i--;
+                    continue;
+                }
+               
+                else if (exp[i] == '+' && (exp[i + 1] == '+' || exp[i + 1] == '-'))   // если текущий сивол "+" и след. символ "+" или "-"
+                {
+                    exp.Remove(i + 1, 1);                                             // удаляем след. символ, остается только "+"
+                    i--;
+                }
+                else if (exp[i] == '-' && (exp[i + 1] == '-' || exp[i + 1] == '+'))   // если текущий сивол "-" и след. символ "+" или "-"
+                {
+                    exp.Remove(i + 1, 1);                                             // удаляем след. символ, остается только "-"
+                    i--;
+                }
+                else if ((exp[exp.Length-1]) == '-' || exp[exp.Length - 1] == '+')    // если последний символ "+" или "-" 
+                {
+                    exp.Remove(exp.Length - 1, 1);                                    // удаляем его 
+                    i--;
+                }               
+            }
+            // в итоге остается правильное выражение
+           
+
+            Console.WriteLine();
+            Console.WriteLine(exp);
+
+            var res = 0;
+            string strng = "";
+            for (int i = 0; i < exp.Length; i++)
+            {
+                if ((int)exp[i] > 48 || (int)exp[i] < 57)
+                {
+                    strng+= exp                                                
+                }
+            }
+
+           
+            
+
+
+
             //Console.WriteLine("----------------------------------------");
 
             //Console.WriteLine(" Задание 6. Изменение регистра первой буквы каждого предложения");
