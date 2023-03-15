@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -403,14 +404,11 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
             Console.WriteLine("----------------------------------------");
             Console.WriteLine(" Задание 5. Арифметическое выражение");
 
+           
             Console.WriteLine(" Введите арифметическое выражение с '+' или '-'");
             StringBuilder exp = new StringBuilder(Console.ReadLine());
             Console.WriteLine(exp);
-
-            for (int i = 0; i < exp.Length; i++)  // показ кодов
-            {
-                Console.Write((int)exp[i] + " ");
-            }
+                          
 
             for (int i = 0; i < exp.Length; i++)
             {
@@ -447,23 +445,62 @@ namespace ДЗ_09._03._2023_Массивы_и_строки
                 }               
             }
             // в итоге остается правильное выражение
-           
+            string strExp = Convert.ToString(exp);
+            if (!strExp.Contains("+") && !strExp.Contains("-"))  // если строка не соддержит + или -
+            {                                                    // выводим сообщение и выход
+                Console.WriteLine(" Выражение не содержит арифметической операции! ");               
+                return;
+            }
+            Console.WriteLine(" Арифметическое выражение " + exp);
 
-            Console.WriteLine();
-            Console.WriteLine(exp);
+            int size = 10; // размер массива
+            int ind = 0;   // индекс массива
+            int[] ar = new int[size]; // массив для хранения чисел из выражения
 
-            var res = 0;
-            string strng = "";
+            string strng = ""; // строка для записи отдельного числа из выражения
+
             for (int i = 0; i < exp.Length; i++)
             {
-                if ((int)exp[i] > 48 || (int)exp[i] < 57)
+                if ((int)exp[i] >= 48 && (int)exp[i] <= 57)  // если текущий символ - цифра
                 {
-                    strng+= exp                                                
+                    strng += Convert.ToString(exp[i]);       // записываем цифру в строку
+                    exp.Remove(i, 1);                        // удаляем цифру из массива-выражения
+                    i--;
+                    if (i + 1 == exp.Length || // если след. символ выражения "+" или "-"
+                        exp[i + 1] == '-'   || // или конец массива
+                        exp[i + 1] == '+') 
+                    {
+                        ar[ind] = Convert.ToInt32(strng);    // записываем полученное число из строки                 
+                        ind++;                               // увеличиваем индекс числового массива
+                        strng = "";                          // опустошаем строку для записи нового числа
+                    }
                 }
             }
+            // в итоге в выражении остались только "+" "-"
 
-           
-            
+            int res = ar[0];
+            int t = 0;
+            for (int i = 1; i < ar.Length; i++)
+            {
+                if (exp[t] == '+')
+                {
+                    res += ar[i];
+                }
+                else if (exp[t] == '-')
+                {
+                    res -= ar[i];
+                }
+                if(t != exp.Length-1) t++;
+            }
+
+            Console.WriteLine(" Результат " + res);
+
+
+
+
+
+
+
 
 
 
