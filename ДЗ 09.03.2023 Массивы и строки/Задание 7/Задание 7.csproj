@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{06F19163-7122-4BB7-A5F9-EDB04461F11F}</ProjectGuid>
+    <ProjectGuid>{2A50842A-797F-4F11-8B56-50F6865556A0}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ДЗ_09._03._2023_Массивы_и_строки</RootNamespace>
-    <AssemblyName>ДЗ 09.03.2023 Массивы и строки</AssemblyName>
+    <RootNamespace>Задание_7</RootNamespace>
+    <AssemblyName>Задание 7</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Program7.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
