@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Console;
 
 namespace ДЗ_16._03._2023_Namespace__exception
 {
@@ -10,7 +11,9 @@ namespace ДЗ_16._03._2023_Namespace__exception
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(" 111");
+            WriteLine("\t\t   Калькулятор для перевода числа\r\n\t\tиз одной системы исчисления в другую");
+
+
         }
     }
 }
