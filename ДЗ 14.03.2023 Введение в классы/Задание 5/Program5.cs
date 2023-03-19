@@ -16,8 +16,47 @@ namespace Задание_5
         {
             WriteLine(" Magazine ");
             Magazine mag = new Magazine();
-            Clear();                       // очистка буфера консоли
-            mag.Print();
+            Console.Clear();                    // очистка буфера консоли
+            int choice;
+            do
+            {
+                Console.WriteLine(" Information Menu ");
+                Console.WriteLine(" 1 - get name\n 2 - get year of foundation");
+                Console.WriteLine(" 3 - get discription\n 4 - get IP adress");
+                Console.WriteLine(" 5 - get all information\n 6 - exit");
+
+                choice = int.Parse(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine($" Magazine name: {mag.GetName()}\n");
+                        break;
+
+                    case 2:
+                        Console.WriteLine($" Year of foundation: {mag.GetYear()}\n");
+                        break;
+
+                    case 3:
+                        Console.WriteLine($" Contact phone: {mag.GetTel()}\n");
+                        break;
+
+                    case 4:
+                        Console.WriteLine($" Contact e-mail: {mag.GetMail()}\n");
+                        break;
+
+                    case 5:
+                        mag.Print();
+                        break;
+
+                    case 6:
+                        return;
+
+                    default:
+                        Console.WriteLine(" Incorrect input!\n");
+                        break;
+                }
+            } while (true);
         }
 
         class Magazine
@@ -29,7 +68,7 @@ namespace Задание_5
 
             public Magazine()
             {
-                WriteLine(" C-tor by default");
+                //WriteLine(" C-tor by default");
 
                 WriteLine("\n Enter magazine name:");
                 name = ReadLine();
@@ -53,7 +92,7 @@ namespace Задание_5
                 WriteLine(" Name:\t\t\t" + name);
                 WriteLine(" Year of foundation:\t" +  year);
                 WriteLine(" Contact phone:\t\t" +  tel);
-                WriteLine(" Contact e-mail:\t" + mail);
+                WriteLine(" Contact e-mail:\t" + mail + "\n");
             }
 
             public string GetName() { return name; }

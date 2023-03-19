@@ -53,8 +53,7 @@ namespace Задание_4
                         Console.WriteLine(" Incorrect input!\n");
                         break;
                 }   
-            } while (true);
-            
+            } while (true);           
         }
         class WebSite
         {
