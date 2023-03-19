@@ -16,15 +16,16 @@ namespace Задание_5
         {
             WriteLine(" Magazine ");
             Magazine mag = new Magazine();
+            Clear();                       // очистка буфера консоли
             mag.Print();
         }
 
         class Magazine
         {
-            readonly string name; // название журнала
-            readonly int year; // год основания
-            readonly long tel; // контактный телефон
-            readonly string mail; // контактный e-mail
+            readonly string name;   // название журнала
+            readonly int year;      // год основания
+            readonly long tel;      // контактный телефон
+            readonly string mail;   // контактный e-mail
 
             public Magazine()
             {
@@ -60,6 +61,6 @@ namespace Задание_5
             public long GetTel() { return tel; }
             public string GetMail() { return mail; }
         }
-        // добавить проверку года, телефона хотя бы
+        // можно добавить проверку года, телефона
     }
 }

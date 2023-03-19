@@ -13,7 +13,48 @@ namespace Задание_4
             Console.WriteLine(" Web site ");
 
             WebSite webSite = new WebSite();
-            webSite.Print();
+            Console.Clear();                    // очистка буфера консоли
+            int choice;
+            do
+            {
+                Console.WriteLine(" Information Menu ");
+                Console.WriteLine(" 1 - get site title\n 2 - get url");
+                Console.WriteLine(" 3 - get discription\n 4 - get IP adress");
+                Console.WriteLine(" 5 - get all information\n 6 - exit");
+
+                choice = int.Parse(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine($" Title: {webSite.GetTitle()}\n");
+                        break;
+
+                    case 2:
+                        Console.WriteLine($" URL: {webSite.GetUrl()}\n");
+                        break;
+
+                    case 3:
+                        Console.WriteLine($" Description: {webSite.GetDiscription()}\n");
+                        break;
+
+                    case 4:
+                        Console.WriteLine($" IP adress: {webSite.GetIp()}\n");
+                        break;
+
+                    case 5:
+                        webSite.Print();
+                        break;
+
+                    case 6:
+                        return;
+
+                    default:
+                        Console.WriteLine(" Incorrect input!\n");
+                        break;
+                }   
+            } while (true);
+            
         }
         class WebSite
         {
@@ -47,7 +88,7 @@ namespace Задание_4
                 Console.WriteLine(" Title: \t" + title);
                 Console.WriteLine(" URL: \t\t" + url);
                 Console.WriteLine(" Description: \t" + discription);
-                Console.WriteLine(" IP adress: \t" + ip);
+                Console.WriteLine(" IP adress: \t" + ip + "\n");
             }
             public string GetTitle() { return title; }
             public string GetUrl() { return url; }
