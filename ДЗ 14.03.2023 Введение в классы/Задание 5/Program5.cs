@@ -16,44 +16,48 @@ namespace Задание_5
         {
             WriteLine(" Magazine ");
             Magazine mag = new Magazine();
-            Console.Clear();                    // очистка буфера консоли
+            Clear();                    // очистка буфера консоли
             int choice;
             do
             {
-                Console.WriteLine(" Information Menu ");
-                Console.WriteLine(" 1 - get name\n 2 - get year of foundation");
-                Console.WriteLine(" 3 - get discription\n 4 - get IP adress");
-                Console.WriteLine(" 5 - get all information\n 6 - exit");
+                WriteLine(" Information Menu ");
+                WriteLine(" 1 - get name\n 2 - get year of foundation");
+                WriteLine(" 3 - get description\n 4 - get contact phone");
+                WriteLine(" 5 - get contact mail\n 6 - get all information\n 7 - exit");
 
-                choice = int.Parse(Console.ReadLine());
+                choice = int.Parse(ReadLine());
 
                 switch (choice)
                 {
                     case 1:
-                        Console.WriteLine($" Magazine name: {mag.GetName()}\n");
+                        WriteLine($" Magazine name: {mag.GetName()}\n");
                         break;
 
                     case 2:
-                        Console.WriteLine($" Year of foundation: {mag.GetYear()}\n");
+                        WriteLine($" Year of foundation: {mag.GetYear()}\n");
                         break;
 
                     case 3:
-                        Console.WriteLine($" Contact phone: {mag.GetTel()}\n");
+                        WriteLine($" Description: {mag.GetDescription()}\n");
                         break;
 
                     case 4:
-                        Console.WriteLine($" Contact e-mail: {mag.GetMail()}\n");
+                        WriteLine($" Contact phone: {mag.GetTel()}\n");
                         break;
 
                     case 5:
-                        mag.Print();
+                        WriteLine($" Contact e-mail: {mag.GetMail()}\n");
                         break;
 
                     case 6:
+                        mag.Print();
+                        break;
+
+                    case 7:
                         return;
 
                     default:
-                        Console.WriteLine(" Incorrect input!\n");
+                        WriteLine(" Incorrect input!\n");
                         break;
                 }
             } while (true);
@@ -63,6 +67,7 @@ namespace Задание_5
         {
             readonly string name;   // название журнала
             readonly int year;      // год основания
+            readonly string description;  // описание
             readonly long tel;      // контактный телефон
             readonly string mail;   // контактный e-mail
 
@@ -75,6 +80,9 @@ namespace Задание_5
 
                 WriteLine("\n Enter year of foundation:");
                 year = int.Parse(ReadLine());
+
+                WriteLine("\n Enter a description:");
+                description = ReadLine();
 
                 WriteLine("\n Enter contact phone:");
                 tel = long.Parse(ReadLine());
@@ -97,6 +105,7 @@ namespace Задание_5
 
             public string GetName() { return name; }
             public int GetYear() { return year; }
+            public string GetDescription() { return description; }  
             public long GetTel() { return tel; }
             public string GetMail() { return mail; }
         }

@@ -19,7 +19,7 @@ namespace Задание_4
             {
                 Console.WriteLine(" Information Menu ");
                 Console.WriteLine(" 1 - get site title\n 2 - get url");
-                Console.WriteLine(" 3 - get discription\n 4 - get IP adress");
+                Console.WriteLine(" 3 - get description\n 4 - get IP adress");
                 Console.WriteLine(" 5 - get all information\n 6 - exit");
 
                 choice = int.Parse(Console.ReadLine());
@@ -35,7 +35,7 @@ namespace Задание_4
                         break;
 
                     case 3:
-                        Console.WriteLine($" Description: {webSite.GetDiscription()}\n");
+                        Console.WriteLine($" Description: {webSite.GetDescription()}\n");
                         break;
 
                     case 4:
@@ -59,7 +59,7 @@ namespace Задание_4
         {
             public string title;        // название сайта
             public string url;          // путь к сайту
-            public string discription;  // описание сайта
+            public string description;  // описание сайта
             public string ip;           // ip адрес сайта
 
             public WebSite()
@@ -72,7 +72,7 @@ namespace Задание_4
                 url = Console.ReadLine();
 
                 Console.WriteLine("\n Enter a description:");
-                discription = Console.ReadLine();
+                description = Console.ReadLine();
 
                 Console.WriteLine("\n Enter ip address:");
                 ip = Console.ReadLine();
@@ -86,12 +86,12 @@ namespace Задание_4
                 Console.ResetColor();
                 Console.WriteLine(" Title: \t" + title);
                 Console.WriteLine(" URL: \t\t" + url);
-                Console.WriteLine(" Description: \t" + discription);
+                Console.WriteLine(" Description: \t" + description);
                 Console.WriteLine(" IP adress: \t" + ip + "\n");
             }
             public string GetTitle() { return title; }
             public string GetUrl() { return url; }
-            public string GetDiscription() {  return discription; }
+            public string GetDescription() {  return description; }
             public string GetIp() { return ip; }
         }
     }
