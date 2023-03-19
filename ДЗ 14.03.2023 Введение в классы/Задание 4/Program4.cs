@@ -24,8 +24,7 @@ namespace Задание_4
 
             public WebSite()
             {
-                Console.WriteLine(" C-tor by default");
-
+                //Console.WriteLine(" C-tor by default");
                 Console.WriteLine("\n Enter site name:");
                 title = Console.ReadLine();
 
