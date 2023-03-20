@@ -123,7 +123,7 @@ namespace ДЗ_16._03._2023_Namespace__exception
         }
         static void DecToBin(int dec)            // десятичное в двоичное
         {
-            string s = Convert.ToString(dec, 10);
+            string s = Convert.ToString(dec, 2);
             ForegroundColor = ConsoleColor.Green;
             WriteLine($" {dec} в двоичной системе счисления: " + s + "\n");
             ResetColor();
