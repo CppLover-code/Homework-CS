@@ -10,9 +10,9 @@ namespace Ex._3
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(" International passport\n");
-            InputPasId();
-            //InputFN();
+            Console.WriteLine(" International passport\n");   
+            InterPas passport = new InterPas();
+            passport.Output();
 
         }
         struct Date
@@ -27,7 +27,7 @@ namespace Ex._3
 
                 while (!flag) // цикл работает пока пользователь вводит некорректную дату
                 {
-                    Console.WriteLine(" Enter date (day, month, year):");
+                    Console.WriteLine(" Enter date of issue of the passport (day, month, year):");
                     try
                     {
                         day = int.Parse(Console.ReadLine());
@@ -78,12 +78,12 @@ namespace Ex._3
             readonly string lastName;   // фамилия
             readonly Date date;         // дата выдачи
 
-            public InterPas(string pasId, string firstName, string lastName, Date date)
+            public InterPas()
             {
-                this.pasId = pasId;
-                this.firstName = firstName;
-                this.lastName = lastName;
-                this.date = date;
+                pasId = InputPasId();
+                firstName = InputFLN("first");
+                lastName = InputFLN("last");
+                date.InputDate();
             }
             public void Output()
             {
@@ -95,15 +95,14 @@ namespace Ex._3
             }
         }
 
-        public static void InputPasId()  // ввод серии и номера паспорта
+        public static string InputPasId()  // ввод серии и номера паспорта
         {
-            bool k = true;
-
+            bool k;
+            string str = "";
             do                                                                  // пока не введены корректные данные
             {
                 k = false;
                 Console.WriteLine(" Enter the series and number of the passport:");
-                string str;
 
                 try
                 {
@@ -133,16 +132,17 @@ namespace Ex._3
                     k = true;
                 }
             } while (k);
-        }
 
-        public static void InputFN()     // ввод имени 
+            return str;
+        }
+        public static string InputFLN(string s)     // ввод имени/фамилии  
         {
-            bool k = true;
+            bool k;
+            string str = "";
             do                                                           // пока не введены корректные данные
             {
                 k = false;
-                Console.WriteLine(" Enter first name:");
-                string str;
+                Console.WriteLine($" Enter {s} name:");
 
                 try
                 {
@@ -173,7 +173,8 @@ namespace Ex._3
                 }
 
             } while (k);
-        }
 
+            return str;
+        }
     }
 }
