@@ -111,18 +111,18 @@ namespace Ex._3
 
                     if (str.Length != 9)                                        // если длина строки не равна 9
                     {
-                        throw new Exception(" Incorrect length input!");
+                        throw new Exception(" Incorrect length input!\n");
                     }
                     else if (!Char.IsLetter(ch[0]) || !Char.IsLetter(ch[1]))    // если первые два символа не буквы
                     {
-                        throw new Exception(" Incorrect letter input!");
+                        throw new Exception(" Incorrect letter input!\n");
                     }
 
                     for (int i = 2; i < ch.Length; i++)
                     {
                         if (!Char.IsDigit(ch[i]))                               // если с 3 по 9 символ не цифры
                         {
-                            throw new Exception(" Incorrect digit input!");
+                            throw new Exception(" Incorrect digit input!\n");
                         }
                     }
                 }
