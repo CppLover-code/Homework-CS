@@ -11,8 +11,8 @@ namespace Ex._3
         static void Main(string[] args)
         {
             Console.WriteLine(" International passport\n");
-            //InputPasId();
-            InputFN();
+            InputPasId();
+            //InputFN();
 
         }
         struct Date
@@ -98,8 +98,10 @@ namespace Ex._3
         public static void InputPasId()  // ввод серии и номера паспорта
         {
             bool k = true;
-            while (k)                                                           // пока не введены корректные данные
+
+            do                                                                  // пока не введены корректные данные
             {
+                k = false;
                 Console.WriteLine(" Enter the series and number of the passport:");
                 string str;
 
@@ -115,33 +117,30 @@ namespace Ex._3
                     else if (!Char.IsLetter(ch[0]) || !Char.IsLetter(ch[1]))    // если первые два символа не буквы
                     {
                         throw new Exception(" Incorrect letter input!");
-                    }  
-                    else if(str.Length == 9)
+                    }
+
+                    for (int i = 2; i < ch.Length; i++)
                     {
-                        for (int i = 2; i < ch.Length; i++)
+                        if (!Char.IsDigit(ch[i]))                               // если с 3 по 9 символ не цифры
                         {
-                            if (!Char.IsDigit(ch[i]))                               // если с 3 по 9 символ не цифры
-                            {
-                                throw new Exception(" Incorrect digit input!");
-                            }
+                            throw new Exception(" Incorrect digit input!");
                         }
                     }
-                    else k = false;
-
-                    
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                } 
-            }           
+                    k = true;
+                }
+            } while (k);
         }
 
         public static void InputFN()     // ввод имени 
         {
             bool k = true;
-            while (k)                                                           // пока не введены корректные данные
+            do                                                           // пока не введены корректные данные
             {
+                k = false;
                 Console.WriteLine(" Enter first name:");
                 string str;
 
@@ -150,31 +149,30 @@ namespace Ex._3
                     str = Console.ReadLine();
                     char[] ch = str.ToCharArray();
 
-                    if (str.Length < 2)    // если длина имени меньше двух букв
+                    if (str.Length < 2)                                 // если длина имени меньше двух букв
                     {
                         throw new Exception(" Incorrect length input!");
                     }
-                    else if (Char.IsLower(ch[0]))    // если первая буква маленькая
+                    else if (Char.IsLower(ch[0]))                       // если первая буква маленькая
                     {
                         throw new Exception(" Incorrect input - lower case!");
                     }
-                    else if (str.Length != 0)
+
+                    for (int i = 0; i < ch.Length; i++)
                     {
-                        for (int i = 0; i < ch.Length; i++)
+                        if (!Char.IsLetter(ch[i]))                      // если не буква
                         {
-                            if (!Char.IsLetter(ch[i]))                               // если не буква
-                            {
-                                throw new Exception(" Incorrect letter input!");
-                            }
+                            throw new Exception(" Incorrect letter input!");
                         }
                     }
-                    else k = false;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    k = true;
                 }
-            }
+
+            } while (k);
         }
 
     }
