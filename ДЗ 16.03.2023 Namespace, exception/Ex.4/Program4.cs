@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Ex._4
@@ -11,19 +13,31 @@ namespace Ex._4
         static void Main(string[] args)
         {
             Console.WriteLine(" Enter boolean expression:");
-            //string expression;
-            //expression = Console.ReadLine();
-            String[] expressions = { "16 < 21", "31 > 3", "28 <= 3",
-                       "42 >= 18", "12 == 7",
-                       "2 != " };
-            String pattern = @"(\d+)\s+([<>])\s+(\d+)";//[<.>.=.<=.>=.=.!=]
+            string expressions;
+            expressions = Console.ReadLine();
 
-            foreach (string expression in expressions)
+            String pattern = @"(\d+)\s?([<=]*[>=]*[==]*[!=]*)\s?(\d+)"; // https://cutt.ly/P4bZvWe https://cutt.ly/54bX2kE
+            try
+            {
+                Match m = Regex.Match(expressions, pattern);
+                if (!m.Success) { throw new Exception(" alyo "); }
+            }
+            catch(Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            try
             {
                 foreach (System.Text.RegularExpressions.Match m in
-                System.Text.RegularExpressions.Regex.Matches(expression, pattern))
+                                System.Text.RegularExpressions.Regex.Matches(expressions, pattern))
                 {
-                    int value1 = Int32.Parse(m.Groups[1].Value);
+                    int value1;// = Int32.Parse(m.Groups[1].Value);
+
+                    bool result = int.TryParse(m.Groups[1].Value, out value1);
+                    if (result == true)
+                        Console.WriteLine($"Преобразование прошло успешно. Число: {value1}");
+                    else
+                        Console.WriteLine("Преобразование завершилось неудачно");
                     int value2 = Int32.Parse(m.Groups[3].Value);
                     switch (m.Groups[2].Value)
                     {
@@ -39,57 +53,24 @@ namespace Ex._4
                         case ">=":
                             Console.WriteLine("{0} = {1:N2}", m.Value, value1 >= value2);
                             break;
-                        case "=":
+                        case "==":
                             Console.WriteLine("{0} = {1:N2}", m.Value, value1 == value2);
                             break;
                         case "!=":
                             Console.WriteLine("{0} = {1:N2}", m.Value, value1 != value2);
                             break;
+                        default:
+                            throw new Exception(" huynya ");
                     }
                 }
+
+
             }
-
-
-            //    / ([<=>]{ 1,2})(\d +)/
-            // https://learn.microsoft.com/ru-ru/dotnet/standard/base-types/divide-up-strings
-            // регулярные выражения
-
-            //String[] expressions = { "16 + 21", "31 * 3", "28 / 3",
-            //           "42 - 18", "12 * 7",
-            //           "2, 4, 6, 8" };
-            //String pattern = @"(\d+)\s+([-+*/])\s+(\d+)";
-
-            //foreach (string expression in expressions)
-            //{
-            //    foreach (System.Text.RegularExpressions.Match m in
-            //    System.Text.RegularExpressions.Regex.Matches(expression, pattern))
-            //    {
-            //        int value1 = Int32.Parse(m.Groups[1].Value);
-            //        int value2 = Int32.Parse(m.Groups[3].Value);
-            //        switch (m.Groups[2].Value)
-            //        {
-            //            case "+":
-            //                Console.WriteLine("{0} = {1}", m.Value, value1 + value2);
-            //                break;
-            //            case "-":
-            //                Console.WriteLine("{0} = {1}", m.Value, value1 - value2);
-            //                break;
-            //            case "*":
-            //                Console.WriteLine("{0} = {1}", m.Value, value1 * value2);
-            //                break;
-            //            case "/":
-            //                Console.WriteLine("{0} = {1:N2}", m.Value, value1 / value2);
-            //                break;
-            //        }
-            //    }
-            //}
-
-            //The example displays the following output:
-            //       16 + 21 = 37
-            //       31 * 3 = 93
-            //       28 / 3 = 9.33
-            //       42 - 18 = 24
-            //       12 * 7 = 84
+            catch (Exception ex)
+            { 
+                Console.WriteLine(ex.Message);
+            }
         }
+            
     }
 }
