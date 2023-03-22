@@ -17,32 +17,31 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
             Magazine mag1 = new Magazine();
             Magazine mag2 = new Magazine();
 
+            Clear();                            // очистка буфера консоли
+            mag1.Print();
+            mag2.Print();
+
+            WriteLine("\n -Add employees-\n");  // добавление сотрудников
             mag1.Employees += 2;
-            Console.WriteLine(mag1.Employees + "mag1\n");
+            Console.WriteLine($" Add {2} employees for {mag1.Name}. Currently count of employees - {mag1.Employees}");
+
+            mag2.Employees += 3;
+            Console.WriteLine($" Add {3} employees for {mag2.Name}. Currently count of employees - {mag2.Employees}");
+
+            WriteLine("\n -Fire employees-\n"); // увольнение сотрудников
+            mag1.Employees -= 1;
+            Console.WriteLine($" Fire {1} employees for {mag1.Name}. Currently count of employees - {mag1.Employees}");
 
             mag2.Employees -= 2;
-            Console.WriteLine(mag2.Employees + "mag2\n");
+            Console.WriteLine($" Fire {2} employees for {mag2.Name}. Currently count of employees - {mag2.Employees}");
 
-            if (mag1 == mag2)
-            {
-                Console.WriteLine(" mag1.Employees == mag2.Employees\n");
-            }
+            WriteLine("\n -Comparison of the number of employees in two magazines-\n");
 
-            if (mag1 != mag2)
-            {
-                Console.WriteLine(" mag1.Employees != mag2.Employees\n");
-            }
-            if (mag1 > mag2)
-            {
-                Console.WriteLine(" mag1.Employees > mag2.Employees\n");
-            }
-            if (mag1 < mag2)
-            {
-                Console.WriteLine(" mag1.Employees < mag2.Employees\n");
-            }
-
-                Console.WriteLine($" {mag1.Employees.Equals(mag2.Employees)}\n");
-
+            Console.WriteLine($"{mag1.Name} == {mag2.Name} - {mag1 == mag2} \n");
+            Console.WriteLine($"{mag1.Name} != {mag2.Name} - {mag1 != mag2} \n");
+            Console.WriteLine($"{mag1.Name}  > {mag2.Name} - {mag1  > mag2} \n");
+            Console.WriteLine($"{mag1.Name}  < {mag2.Name} - {mag1  < mag2} \n");
+            Console.WriteLine($"{mag1.Name} Equals {mag2.Name} - {mag1.Employees.Equals(mag2.Employees)}\n");
         }
 
         class Magazine
@@ -110,23 +109,23 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
                 WriteLine(" Name:\t\t\t" + name);
                 WriteLine(" Year of foundation:\t" + year);
                 WriteLine(" Contact phone:\t\t" + tel);
-                WriteLine(" Contact e-mail:\t" + mail + "\n");
+                WriteLine(" Contact e-mail:\t" + mail);
                 WriteLine(" Count of employees:\t" + employees + "\n");
             }
 
-            public static int operator +(Magazine m, int x)  // увеличение кол-ва сотрудников на X
+            public static int operator +(Magazine m, int x)             // увеличение кол-ва сотрудников на X
             {
                 return m.employees + x;
             }
-            public static int operator -(Magazine m, int x)  // уменьшение кол-ва сотрудников на X
+            public static int operator -(Magazine m, int x)             // уменьшение кол-ва сотрудников на X
             {
                 return m.employees - x;
             }
-            public static bool operator ==(Magazine m1, Magazine m2) // равенство сотрудников в двух журналах
+            public static bool operator ==(Magazine m1, Magazine m2)    // равенство сотрудников в двух журналах
             {
                 return Object.Equals(m1.employees, m2.employees);
             }
-            public static bool operator !=(Magazine m1, Magazine m2) // НЕравенство сотрудников в двух журналах
+            public static bool operator !=(Magazine m1, Magazine m2)    // НЕравенство сотрудников в двух журналах
             {
                 return !Object.Equals(m1.employees, m2.employees);
             }
@@ -149,53 +148,3 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
         }
     }
 }
- //Clear();                    // очистка буфера консоли
-            //int choice;
-            //do
-            //{
-            //    WriteLine(" Information Menu ");
-            //    WriteLine(" 1 - get name\n 2 - get year of foundation");
-            //    WriteLine(" 3 - get description\n 4 - get contact phone");
-            //    WriteLine(" 5 - get contact mail\n 6 - get count of employees");
-            //    WriteLine(" 7 - get all information\n 8 - exit");
-
-            //    choice = int.Parse(ReadLine());
-
-            //    switch (choice)
-            //    {
-            //        case 1:
-            //            WriteLine($" Magazine name: {mag.Name}\n");
-            //            break;
-
-            //        case 2:
-            //            WriteLine($" Year of foundation: {mag.Year}\n");
-            //            break;
-
-            //        case 3:
-            //            WriteLine($" Description: {mag.Description}\n");
-            //            break;
-
-            //        case 4:
-            //            WriteLine($" Contact phone: {mag.Tel}\n");
-            //            break;
-
-            //        case 5:
-            //            WriteLine($" Contact e-mail: {mag.Mail}\n");
-            //            break;
-
-            //        case 6:
-            //            WriteLine($" Count of employees: {mag.Employees}\n");
-            //            break;
-
-            //        case 7:
-            //            mag.Print();
-            //            break;
-
-            //        case 8:
-            //            return;
-
-            //        default:
-            //            WriteLine(" Incorrect input!\n");
-            //            break;
-            //    }
-            //} while (true);
