@@ -20,7 +20,8 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
                 WriteLine(" Information Menu ");
                 WriteLine(" 1 - get name\n 2 - get year of foundation");
                 WriteLine(" 3 - get description\n 4 - get contact phone");
-                WriteLine(" 5 - get contact mail\n 6 - get all information\n 7 - exit");
+                WriteLine(" 5 - get contact mail\n 6 - get count of employees");
+                WriteLine(" 7 - get all information\n 8 - exit");
 
                 choice = int.Parse(ReadLine());
 
@@ -47,10 +48,14 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
                         break;
 
                     case 6:
-                        mag.Print();
+                        WriteLine($" Count of employees: {mag.Employees}\n");
                         break;
 
                     case 7:
+                        mag.Print();
+                        break;
+
+                    case 8:
                         return;
 
                     default:
@@ -67,6 +72,7 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
             private string description;  // описание
             private long tel;      // контактный телефон
             private string mail;   // контактный e-mail
+            private int employees;    // кол-во сотрудников
 
             public string Name
             {
@@ -88,7 +94,10 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
             {
                 get { return mail; }
             }
-
+            public int Employees
+            {
+                get { return employees; }
+            }
 
             public Magazine()
             {
@@ -108,6 +117,9 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
 
                 WriteLine("\n Enter contact e-mail:");
                 mail = ReadLine();
+
+                WriteLine("\n Enter count of employees:");
+                employees = int.Parse(ReadLine());
             }
 
             public void Print()
@@ -120,14 +132,8 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
                 WriteLine(" Year of foundation:\t" + year);
                 WriteLine(" Contact phone:\t\t" + tel);
                 WriteLine(" Contact e-mail:\t" + mail + "\n");
-            }
-
-            //public string GetName() { return name; }
-            //public int GetYear() { return year; }
-            //public string GetDescription() { return description; }
-            //public long GetTel() { return tel; }
-            //public string GetMail() { return mail; }
+                WriteLine(" Count of employees:\t" + employees + "\n");
+            }          
         }
-        // можно добавить проверку года, телефона
     }
 }
