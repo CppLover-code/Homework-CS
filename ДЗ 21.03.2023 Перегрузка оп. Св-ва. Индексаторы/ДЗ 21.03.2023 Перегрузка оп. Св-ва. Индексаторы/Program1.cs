@@ -52,6 +52,7 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
             private long tel;               // контактный телефон
             private string mail;            // контактный e-mail
             private int employees;          // кол-во сотрудников
+            private static int counter = 0; // счётчик журналов
 
             public string Name
             {
@@ -79,8 +80,17 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
                 get { return employees; }
             }
 
+            public static int Counter
+            {
+                get { return counter; }
+            }
             public Magazine()
             {
+
+                counter++;
+
+                WriteLine($"\n Magazine {counter}:");
+
                 WriteLine("\n Enter magazine name:");
                 name = ReadLine();
 
@@ -98,13 +108,14 @@ namespace ДЗ_21._03._2023_Перегрузка_оп.Св_ва.Индексат
 
                 WriteLine("\n Enter count of employees:");
                 employees = int.Parse(ReadLine());
+
             }
 
             public void Print()
             {
                 BackgroundColor = ConsoleColor.Blue;
                 ForegroundColor = ConsoleColor.Black;
-                WriteLine("\n -Information about the magazine-");
+                WriteLine($"\n -Information about the magazine {this.Name}-");
                 ResetColor();
                 WriteLine(" Name:\t\t\t" + name);
                 WriteLine(" Year of foundation:\t" + year);
