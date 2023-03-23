@@ -13,7 +13,7 @@ namespace Ex._3
             Console.WriteLine(" List of books to read\n");
             int count = 5;
             List list = new List(new Book[count]);
-            int ind = 0;
+            int ind = -1;
 
             while(true)
             {
@@ -25,21 +25,26 @@ namespace Ex._3
                 switch (choice)
                 {
                     case 1:
-                        list[ind] = new Book(1);
                         ind++;
+                        list[ind] = new Book(1);                       
                         break;
 
                     case 2:
+                        if(ind < 0) // если список пуст, возврат в меню
+                        {
+                            Console.WriteLine(" Your list is empty!\n");
+                            break;
+                        }
                         Console.WriteLine(" Select the book you wish to delete: ");
                         int v;
 
-                        for (int i = 0; i < ind; i++)
+                        for (int i = 0; i < ind + 1; i++)
                         {
                             Console.WriteLine($"{i + 1}. {list[i].Title}");
                         }
 
                         v = int.Parse(Console.ReadLine());
-                        for (int i = 0; i < ind; i++)
+                        for (int i = 0; i < ind + 1; i++)
                         {
                             if(i == v - 1)
                             {
@@ -55,26 +60,47 @@ namespace Ex._3
                         break;
 
                     case 3:
+                        if (ind < 0) // если список пуст, возврат в меню
+                        {
+                            Console.WriteLine(" Your list is empty!\n");
+                            break;
+                        }
+
                         Console.WriteLine(" Enter book title to search: ");
                         string find = Console.ReadLine();
                         int res = 0;
-                        for (int i = 0; i < ind; i++)
+                        for (int i = 0; i < ind + 1; i++)
                         {
                             res = String.Compare(list[i].Title.ToString(), find);
-                            Console.WriteLine( $" {i + 1}  {res}");
+                            Console.WriteLine($" {i + 1}  {res}");
                             if (res == 0)
                             {
-                                Console.WriteLine($" The book is in the list, serial number {i + 1}\n");
+                                Console.WriteLine($" The book is in the list, {list[find.ToString()]} serial number {i + 1}\n");
                                 break;
-                            }   
+                            }
                         }
-                            if(res!=0) Console.WriteLine(" This book is not on your list!\n");
 
+                        if (res != 0) Console.WriteLine(" This book is not on your list!\n");
+
+                        //try
+                        //{
+                        //    Console.WriteLine($"The book -{list[find]}- is in the list!\n");
+                        //    //throw new Exception(" This book is not on your list!\n");
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    Console.WriteLine(ex.Message);
+                        //}
                         break;
 
                     case 4:
+                        if (ind < 0) // если список пуст, возврат в меню
+                        {
+                            Console.WriteLine(" Your list is empty!\n");
+                            break;
+                        }
 
-                        for (int i = 0; i < ind; i++)
+                        for (int i = 0; i < ind+1; i++)
                         {
                             Console.WriteLine($" -Book {i + 1}-");
                             list[i].Output();
@@ -153,17 +179,17 @@ namespace Ex._3
                         books[index] = value;
                 }
             }
-            public Book this[string index] // перегруженный индексатор
+            public string this[string index] // перегруженный индексатор
             {
                 get
                 {
                     foreach (var book in books)
                     {
-                        if (book.Title == index) return book;
+                        if (book.Title == index) return book.Title;
 
                     }
-                    throw new IndexOutOfRangeException(" Not found ");
-                }                
+                    throw new IndexOutOfRangeException("1No such name of person");
+                }
             }
         }
     }
