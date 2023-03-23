@@ -55,6 +55,21 @@ namespace Ex._3
                         break;
 
                     case 3:
+                        Console.WriteLine(" Enter book title to search: ");
+                        string find = Console.ReadLine();
+                        int res = 0;
+                        for (int i = 0; i < ind; i++)
+                        {
+                            res = String.Compare(list[i].Title.ToString(), find);
+                            Console.WriteLine( $" {i + 1}  {res}");
+                            if (res == 0)
+                            {
+                                Console.WriteLine($" The book is in the list, serial number {i + 1}\n");
+                                break;
+                            }   
+                        }
+                            if(res!=0) Console.WriteLine(" This book is not on your list!\n");
+
                         break;
 
                     case 4:
