@@ -12,25 +12,39 @@ namespace Ex._3
         {
             Console.WriteLine(" List of books to read\n");
             int count = 5;
+
             List list = new List(new Book[count]);
             int ind = -1;
 
-            while(true)
+            while (true)
             {
                 Console.WriteLine(" Menu ");
                 Console.WriteLine(" 1 - add book\n 2 - delete book");
                 Console.WriteLine(" 3 - find a book in the list\n 4 - show list\n 0 - exit\n");
                 Console.Write(" Make a choice: ");
-                int choice = int.Parse(Console.ReadLine());
+                int choice =-1;
+                try
+                {
+                    try { choice = int.Parse(Console.ReadLine());}
+                    catch { throw new FormatException(" Incorrect input!");}
+
+                    if(choice < 0 || choice > 4)
+                    throw new Exception(" Incorrect input!");
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
                 switch (choice)
                 {
                     case 1:
                         ind++;
-                        list[ind] = new Book(1);                       
+                        list[ind] = new Book();
                         break;
 
                     case 2:
-                        if(ind < 0) // если список пуст, возврат в меню
+                        if (ind < 0) // если список пуст, возврат в меню
                         {
                             Console.WriteLine(" Your list is empty!\n");
                             break;
@@ -46,17 +60,23 @@ namespace Ex._3
                         v = int.Parse(Console.ReadLine());
                         for (int i = 0; i < ind + 1; i++)
                         {
-                            if(i == v - 1)
+                            if (i == v - 1 && v-1 != ind)
                             {
                                 list[i].Title = list[i + 1].Title.ToString();
                                 list[i].Author = list[i + 1].Author.ToString();
                                 list[i].Year = Convert.ToInt32(list[i + 1].Year.ToString());
+                                ind--;
+                                Console.WriteLine(" Book deleted successfully!\n ");
                                 break;
-                            }                                                                                                                          
-                        }                       
-                        ind--;
-
-                        Console.WriteLine(" Book deleted successfully!\n ");
+                            }
+                            else if(i == v - 1 && v - 1 == ind)
+                            {
+                                ind--;
+                                Console.WriteLine(" Book deleted successfully!\n ");
+                                break;
+                            }
+                        }                      
+                        
                         break;
 
                     case 3:
@@ -75,22 +95,13 @@ namespace Ex._3
                             Console.WriteLine($" {i + 1}  {res}");
                             if (res == 0)
                             {
-                                Console.WriteLine($" The book is in the list, {list[find.ToString()]} serial number {i + 1}\n");
+                                Console.WriteLine($" The book {list[find.ToString()]} is in the list, serial number {i + 1}\n");
                                 break;
                             }
                         }
 
                         if (res != 0) Console.WriteLine(" This book is not on your list!\n");
-
-                        //try
-                        //{
-                        //    Console.WriteLine($"The book -{list[find]}- is in the list!\n");
-                        //    //throw new Exception(" This book is not on your list!\n");
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    Console.WriteLine(ex.Message);
-                        //}
+                        
                         break;
 
                     case 4:
@@ -100,16 +111,15 @@ namespace Ex._3
                             break;
                         }
 
-                        for (int i = 0; i < ind+1; i++)
+                        for (int i = 0; i < ind + 1; i++)
                         {
                             Console.WriteLine($" -Book {i + 1}-");
                             list[i].Output();
-                            //Console.WriteLine($"Book {i + 1} \n {list[i].Title}\n {list[i].Author}\n {list[i].Year}\n");
                         }
                         break;
 
                     case 0:
-                        return;        
+                        return;
                 }
             }
         }
@@ -133,14 +143,8 @@ namespace Ex._3
             {
                 get { return year; }
                 set { year = value; }
-            }
+            }           
             public Book()
-            {
-                title = null;      
-                author = null;                
-                year = 0;
-            }
-            public Book(int b)
             {
                 Console.WriteLine(" Enter book title: ");
                 title = Console.ReadLine();
@@ -160,10 +164,14 @@ namespace Ex._3
         {
             Book [] books;
 
+            public List()
+            {
+                books = null;
+            }
             public List(Book[] b)
             {
                 books = b;
-            }
+            }          
             public Book this[int index]
             {
                 get
@@ -194,3 +202,92 @@ namespace Ex._3
         }
     }
 }
+//switch (choice)
+//{
+//    case 1:
+//        ind++;
+//        list[ind] = new Book(1);
+//        break;
+
+//    case 2:
+//        if (ind < 0) // если список пуст, возврат в меню
+//        {
+//            Console.WriteLine(" Your list is empty!\n");
+//            break;
+//        }
+//        Console.WriteLine(" Select the book you wish to delete: ");
+//        int v;
+
+//        for (int i = 0; i < ind + 1; i++)
+//        {
+//            Console.WriteLine($"{i + 1}. {list[i].Title}");
+//        }
+
+//        v = int.Parse(Console.ReadLine());
+//        for (int i = 0; i < ind + 1; i++)
+//        {
+//            if (i == v - 1)
+//            {
+//                list[i].Title = list[i + 1].Title.ToString();
+//                list[i].Author = list[i + 1].Author.ToString();
+//                list[i].Year = Convert.ToInt32(list[i + 1].Year.ToString());
+//                break;
+//            }
+//        }
+//        ind--;
+
+//        Console.WriteLine(" Book deleted successfully!\n ");
+//        break;
+
+//    case 3:
+//        if (ind < 0) // если список пуст, возврат в меню
+//        {
+//            Console.WriteLine(" Your list is empty!\n");
+//            break;
+//        }
+
+//        Console.WriteLine(" Enter book title to search: ");
+//        string find = Console.ReadLine();
+//        int res = 0;
+//        for (int i = 0; i < ind + 1; i++)
+//        {
+//            res = String.Compare(list[i].Title.ToString(), find);
+//            Console.WriteLine($" {i + 1}  {res}");
+//            if (res == 0)
+//            {
+//                Console.WriteLine($" The book is in the list, {list[find.ToString()]} serial number {i + 1}\n");
+//                break;
+//            }
+//        }
+
+//        if (res != 0) Console.WriteLine(" This book is not on your list!\n");
+
+//        //try
+//        //{
+//        //    Console.WriteLine($"The book -{list[find]}- is in the list!\n");
+//        //    //throw new Exception(" This book is not on your list!\n");
+//        //}
+//        //catch (Exception ex)
+//        //{
+//        //    Console.WriteLine(ex.Message);
+//        //}
+//        break;
+
+//    case 4:
+//        if (ind < 0) // если список пуст, возврат в меню
+//        {
+//            Console.WriteLine(" Your list is empty!\n");
+//            break;
+//        }
+
+//        for (int i = 0; i < ind + 1; i++)
+//        {
+//            Console.WriteLine($" -Book {i + 1}-");
+//            list[i].Output();
+//            //Console.WriteLine($"Book {i + 1} \n {list[i].Title}\n {list[i].Author}\n {list[i].Year}\n");
+//        }
+//        break;
+
+//    case 0:
+//        return;
+//}
