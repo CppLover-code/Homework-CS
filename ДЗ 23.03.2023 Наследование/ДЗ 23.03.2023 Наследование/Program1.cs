@@ -130,7 +130,7 @@
             }
             public void InputInfo()         // ввод информации о продукте
             {
-                Console.Write(" Enter product name: ");
+                Console.Write(" Enter product name: ");  // можно сделать проверку для названия продукта
                 name = Console.ReadLine();
                 Console.WriteLine(" Enter the price of the product \u25bc");
                 base.Input();
