@@ -14,30 +14,39 @@ namespace ДЗ_24._03._2023_Интерфейсы
 
                 Console.WriteLine(" Enter the size of the array (max size 15): ");
                 int size = SizeInput();
-                
+                Console.Write(" Enter a number to compare values: ");
+                int numb = NumbInput();
+                Console.ReadLine();
+                Console.Clear();
+
                 Array a = new(size);
+
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\t\t\t-Array Info-\n");
+                Console.ResetColor();
                 a.Show();
                 a.Show(" Array with parameters:");
-                Console.WriteLine(" Array Info ");
+                Console.WriteLine();
+
                 a.ShowEven();
                 a.ShowOdd();
-                Console.Write(" Enter a number to compare: ");
-                int numb = NumbInput();
-                Console.WriteLine($" Number of elements less than {numb}:\t" + a.Less(numb));
-                Console.WriteLine($" Number of large elements than {numb}:\t" + a.Greater(numb));
-                Console.WriteLine(" Number of unique values in a container:\t" + a.CountDistinct());
-                Console.WriteLine($" Number of elements equal to {numb}:\t" + a.EqualToValue(numb));
+
+                Console.WriteLine($" Number of elements less than {numb}:\t " + a.Less(numb));
+                Console.WriteLine($" Number of large elements than {numb}:\t " + a.Greater(numb));
+                Console.WriteLine(" Number of unique values in a container: " + a.CountDistinct());
+                Console.WriteLine($" Number of elements equal to {numb}:\t\t " + a.EqualToValue(numb));
             }
-            public static int SizeInput()
+            public static int SizeInput()   // ввод размера массива
             {
                 int size;
                 while (true)
-                { 
+                {
                     try
                     {
                         size = int.Parse(Console.ReadLine()!);
-                        if (size <= 0 || size > 15)
-                            throw new Exception(" Incorrect input!\n");
+                        if (size <= 0 || size > 15)                       // если размер меньше либо равен нулю или больше 15
+                            throw new Exception(" Incorrect input!\n");   // выброс исключения
                         break;
                     }
                     catch (FormatException ex)
@@ -51,7 +60,7 @@ namespace ДЗ_24._03._2023_Интерфейсы
                 }
                 return size;
             }
-            public static int NumbInput()
+            public static int NumbInput()   // ввод числа для сравнения с элементами массива
             {
                 int numb;
                 while (true)
@@ -59,8 +68,8 @@ namespace ДЗ_24._03._2023_Интерфейсы
                     try
                     {
                         numb = int.Parse(Console.ReadLine()!);
-                        if (numb < 0)
-                            throw new Exception(" Incorrect input!\n");
+                        if (numb < 0)                                   // если число отрицательное
+                            throw new Exception(" Incorrect input!\n"); // выброс исключения
                         break;
                     }
                     catch (FormatException ex)
@@ -108,7 +117,7 @@ namespace ДЗ_24._03._2023_Интерфейсы
                     ar[i] = random.Next(1, 10);
                 }
             }
-            public void Show()
+            public void Show()                            // обычный вывод массива
             {
                 Console.WriteLine(" Array: ");
                 foreach (int i in ar)
@@ -117,7 +126,7 @@ namespace ДЗ_24._03._2023_Интерфейсы
                 }
                 Console.WriteLine();
             }
-            public void Show(string info)
+            public void Show(string info)                 // вывод массива с параметром
             {
                 Console.WriteLine(info);
 
@@ -127,21 +136,21 @@ namespace ДЗ_24._03._2023_Интерфейсы
                 }
                 Console.WriteLine();
             }
-            public void ShowEven()
+            public void ShowEven()                        // вывод чётных значений массива
             {
-                Console.Write(" Even Container Values: ");
+                Console.Write(" Even Container Values:\t\t\t ");
                 for (int i = 0; i < ar.Length; i++)
-                    if (ar[i] % 2 == 0) Console.Write(ar[i] + " "); 
+                    if (ar[i] % 2 == 0) Console.Write(ar[i] + " ");
                 Console.WriteLine();
             }
-            public void ShowOdd()
+            public void ShowOdd()                         // вывод нечётных значений массива
             {
-                Console.Write(" Odd Container Values: ");
+                Console.Write(" Odd Container Values:\t\t\t ");
                 for (int i = 0; i < ar.Length; i++)
                     if (ar[i] % 2 != 0) Console.Write(ar[i] + " ");
                 Console.WriteLine();
             }
-            public int Less(int valueToCompare)
+            public int Less(int valueToCompare)           // подсчет количества элементов массива меньших, чем заданое число
             {
                 int count = 0;
                 for (int i = 0; i < ar.Length; i++)
@@ -149,7 +158,7 @@ namespace ДЗ_24._03._2023_Интерфейсы
 
                 return count;
             }
-            public int Greater(int valueToCompare)
+            public int Greater(int valueToCompare)        // подсчет количества элементов массива больших, чем заданое число
             {
                 int count = 0;
                 for (int i = 0; i < ar.Length; i++)
@@ -157,8 +166,7 @@ namespace ДЗ_24._03._2023_Интерфейсы
 
                 return count;
             }
-
-            public int CountDistinct()
+            public int CountDistinct()                    // подсчёт количества уникальных значений массива
             {
                 int count = 0;
                 for (int i = 0; i < ar.Length; i++)
@@ -177,11 +185,11 @@ namespace ДЗ_24._03._2023_Интерфейсы
                 }
                 return count;
             }
-            public int EqualToValue(int valueToCompare)
+            public int EqualToValue(int valueToCompare)   //подсчёт количества значений равных заданому числу
             {
                 int count = 0;
                 for (int i = 0; i < ar.Length; i++)
-                    if (Array.Equals(ar[i],valueToCompare)) count++;
+                    if (Array.Equals(ar[i], valueToCompare)) count++;
                 return count;
             }
         }
