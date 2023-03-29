@@ -7,12 +7,59 @@ namespace Ex._3
     {
         static void Main(string[] args)
         {
+            Console.Title = " RGB Color Converter";
             Console.WriteLine("\t\t-RGB color converter-");
-            //RGB rgb = new RGB(13,155,232);
+            Console.WriteLine($" {Math.Max(5,Math.Max(5,5))}");
             RGB rgb = new RGB();
-            rgb.ToHEX();  
-            rgb.ToCMYK();
-            rgb.ToHSL();    
+            Console.ReadLine();
+            Console.Clear();
+
+            ConsoleKey key;
+
+            while (true)
+            {
+                Console.WriteLine(" Converter menu");
+                Console.WriteLine(
+                    " 1 - RGB to HEX\n" +
+                    " 2 - RGB to HSL\n" +
+                    " 3 - RGB to CMYK\n" +
+                    " 4 - Enter new RGB data\n" +
+                    " Esc - exit");
+
+                ConsoleKeyInfo info = Console.ReadKey();
+                key = info.Key;
+
+                switch (key)
+                {
+                    case ConsoleKey.NumPad1:  
+                        rgb.ToHEX();
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.NumPad2:
+                        rgb.ToHSL();
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.NumPad3:
+                        rgb.ToCMYK();
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.NumPad4:
+                        rgb = new RGB();
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.Escape:                      
+                        return;
+                    default:
+                        Console.WriteLine("\n Incorrect input!\n");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                }
+            }              
         }
         struct RGB
         {
@@ -21,7 +68,7 @@ namespace Ex._3
             {
                 while(true)
                 {
-                    Console.WriteLine(" Enter color values from 0 to 255 ");
+                    Console.WriteLine("\n Enter color values from 0 to 255 ");
                     try
                     {
                         Console.Write(" Red: ");
@@ -64,6 +111,9 @@ namespace Ex._3
                 string r = Convert.ToString(this.red, 16);
                 string g = Convert.ToString(this.green, 16);
                 string b = Convert.ToString(this.blue, 16);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n -Result- \n");
+                Console.ResetColor();
                 Console.WriteLine($" {this} in HEX: #" + r + g + b + "\n");
             }
             public void ToHSL()
@@ -85,12 +135,20 @@ namespace Ex._3
                 if (diff == 0) S = 0;
                 else S = Math.Round((diff / (1 - Math.Abs(2 * L - 1))) * 100);
 
-                L = Math.Round(L * 100,1);
+                L = Math.Round(L * 100);
 
-                if (max == r) H = Math.Round(60 * (((g - b) / diff) % 6));
-                if (max == g) H = Math.Round(60 * (2 + (b - r) / diff));
-                if (max == b) H = Math.Round(60 *(4 + (r - g) / diff));
+                if (max == r && max == g && max == b) H = 0;
+                else
+                {
+                    if (max == r) H = Math.Round(60 * (((g - b) / diff) % 6));
+                    if (max == g) H = Math.Round(60 * (2 + (b - r) / diff));
+                    if (max == b) H = Math.Round(60 * (4 + (r - g) / diff));
+                }
+                
 
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n -Result- \n");
+                Console.ResetColor();
                 Console.WriteLine($" {this} in HSL:\n" +
                     $" Hue\t\t{H}°\n" +
                     $" Saturation\t{S}%\n" +
@@ -120,6 +178,9 @@ namespace Ex._3
                 yellow  = Math.Round((max - Y) / max * 100);
                 black   = Math.Round((1 - max) * 100);
 
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n -Result- \n");
+                Console.ResetColor();
                 Console.WriteLine($" {this} in СMYK:\n" +
                     $" Сyan\t\t{cyan}%\n" +
                     $" Magenta\t{magenta}%\n" +
