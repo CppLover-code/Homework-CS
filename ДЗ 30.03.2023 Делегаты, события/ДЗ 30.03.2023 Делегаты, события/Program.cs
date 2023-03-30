@@ -15,15 +15,28 @@ namespace ДЗ_30._03._2023_Делегаты__события
             ShowArray(array);
 
             MyDel[] dlg = { Even, Odd, Prime, Fibonacci };
+
             int choice = 0;
             while (choice != 5)
             {
                 Console.Write("\n1 Even\n2 Odd \n3 Prime\n4 Fibonacci\n5 Exit\nYour choice: ");
-                choice = Convert.ToInt32(Console.ReadLine());
-                if (choice >= 1 && choice <= 4)
+                try
                 {
-                    dlg[choice - 1](array);
+                    choice = Convert.ToInt32(Console.ReadLine());
+                    if(choice < 1 || choice > 5)
+                        throw new Exception(" Incorrect input!");
                 }
+                catch(FormatException ex)
+                {
+                    Console.WriteLine(" Incorrect input!", ex);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
+                if (choice >= 1 && choice <= 4)
+                    dlg[choice - 1](array);
             }
         }
         static void FillArray(int [] ar)
@@ -38,7 +51,6 @@ namespace ДЗ_30._03._2023_Делегаты__события
                 Console.Write(i + " ");
             Console.WriteLine();
         }
-
         static void Even(int[] ar)
         {
             for (int i = 0; i < ar.Length;i++)
