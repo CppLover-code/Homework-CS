@@ -1,0 +1,85 @@
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace ДЗ_30._03._2023_Делегаты__события
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(" -Методы для работы с массивами-");
+
+            int[] array = new int[20];
+            FillArray(array);
+            ShowArray(array);
+            Even(array);
+            Odd(array);
+            Prime(array);
+            Fibonacci(array);
+        }
+        static void FillArray(int [] ar)
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < ar.Length; i++)
+                ar[i]= rnd.Next(1,101);
+        }
+        static void ShowArray(int[] ar)
+        {
+            foreach (int i in ar)
+                Console.Write(i + " ");
+            Console.WriteLine();
+        }
+
+        static void Even(int[] ar)
+        {
+            for (int i = 0; i < ar.Length;i++)
+                if(ar[i] % 2 is 0) Console.Write(ar[i] + " ");
+            Console.WriteLine();
+        }
+        static void Odd(int[] ar)
+        {
+            for (int i = 0; i < ar.Length; i++)
+                if (ar[i] % 2 != 0) Console.Write(ar[i] + " ");
+            Console.WriteLine();
+        }
+        static void Prime(int[] ar)
+        {
+            for (int i = 0; i < ar.Length; i++)
+            {
+                if (ar[i] is 1) continue;
+                else if (ar[i] is 2 || ar[i] is 3 || ar[i] is 5 || ar[i] is 7)
+                {
+                    Console.Write(ar[i] + " ");
+                }
+                else if(ar[i] % 2 != 0 && ar[i] % 3 != 0 &&
+                   ar[i] % 5 != 0 && ar[i] % 7 != 0)
+                {
+                    Console.Write(ar[i] + " ");
+                }
+            }
+            Console.WriteLine();
+        }
+        static void Fibonacci(int[] ar)
+        {
+            int count = 0;
+            for (int i = 0; i < ar.Length; i++)
+            {
+                int a = 0, b = 1, s = 1;
+
+                while (s < 101)
+                {
+                    s = a + b;
+                    a = b;
+                    b = s;
+                    if (ar[i] == s)
+                    {
+                        Console.Write(ar[i] + " ");
+                        count++;
+                        break;
+                    }
+                } 
+            }
+            if(count == 0) Console.Write(" Чисел Фибоначчи не найдено!");
+            Console.WriteLine();
+        }
+    }
+}
