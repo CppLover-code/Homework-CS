@@ -1,7 +1,9 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ДЗ_30._03._2023_Делегаты__события
 {
+    delegate void MyDel(int[]ar);
     internal class Program
     {
         static void Main(string[] args)
@@ -11,10 +13,18 @@ namespace ДЗ_30._03._2023_Делегаты__события
             int[] array = new int[20];
             FillArray(array);
             ShowArray(array);
-            Even(array);
-            Odd(array);
-            Prime(array);
-            Fibonacci(array);
+
+            MyDel[] dlg = { Even, Odd, Prime, Fibonacci };
+            int choice = 0;
+            while (choice != 5)
+            {
+                Console.Write("\n1 Even\n2 Odd \n3 Prime\n4 Fibonacci\n5 Exit\nYour choice: ");
+                choice = Convert.ToInt32(Console.ReadLine());
+                if (choice >= 1 && choice <= 4)
+                {
+                    dlg[choice - 1](array);
+                }
+            }
         }
         static void FillArray(int [] ar)
         {
