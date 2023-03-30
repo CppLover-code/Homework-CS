@@ -4,7 +4,7 @@ using System.Reflection.Metadata.Ecma335;
 namespace ДЗ_30._03._2023_Делегаты__события
 {
     delegate void MyDel(int[]ar);
-    internal class Program
+    internal class Program1
     {
         static void Main(string[] args)
         {
