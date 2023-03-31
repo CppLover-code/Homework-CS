@@ -4,11 +4,11 @@ namespace Ex._2
 {
     internal class Program2
     {
-        static Func<string>? func; 
+        static Func<string>? func;      // делегат, возвращающий string
 
-        static Action? act;
+        static Action? act;             // делегат без параметров
 
-        static Predicate<double>? pred;
+        static Predicate<double>? pred; // делегат, принимающий double
         static void Main(string[] args)
         {
             Console.WriteLine("\t\t\t-Using Delegates Action, Predicate, Func-");
@@ -54,9 +54,9 @@ namespace Ex._2
             return $" Current d/week --\u2192 \t\t{d.DayOfWeek}";
         }
 
-        static bool CheckSide(double s)
+        static bool CheckSide(double s) // метод для проверки стороны фигуры
         {
-            return (s <= 0);
+            return (s <= 0); // сторона меньше либо равна нулю?
         }
         static void TriangleArea()
         {
@@ -73,8 +73,8 @@ namespace Ex._2
                     s1 = double.Parse(Console.ReadLine()!);
                     s2 = double.Parse(Console.ReadLine()!);
                     s3 = double.Parse(Console.ReadLine()!);
-                    pred = CheckSide;
-                    if (pred(s1) || pred(s2) || pred(s3))
+                    pred = CheckSide;                               // предикат хранит указатель на метод, который подходит по параметру и типу возвр. значения(bool)
+                    if (pred(s1) || pred(s2) || pred(s3))           // проверка на ноль и отрицательные числа с помощью предиката
                     {
                         throw new Exception("\a Incorrect input!");
                     }
@@ -89,9 +89,9 @@ namespace Ex._2
                     Console.WriteLine(ex.Message);
                 }
             }
-            double Pp = (s1 + s2 +s3) / 2;
-            double Area = Math.Sqrt(Pp*(Pp - s1)*(Pp - s2)*(Pp - s3));
-            if (Double.IsNaN(Area)) Area = 0;
+            double Pp = (s1 + s2 +s3) / 2;                              // полупериметр
+            double Area = Math.Sqrt(Pp*(Pp - s1)*(Pp - s2)*(Pp - s3));  // площадь по формуле Герона
+            if (Double.IsNaN(Area)) Area = 0;                           // если не удалось вычислить площадь, то присваиваем ноль
 
            Console.WriteLine($" Area of triangle with sides a {s1}; b {s2}; c {s3} = {Math.Round(Area,1)} cm\n");
         }
@@ -110,7 +110,7 @@ namespace Ex._2
                     s1 = double.Parse(Console.ReadLine()!);
                     s2 = double.Parse(Console.ReadLine()!);
                     pred = CheckSide;
-                    if (pred(s1) || pred(s2))
+                    if (pred(s1) || pred(s2))                       // проверка с исп. предиката
                     {
                         throw new Exception("\a Incorrect input!");
                     }
@@ -125,8 +125,8 @@ namespace Ex._2
                     Console.WriteLine(ex.Message);
                 }
             }
-            double Area = Math.Round(s1 * s2,1);
-            if (Double.IsNaN(Area)) Area = 0;
+            double Area = Math.Round(s1 * s2,1);                    
+            if (Double.IsNaN(Area)) Area = 0;                       // если не удалось вычислить площадь, то присваиваем ноль
 
             Console.WriteLine($" Area of triangle with sides a {s1}; b {s2} = {Area} сm");
         }

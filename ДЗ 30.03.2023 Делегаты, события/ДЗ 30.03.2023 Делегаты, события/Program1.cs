@@ -8,35 +8,39 @@ namespace ДЗ_30._03._2023_Делегаты__события
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(" -Методы для работы с массивами-");
+            int[] array = new int[20];                     
+            FillArray(array);                              // заполняем массив
 
-            int[] array = new int[20];
-            FillArray(array);
-            ShowArray(array);
-
-            MyDel[] dlg = { Even, Odd, Prime, Fibonacci };
+            MyDel[] dlg = { Even, Odd, Prime, Fibonacci }; // массив делегатов
 
             int choice = 0;
             while (choice != 5)
             {
-                Console.Write("\n1 Even\n2 Odd \n3 Prime\n4 Fibonacci\n5 Exit\nYour choice: ");
+                Console.WriteLine("\t\t-Working with an array using delegates-");
+                ShowArray(array);
+                Console.Write("\n 1 - Even\n 2 - Odd \n 3 - Prime\n" +
+                    " 4 - Fibonacci\n 5 - Exit\n Make a choice: ");
                 try
                 {
                     choice = Convert.ToInt32(Console.ReadLine());
                     if(choice < 1 || choice > 5)
-                        throw new Exception(" Incorrect input!");
+                        throw new Exception("\a Incorrect input!");
                 }
                 catch(FormatException ex)
                 {
-                    Console.WriteLine(" Incorrect input!", ex);
+                    Console.WriteLine("\a Incorrect input!", ex);
+                    Console.ReadLine();
+                    Console.Clear();
                 }
                 catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    Console.ReadLine();
+                    Console.Clear();
                 }
                 
-                if (choice >= 1 && choice <= 4)
-                    dlg[choice - 1](array);
+                if (choice >= 1 && choice <= 4)  // если выбор пользователя от 1 до 4, что соотв кол-ву методов
+                    dlg[choice - 1](array);      // то вызываем соотв. делегат по индексу
             }
         }
         static void FillArray(int [] ar)
@@ -47,6 +51,7 @@ namespace ДЗ_30._03._2023_Делегаты__события
         }
         static void ShowArray(int[] ar)
         {
+            Console.WriteLine(" Random array");
             foreach (int i in ar)
                 Console.Write(i + " ");
             Console.WriteLine();
@@ -100,7 +105,7 @@ namespace ДЗ_30._03._2023_Делегаты__события
                     }
                 } 
             }
-            if(count == 0) Console.Write(" Чисел Фибоначчи не найдено!");
+            if(count == 0) Console.Write(" Fibonacci numbers not found!");
             Console.WriteLine();
         }
     }
