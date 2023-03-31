@@ -41,7 +41,7 @@ namespace Ex._2
             string time = DateTime.Now.ToString();
             int found = time.IndexOf(" ");
             return $" Сurrent time   --\u2192 \t\t{time.Substring(found + 1)}";
-        }
+        } 
         static string CurrentDate()
         {
             string time = DateTime.Now.ToString();
@@ -50,22 +50,21 @@ namespace Ex._2
         }
         static string CurrentDayOfWeek()
         {
-            DateTime d = DateTime.Now;            
+            DateTime d = DateTime.Now;
             return $" Current d/week --\u2192 \t\t{d.DayOfWeek}";
         }
-
         static bool CheckSide(double s) // метод для проверки стороны фигуры
         {
             return (s <= 0); // сторона меньше либо равна нулю?
         }
         static void TriangleArea()
         {
-            Console.ForegroundColor= ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(" -Area of a triangle-");
             Console.ResetColor();
 
             Console.WriteLine(" Enter the value of the sides of the triangle one by one:");
-            double s1,s2,s3;
+            double s1, s2, s3;
             while (true)
             {
                 try
@@ -84,16 +83,16 @@ namespace Ex._2
                 {
                     Console.WriteLine("\a Incorrect input!");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            double Pp = (s1 + s2 +s3) / 2;                              // полупериметр
-            double Area = Math.Sqrt(Pp*(Pp - s1)*(Pp - s2)*(Pp - s3));  // площадь по формуле Герона
+            double Pp = (s1 + s2 + s3) / 2;                              // полупериметр
+            double Area = Math.Sqrt(Pp * (Pp - s1) * (Pp - s2) * (Pp - s3));  // площадь по формуле Герона
             if (Double.IsNaN(Area)) Area = 0;                           // если не удалось вычислить площадь, то присваиваем ноль
 
-           Console.WriteLine($" Area of triangle with sides a {s1}; b {s2}; c {s3} = {Math.Round(Area,1)} cm\n");
+            Console.WriteLine($" Area of triangle with sides a {s1}; b {s2}; c {s3} = {Math.Round(Area, 1)} cm\n");
         }
         static void RectangleArea()
         {
@@ -125,7 +124,7 @@ namespace Ex._2
                     Console.WriteLine(ex.Message);
                 }
             }
-            double Area = Math.Round(s1 * s2,1);                    
+            double Area = Math.Round(s1 * s2, 1);
             if (Double.IsNaN(Area)) Area = 0;                       // если не удалось вычислить площадь, то присваиваем ноль
 
             Console.WriteLine($" Area of triangle with sides a {s1}; b {s2} = {Area} сm");
