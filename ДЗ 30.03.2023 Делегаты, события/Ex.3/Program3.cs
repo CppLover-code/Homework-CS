@@ -37,6 +37,13 @@ namespace Ex._3
                     Console.WriteLine(e.Message + " клиентом: " + card.holderName);
                 }
             };
+            card.account.GoalNotify += (object? sender, AccoutEventArgs2 e) =>
+            {
+                Console.WriteLine(" Ответ банка:\n " + e.Message);
+                Console.WriteLine("---------------------------------------------------------------------");
+                Console.ResetColor();
+            };
+            
 
             card.Put(100);
             card.Take(120);
@@ -73,6 +80,8 @@ namespace Ex._3
             public EventHandler<AccoutEventArgs>? MoneyNotify; // 1. Define an event// унифицированный обработчик событий
                                                           // ДЕЛЕГАТ для события
             public EventHandler<AccoutEventArgs2>? PinNotify;
+            public EventHandler<AccoutEventArgs2>? GoalNotify;
+
             public float Balance { get; set; } = 0; // текущий баланс
             public float Limit { get; set; } // кредитный лимит
             public float Debt { get; set; }       // долг по кредиту
@@ -107,6 +116,11 @@ namespace Ex._3
                 }
 
                 MoneyNotify?.Invoke(this, new AccoutEventArgs("Положено на счет ", top_up, Balance)); // 2. Raise Event
+
+                if(Balance >= 100)
+                {
+                    GoalNotify?.Invoke(this, new AccoutEventArgs2(" Ура! Ваш баланс больше 100 грн"));
+                }
             }
             public void Take(float sum)
             {
