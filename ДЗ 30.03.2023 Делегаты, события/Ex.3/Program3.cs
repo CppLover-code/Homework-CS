@@ -7,8 +7,9 @@
             Console.WriteLine("Hello, World!");
         }
 
-        public class CreditCard
+        public class CreditCard // издатель события
         {
+            public EventHandler<AccoutEventArgs>? AccountAction;
             long cardNumber { get; set; }
             string? holderName { get; set; }
             DateTime? expDate { get; set; }
@@ -16,7 +17,7 @@
             double creditLimit { get; set; }
             double sum { get; set; }
         }
-        public class AccoutEventArgs : EventArgs // событие
+        public class AccoutEventArgs : EventArgs // данные события
         {
             public AccoutEventArgs(string? message, int sum, int balance)
             {
@@ -28,7 +29,7 @@
             public int Sum { get; set; }
             public int Balance { get; set; }
         }
-        public class Account  // обработка событий
+        public class Account  // обработчик события
         {
             public EventHandler<AccoutEventArgs>? Notify; // 1. Define an event// унифицированный обработчик событий ДЕЛЕГАТ для события
             public int Balance { get; set; } = 0;
