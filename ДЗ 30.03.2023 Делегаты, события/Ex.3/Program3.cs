@@ -145,7 +145,8 @@ namespace Ex._3
             public float Debt { get; set; }         // долг по кредиту
             public float CopyL;                     // копия кредитного лимита
             public int pinCode { get; set; }        // пин код
-            public float achievement { get; set; }    // достижение по сумме
+            public float achievement { get; set; }  // достижение по сумме
+            public static int counter = 0;          // статическая переменная для сравнения с числом увеличения increase
             public Account(float sum, float cl,int pin)
             { 
                 this.Balance = sum; 
@@ -184,22 +185,17 @@ namespace Ex._3
                 }
 
                 MoneyNotify!.Invoke(this, new AccoutEventArgs("Account topped up with ", top_up, Balance)); // вызов события
-                //    //// ///////////////////////////////////////////////////////////
-                int increase = (int)Balance / 50000;
-                int i = increase - 1;
-                if (increase > i && increase != 0)
-                {
-                    achievement = 50000 * increase;
 
-                    AchievementNotify?.Invoke(this, new AccoutEventArgs2($"Great achievement! Your balance is more than {achievement}")); // вызов события
-
-                }
-                //if (Balance >= achievement ) // Достижение: 
-                //{
-                //    achievement += (50000 * increase);
-                //    AchievementNotify?.Invoke(this, new AccoutEventArgs2($"Great achievement! Your balance is more than {achievement}")); // вызов события
-                //}
-                
+                // counter должен быть статическим, чтоб сохранять состояние до достижения очередного шага Balance,
+                // когда increase будет увеличиваться
+                int increase = (int)Balance / 50000;    // число для увеличения суммы достижения, где 50 000 - первое достижение
+                if (increase > counter)                 // increase будет больше counter только тогда, когда Balance >= 50 000, потом >= 100 000 и тд
+                {                                       // то есть с шагом 50 000
+                    achievement = 50000 * increase;     // увеличение достижения
+                    AchievementNotify?.Invoke(this, new AccoutEventArgs2($"Great achievement! Your balance has reached {achievement}")); // вызов события
+                    counter = 0;
+                    counter += increase;                // теперь counter равен increase и условие выше не сработает, пока Balance не сделает очередной шаг в 50 000
+                }           
             }
             public void Take(float sum)
             {
