@@ -28,7 +28,7 @@
                 flag = false;
                 if (x[i] < 0)
                 {
-                    for (int k = i + 1; k < x.Length; k++)
+                    for (int k = x.Length - 1; k > 2; k--)
                     {
                         if(x[i] == x[k]) flag = true; 
                     }
@@ -43,7 +43,7 @@
         static void Main(string[] args)
         {
             Console.WriteLine("\t\t-Using lambda expressions to process an array-");
-            int[] x = { -1, 5,-1, 21,-3, 4,-2, 8, -1, 1, 7,-3, -10, -42 };
+            int[] x = { -5,-3,-5,-2,-1,-1 };
             Console.WriteLine( " Количество чисел кратных 7: " + multSeven(x));
             Console.WriteLine(" Количество положительных чисел: " + posNumber(x));
             Console.WriteLine(" Уникальные отрицательные числа: ");
