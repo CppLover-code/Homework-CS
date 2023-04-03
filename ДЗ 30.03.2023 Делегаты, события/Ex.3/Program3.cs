@@ -15,10 +15,10 @@ namespace Ex._3
             CreditCard card = new();
             Thread.Sleep(1000);
             Console.Clear();
-            //CreditCard card = new(222111555, "Julia Roberts", "21.02.2028", new Account(100, 500, 1414));
+            //CreditCard card = new(2221115551458796, "Julia Roberts", "21.02.2028", new Account(100, 500, 1414));
             //user1.account.Notify += DisplayMessage; // ответ банка Добавляем обработчик для события Notify          
             //user1.AccountAction += DisplayUserMessage; // действие пользователя Добавляем обработчик для события Notify
-            card.account.MoneyNotify += (object? sender, AccoutEventArgs e) =>
+            card.account!.MoneyNotify += (object? sender, AccoutEventArgs e) =>
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(" Bank message:\n " + e.Message + e.Sum + " UAH" +
@@ -144,7 +144,8 @@ namespace Ex._3
             public float Limit { get; set; }        // кредитный лимит
             public float Debt { get; set; }         // долг по кредиту
             public float CopyL;                     // копия кредитного лимита
-            public int pinCode { get; set; }
+            public int pinCode { get; set; }        // пин код
+            public float achievement { get; set; }    // достижение по сумме
             public Account(float sum, float cl,int pin)
             { 
                 this.Balance = sum; 
@@ -152,6 +153,7 @@ namespace Ex._3
                 this.Debt = 0;
                 this.CopyL = this.Limit;
                 this.pinCode = pin;
+                this.achievement = 10000;
             }
             public Account()
             {
@@ -160,64 +162,74 @@ namespace Ex._3
                 this.Debt = 0;
                 this.CopyL = this.Limit;
                 this.pinCode = CheckPin("");
+                this.achievement = 0;
             }
             public void Put(float top_up)
             {
-                if(Debt == 0)
+                if(Debt == 0)                   // если нет задолженности
                 {
                     Balance += top_up;
                 }
-                else if (top_up >= Debt)                        // если сумма пополнения больше либо равна задолженности
+                else if (top_up >= Debt)        // если сумма пополнения больше либо равна задолженности
                 {
                     Balance = top_up - Debt;
                     Limit = CopyL;
                     Debt = 0;
                 }
-                else if (top_up < Debt)
+                else if (top_up < Debt)         // если сумма пополнения меньше задолженности
                 {
                     Limit += top_up;
                     Balance = 0;
                     Debt = CopyL - Limit;
                 }
 
-                MoneyNotify!.Invoke(this, new AccoutEventArgs("Account topped up with ", top_up, Balance)); // 2. Raise Event
-
-                int achievement = 10000;
-
-                if (Balance >= achievement)
+                MoneyNotify!.Invoke(this, new AccoutEventArgs("Account topped up with ", top_up, Balance)); // вызов события
+                //    //// ///////////////////////////////////////////////////////////
+                int increase = (int)Balance / 50000;
+                int i = increase - 1;
+                if (increase > i && increase != 0)
                 {
-                    AchievementNotify?.Invoke(this, new AccoutEventArgs2($"Perfect! Your balance is more than {achievement}"));
+                    achievement = 50000 * increase;
+
+                    AchievementNotify?.Invoke(this, new AccoutEventArgs2($"Great achievement! Your balance is more than {achievement}")); // вызов события
+
                 }
+                //if (Balance >= achievement ) // Достижение: 
+                //{
+                //    achievement += (50000 * increase);
+                //    AchievementNotify?.Invoke(this, new AccoutEventArgs2($"Great achievement! Your balance is more than {achievement}")); // вызов события
+                //}
+                
             }
             public void Take(float sum)
             {
-                if (sum <= Balance)                         // если сумма снятия меньше или равна текущему балансу  
-                {                                           // уменьшаем баланс на сумму затраты  
+                if (sum <= Balance)                                         // если сумма снятия меньше или равна текущему балансу  
+                {                                                           // уменьшаем баланс на сумму затраты  
                     Balance -= sum;
-                    MoneyNotify?.Invoke(this, new AccoutEventArgs("Withdrawn from account ", sum, Balance)); // 2. Raise Event
+                    MoneyNotify?.Invoke(this, new AccoutEventArgs("Withdrawn from account ", sum, Balance)); // вызов события
                 }
-                else if ((sum > Balance) &&                 // если сумма снятия больше текущего баланса И
-                    (sum <= Balance + Limit))               // сумма снятия меньше либо равна сумме баланса с кред. лимитом
+                else if ((sum > Balance) &&                                 // если сумма снятия больше текущего баланса И
+                    (sum <= Balance + Limit))                               // сумма снятия меньше либо равна сумме баланса с кред. лимитом
                 {                                          
-                    Limit = Balance + Limit - sum;          // кред. лимит уменьшается
-                    Balance = 0;                            // баланс текущий обнуляется
-                    Debt = CopyL - Limit;                   // задолженность вычисляется
+                    Limit = Balance + Limit - sum;                          // кред. лимит уменьшается
+                    Balance = 0;                                            // баланс текущий обнуляется
+                    Debt = CopyL - Limit;                                   // задолженность вычисляется
                     MoneyNotify?.Invoke(this, new AccoutEventArgs($"Withdrawn from account {sum} UAH\n" +
                         $" Current credit funds: {CopyL - Debt} UAH\n" +
-                        $" Current credit card debt: ", Debt, Balance)); // 2. Raise Event
+                        $" Current credit card debt: ", Debt, Balance));    // вызов события
                 }
-                else if (sum > Balance + Limit)             // если сумма снятия больше суммы баланса с лимитом,
-                {                                           // выводим сообщение
+                else if (sum > Balance + Limit)                             // если сумма снятия больше суммы баланса с лимитом,
+                {                                                           // выводим сообщение
                     Console.ForegroundColor = ConsoleColor.Red;
                     MoneyNotify?.Invoke(this, new AccoutEventArgs("Not enough money to withdraw!\n" +
                         $" Current credit funds: {CopyL - Debt} UAH\n" +
-                        $" Current credit card debt: ", Debt, Balance)); // 2. Raise Event
+                        $" Current credit card debt: ", Debt, Balance));    // вызов события
                 }               
             }
             public void ChangePin()
             {
                 pinCode = CheckPin("new");
-                PinNotify?.Invoke(this, new AccoutEventArgs2(" PIN code has been successfully changed!")); // 2. Raise Event
+                PinNotify?.Invoke(this, new AccoutEventArgs2(" PIN code has been successfully changed!")); // вызов события
             }
         }
         public class CreditCard // издатель события
@@ -246,12 +258,12 @@ namespace Ex._3
             }
             public void Take(float sum)
             {                                   // новое событие вызов
-                MoneyAction?.Invoke(this, new AccoutEventArgs(" Попытка снятия со счета суммы в размере ", sum, account.Balance));
+                MoneyAction?.Invoke(this, new AccoutEventArgs(" Attempt to withdraw from the account an amount of ", sum, account!.Balance));
                 account?.Take(sum);
             }
             public void Put(float sum)
             {
-                MoneyAction?.Invoke(this, new AccoutEventArgs(" Попытка положить на счет суммы в размере ", sum, account.Balance));
+                MoneyAction?.Invoke(this, new AccoutEventArgs(" Attempt to deposit an amount of ", sum, account!.Balance));
                 account?.Put(sum);
             }
             public void ChangePin()
