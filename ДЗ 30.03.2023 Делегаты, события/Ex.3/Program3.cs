@@ -16,43 +16,41 @@ namespace Ex._3
             Thread.Sleep(1000);
             Console.Clear();
             //CreditCard card = new(2221115551458796, "Julia Roberts", "21.02.2028", new Account(100, 500, 1414));
-            //user1.account.Notify += DisplayMessage; // ответ банка Добавляем обработчик для события Notify          
-            //user1.AccountAction += DisplayUserMessage; // действие пользователя Добавляем обработчик для события Notify
-            card.account!.MoneyNotify += (object? sender, AccoutEventArgs e) =>
+
+            card.account!.MoneyNotify += (object? sender, AccoutEventArgs e) => // ответ банка (обработчик для события)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(" Bank message:\n " + e.Message + e.Sum + " UAH" +
                     ".\n Current balance: " + e.Balance + " UAH");
                 Console.ResetColor();
             };           
-            card.MoneyAction += delegate (object? sender, AccoutEventArgs e)
+            card.MoneyAction += delegate (object? sender, AccoutEventArgs e) // действие пользователя
             {
                 if (sender is CreditCard card)
                 {
                     Console.WriteLine(e.Message + e.Sum + " UAH" + " by the client: " + card.holderName);
                 }
             };
-            card.account.PinNotify += (object? sender, AccoutEventArgs2 e) =>
+            card.account.PinNotify += (object? sender, AccoutEventArgs2 e) => // сообщение банка
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(" Bank message:\n " + e.Message);
                 Console.ResetColor();
             };
-            card.PinAction += delegate (object? sender, AccoutEventArgs2 e)
+            card.PinAction += delegate (object? sender, AccoutEventArgs2 e) // действие пользователя
             {
                 if (sender is CreditCard card)
                 {
                     Console.WriteLine(e.Message + " by the client: " + card.holderName);
                 }
             };
-            card.account.AchievementNotify += (object? sender, AccoutEventArgs2 e) =>
+            card.account.AchievementNotify += (object? sender, AccoutEventArgs2 e) => // сообщение от банка о достижении
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(" Bank message:\n " + e.Message + " UAH");
                 Console.ResetColor();
             };
-            
-            
+
             ConsoleKey key;
 
             while (true)
@@ -99,7 +97,7 @@ namespace Ex._3
                         break;
 
                     case ConsoleKey.Escape:
-                        Console.WriteLine(" Bye! Bye!");
+                        Console.Clear();
                         return;
 
                     default:
@@ -111,7 +109,6 @@ namespace Ex._3
             }
         }
 
-        
         public class AccoutEventArgs : EventArgs // данные события
         {
             public AccoutEventArgs(string? message, float sum, float balance)
@@ -225,7 +222,7 @@ namespace Ex._3
             public void ChangePin()
             {
                 pinCode = CheckPin("new");
-                PinNotify?.Invoke(this, new AccoutEventArgs2(" PIN code has been successfully changed!")); // вызов события
+                PinNotify?.Invoke(this, new AccoutEventArgs2("PIN code has been successfully changed!")); // вызов события
             }
         }
         public class CreditCard // издатель события
@@ -237,14 +234,14 @@ namespace Ex._3
             public string? expDate { get; set; }           
            
             public Account? account { get; set; }
-            public CreditCard(long cn, string? holderName, string? ed, Account account)
+            public CreditCard(long cn, string? holderName, string? ed, Account account) // конструктор с параметрами
             {
                 this.cardNumber = cn;
                 this.holderName = holderName;
                 this.expDate = ed;
                 this.account = account;
             }
-            public CreditCard()
+            public CreditCard() // конструктор без параметров с проверками вводимых данных
             {
                 this.cardNumber = CheckNumber();
                 Console.Write("\n Enter сardholder name: ");
@@ -264,7 +261,7 @@ namespace Ex._3
             }
             public void ChangePin()
             {
-                PinAction?.Invoke(this, new AccoutEventArgs2(" Попытка смены пин-кода "));
+                PinAction?.Invoke(this, new AccoutEventArgs2(" Attempt to change PIN code"));
                 account?.ChangePin();
             }
             public void Info()
@@ -322,10 +319,11 @@ namespace Ex._3
                     break;
                 }
                 catch (FormatException ex) { Console.WriteLine(" Incorrect amount!", ex); }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
             }
             return sum;
         }
-        static string CheckDate()                    // проверка даты 
+        static string CheckDate()                    // проверка даты (не добавлено проверку даты на корректность срока, он не может быть меньше текущей даты)
         {
             DateTime date;
             string str;
@@ -337,7 +335,7 @@ namespace Ex._3
                     date = DateTime.Parse(Console.ReadLine()!);                  
                     break;
                 }
-                catch (FormatException ex) { Console.WriteLine(" Incorrect amount!", ex); }
+                catch (FormatException ex) { Console.WriteLine(" Incorrect date!", ex); }
             }
 
             string[] subs = date.ToString().Split(" ");
