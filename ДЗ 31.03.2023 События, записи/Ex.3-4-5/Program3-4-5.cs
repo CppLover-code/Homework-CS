@@ -1,4 +1,6 @@
-﻿namespace Ex._3_4_5
+﻿using System.Numerics;
+
+namespace Ex._3_4_5
 {
     internal class Program
     {
@@ -21,22 +23,15 @@
         };
         static Unique negNumber = x =>
         {
-            bool flag;
-
             for (int i = 0; i < x.Length; i++)
             {
-                flag = false;
-                if (x[i] < 0)
+
+                bool cont = x.Contains(0);
+                if (cont == false)
                 {
-                    for (int k = x.Length - 1; k > 2; k--)
-                    {
-                        if(x[i] == x[k]) flag = true; 
-                    }
-                    if (flag == false)
-                    {
-                        Console.Write(x[i] + " ");
-                    }
+                    Console.Write(x[i] + " ");
                 }
+
             }
         };
 
