@@ -25,13 +25,11 @@ namespace Ex._3_4_5
         {
             for (int i = 0; i < x.Length; i++)
             {
-
                 bool cont = x.Contains(0);
                 if (cont == false)
                 {
                     Console.Write(x[i] + " ");
                 }
-
             }
         };
 
@@ -43,7 +41,6 @@ namespace Ex._3_4_5
             Console.WriteLine(" Количество положительных чисел: " + posNumber(x));
             Console.WriteLine(" Уникальные отрицательные числа: ");
             negNumber(x);
-
         }
     }
 }
