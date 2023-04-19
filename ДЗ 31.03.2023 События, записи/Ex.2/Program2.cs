@@ -11,7 +11,6 @@ namespace Ex._2
         {
             Backpack bp = new();
             Console.Clear();
-            bp.Show();
             
             bp.account.Notify += (object? sender, AccoutEventArgs e) =>
             {
@@ -26,15 +25,16 @@ namespace Ex._2
                     Console.WriteLine(e.Message + e.Name + " c объемом: " + e.Volume + " л.");
                 }
             };
-            Console.SetCursorPosition(0, 12);
-            while (bp.Put() == true)   // кладем предметы, пока свободный объем рюкзака больше 1, тк самый маленький
-                                       // по объему предмет равен 2 л
+
+            bool flag = true;
+            while (flag)   // кладем предметы, пока свободный объем рюкзака больше 1, тк самый маленький
+                           // по объему предмет равен 2 л, проверка происходит в методе Put класса Backpack
             {
-                Console.WriteLine(" Нажмите Enter, чтобы продолжить заполнять рюкзак!");
-                Console.ReadLine();
-                Console.Clear();
                 bp.Show();
                 Console.SetCursorPosition(0, 12);
+                flag = bp.Put();               
+                Console.ReadLine();
+                Console.Clear();               
             }
         }
 
@@ -86,29 +86,28 @@ namespace Ex._2
 
         public class Account
         {
-            public EventHandler<AccoutEventArgs>? Notify; // определение события
-            public double volume { get; set; }
-            public List<IItem>? contents { get; set; }
+            public EventHandler<AccoutEventArgs>? Notify;   // определение события
+            public double volume { get; set; }              // копия объема рюкзака, которая будет меняться
+            public List<IItem>? contents { get; set; }      // содержимое рюкзака
             public Account(double vol) 
             {
-                this.volume = vol;
-                this.contents = new List<IItem>(); 
+                this.volume = vol;                          // изначально копия объема равна реальному объему, но
+                this.contents = new List<IItem>();          // при добавлении предмета объем свободного места будет уменьшаться
             }
-            public void Put(IItem item)
+            public void Put(IItem item)                     // добавление предмета в рюкзак
             {
                 try
                 {
-
-                    volume -= item.Vol;
-                    if (volume < 0)
-                    {
+                    volume -= item.Vol;                    // если выбранный предмет оказался большим, чем свободный объем, 
+                    if (volume < 0)                        // но у нас есть в перечне предметы, которые мы можем поместить в рюкзак,
+                    {                                      // то предлагаем добавить другой предмет, который все же поместится
                         volume += item.Vol;
                         throw new Exception(" Внимание! Превышен объем рюкзака! Попробуйте добавить предмет с меньшим объемом.\n" +
                             $" Свободный объем - {volume} л.");
                     }
                     contents?.Add(item);
                     Notify?.Invoke(this, new AccoutEventArgs(" В рюкзак положено: ", item.Name, volume)); // вызов события
-
+                    Console.WriteLine(" Нажмите Enter, чтобы продолжить заполнять рюкзак!");
 
                 }
                 catch (Exception ex)
@@ -208,14 +207,37 @@ namespace Ex._2
             }
             public bool Put() // сделать проверку ввода choice
             {
-                int choice;
+                int choice = 0;
                 IItem? item = null;
                 if (account.volume > 1)
                 {
-                    Console.WriteLine(" Выберите предмет, который желаете положить в рюкзак:");
-                    Console.WriteLine(" 1 - книга объемом 6 л\n 2 - пенал объемом 2 л\n" +
-                        " 3 - ланчбокс объемом 4 л\n 4 - тетрадь объемом 3 л\n");
-                    choice = int.Parse(Console.ReadLine()!);
+                    while (true)
+                    {
+                        Console.WriteLine(" Выберите предмет, который желаете положить в рюкзак:");
+                        Console.WriteLine(" 1 - книга объемом 6 л\n 2 - пенал объемом 2 л\n" +
+                            " 3 - ланчбокс объемом 4 л\n 4 - тетрадь объемом 3 л\n");
+                        try
+                        {
+                            choice = int.Parse(Console.ReadLine()!);
+                            if (choice < 1 || choice > 4)
+                            {
+                                throw new Exception(" Некорректный выбор!");
+                            }
+                            break;
+                        }
+                        catch (FormatException)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(" Некорректный выбор!");
+                            Console.ResetColor();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(ex.Message);
+                            Console.ResetColor();
+                        }                        
+                    }
                     switch (choice)
                     {
                         case 1:
