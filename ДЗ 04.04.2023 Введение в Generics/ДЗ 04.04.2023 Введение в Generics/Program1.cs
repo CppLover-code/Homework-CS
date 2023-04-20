@@ -98,7 +98,7 @@ namespace ДЗ_04._04._2023_Введение_в_Generics
             get { return manage; }
             set { manage = value; }
         }
-        public Management() 
+        public Management() // конструктор без параметров, ввод с клавиатуры
         { 
             var emp = new Employee();
             Console.WriteLine(" Введите логин:");
@@ -111,14 +111,14 @@ namespace ДЗ_04._04._2023_Введение_в_Generics
                 [(emp, log)] = pas
             };
         }
-        public Management(Employee emp, string log, string pas)
+        public Management(Employee emp, string log, string pas) // конструктор с параметрами
         {
             manage = new Dictionary<(Employee, string), string>()
             {
                 [(emp, log)] = pas
             };
         }
-        public void Output()
+        public void Output() // форматированный вывод на экран всех сотрудников с данными
         {
             Console.WriteLine("-База данных сотрудников-\n");
             int count = 1;
@@ -131,7 +131,7 @@ namespace ДЗ_04._04._2023_Введение_в_Generics
                 count++;
             }     
         }
-        public void Add()
+        public void Add() // добавление с вводом
         {
             Console.WriteLine("-Добавление логина и пароля и сотрудника-\n");
             var emp = new Employee();
@@ -142,7 +142,7 @@ namespace ДЗ_04._04._2023_Введение_в_Generics
             Console.WriteLine("Данные успешно добавлены!");
             Console.ResetColor();
         }
-        public void Add(Employee emp, string log, string pas)
+        public void Add(Employee emp, string log, string pas) // добавление без ввода (параметры)
         {
             manage.Add((emp, log), pas);
         }
@@ -155,16 +155,16 @@ namespace ДЗ_04._04._2023_Введение_в_Generics
             bool flag = false;
             foreach ((Employee,string) c in manage.Keys)
             {
-                if(c.Item1.Name == del) flag = true;
+                if(c.Item1.Name == del) flag = true;  // проверка есть ли данный сотрудник в базе
             }
 
-            if (flag)
+            if (flag)   // если совпадение найдено
             {
                 foreach (var j in manage)
                 {
                     if (j.Key.Item1.Name == del)
                     {
-                        manage.Remove(j.Key);
+                        manage.Remove(j.Key); // удаляем ключ
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Сотрудник успешно удалён из базы!"); 
                         Console.ResetColor();
@@ -196,9 +196,9 @@ namespace ДЗ_04._04._2023_Введение_в_Generics
                         string log = CheckLog();
                         string pas = CheckPas();
 
-                        var old = j.Key.Item1;
-                        manage.Remove(j.Key);
-                        manage.Add((old,log),pas);
+                        var old = j.Key.Item1;      // сохраняем сотрудника(фио)
+                        manage.Remove(j.Key);       // удаляем из коллекции текущий элемент
+                        manage.Add((old,log),pas);  // добавляем новый элемент с новым логином и паролем, но со старой ФИО
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Данные успешно изменены!");
                         Console.ResetColor();
