@@ -6,10 +6,10 @@
         {
             Console.WriteLine(" Менеджмент сотрудников и паролей");
 
-            var manage = new Dictionary<(string, string), string>()
+            var manage = new Dictionary<(Employee, string), string>()
             {
-                [("Иванов Иван", "vanya")] = "In3R5_qw",
-                [("Петров Петр", "petro")] = "ie7TREnt",
+                [(new Employee("Иванов Иван"), "vanya")] = "In3R5_qw",
+                [(new Employee("Петров Петр"), "petro")] = "ie7TREnt",
             };
 
             Console.WriteLine("База данных содержит: ");
@@ -25,6 +25,17 @@
         }
         
     }
-
-    
+    public class Employee
+    {
+        public string? Name { get; set; }
+        public Employee ()
+        {
+            Console.WriteLine(" Введите фамилию и имя сотрудника ");
+            Name = Console.ReadLine();
+        }
+        public Employee(string name)
+        {
+            this.Name = name;
+        }
+    }  
 }
