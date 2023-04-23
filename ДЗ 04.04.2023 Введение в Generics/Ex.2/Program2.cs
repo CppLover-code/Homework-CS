@@ -1,11 +1,13 @@
-﻿namespace Ex._2
+﻿using System.Collections.Generic;
+
+namespace Ex._2
 {
     internal class Program2
     {
         static void Main(string[] args)
         {
-            Vocabulary Vocabulary = new Vocabulary();
-            Vocabulary.Add("яблоко", new List<string>() {"apple"});
+            Vocabulary Vocabulary = new Vocabulary("волосы", new List<string>() { "hair" });
+            Vocabulary.Add("яблоко", new List<string>() { "apple" });
             Vocabulary.Add("голова", new List<string>() { "head", "brain", "pate" });
             while (true)
             {
@@ -43,13 +45,13 @@
                         break;
 
                     case 2:
-                        //Vocabulary.Add();
+                        Vocabulary.Add();
                         Console.ReadLine();
                         Console.Clear();
                         break;
 
                     case 3:
-                        //Vocabulary.Delete();
+                        Vocabulary.Delete();
                         Console.ReadLine();
                         Console.Clear();
                         break;
@@ -73,39 +75,14 @@
 
         public class Vocabulary
         {
-            private Dictionary<string, List<string>> vocabulary;
-            public Dictionary<string, List<string>> voc
-            {
-                get { return vocabulary; }
-                set { vocabulary = value; }
-            }
-            public Vocabulary() // конструктор без параметров, ввод с клавиатуры
-            {
-                Console.WriteLine(" Введите слово на русском:");
-                string key = Console.ReadLine()!;
-                Console.WriteLine(" Введите перевод на английском:");
-                var list = new List<string>();
-                list.Add(Console.ReadLine()!);
-
-                vocabulary = new Dictionary<string, List<string>>()
-                {
-                    [key] = list
-                };
-            }
+            private Dictionary<string, List<string>> vocabulary = new();
+            public Vocabulary() { } // конструктор по умолчанию
             public Vocabulary(string key, List<string> list) // конструктор с параметрами
             {
-                vocabulary = new Dictionary<string, List<string>>()
-                {
-                    [key] = list
-                };
+                this.vocabulary.Add(key, list);
             }
 
-            public void PrintVal(List<string> list)
-            {
-                foreach (var word in list)
-                    Console.Write(word + " ");
-            }
-            public void Output() // форматированный вывод на экран всех сотрудников с данными
+            public void Output() // форматированный вывод на экран словаря
             {
                 Console.WriteLine("-Словарь-\n");
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -113,55 +90,60 @@
                 Console.ResetColor();
                 foreach (var j in vocabulary)
                 {
-                    Console.Write("{0}\t\t- ", j.Key); 
-                    PrintVal(j.Value);
+                    Console.Write("{0}\t\t- ", j.Key);
+                    //PrintVal(j.Value);
+                    foreach (var word in j.Value)
+                        Console.Write(word + " ");
                     Console.WriteLine();
                 }
             }
-            //public void Add() // добавление с вводом
-            //{
-            //    Console.WriteLine("-Добавление логина и пароля и сотрудника-\n");
-            //    var emp = new Employee();
-            //    string log = CheckLog();
-            //    string pas = CheckPas();
-            //    manage.Add((emp, log), pas);
-            //    Console.ForegroundColor = ConsoleColor.Green;
-            //    Console.WriteLine("Данные успешно добавлены!");
-            //    Console.ResetColor();
-            //}
+            public void Add() // добавление с вводом
+            {
+                Console.WriteLine("-Добавление слова и перевода-\n");
+                Console.WriteLine(" Введите слово на русском:");
+                string key = Console.ReadLine()!;
+                Console.WriteLine(" Введите перевод на английском:");
+                var list = new List<string>();
+                list.Add(Console.ReadLine()!);
+
+                this.vocabulary.Add(key, list);
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Данные успешно добавлены!");
+                Console.ResetColor();
+            }
             public void Add(string key, List<string> list) // добавление без ввода (параметры)
             {
                 vocabulary.Add(key, list);
             }
-            //public void Delete()
-            //{
-            //    Output();
-            //    Console.WriteLine("-Удаление сотрудника-\n");
-            //    Console.WriteLine(" Введите фамилию и имя сотрудника:");
-            //    string del = Console.ReadLine()!;
-            //    bool flag = false;
-            //    foreach ((Employee, string) c in manage.Keys)
-            //    {
-            //        if (c.Item1.Name == del) flag = true;  // проверка есть ли данный сотрудник в базе
-            //    }
+            public void Delete()
+            {
+                Output();
+                Console.WriteLine("-Удаление слова-\n");
+                Console.WriteLine(" Введите слово на русском:");
+                string del = Console.ReadLine()!;
+                bool flag = false;
+                foreach (var word in vocabulary.Keys)
+                {
+                    if (word == del) flag = true;  // найдено ли слово
+                }
 
-            //    if (flag)   // если совпадение найдено
-            //    {
-            //        foreach (var j in manage)
-            //        {
-            //            if (j.Key.Item1.Name == del)
-            //            {
-            //                manage.Remove(j.Key); // удаляем ключ
-            //                Console.ForegroundColor = ConsoleColor.Green;
-            //                Console.WriteLine("Сотрудник успешно удалён из базы!");
-            //                Console.ResetColor();
-            //                break;
-            //            }
-            //        }
-            //    }
-            //    else { Console.WriteLine($" Сотрудника {del} нет в базе!"); }
-
-            //}
+                if (flag)   // если совпадение найдено
+                {
+                    foreach (var j in vocabulary)
+                    {
+                        if (j.Key == del)
+                        {
+                            vocabulary.Remove(j.Key); // удаляем слово
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Сотрудник успешно удалён из базы!");
+                            Console.ResetColor();
+                            break;
+                        }
+                    }
+                }
+                else { Console.WriteLine($" Слова {del} нет в словаре!"); }
+            }
             //public void Change()
             //{
             //    Output();
@@ -264,6 +246,7 @@
             //    }
             //    return pas;
             //}
+
         }
 
     }
