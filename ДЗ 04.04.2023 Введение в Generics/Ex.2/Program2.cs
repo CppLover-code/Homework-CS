@@ -51,17 +51,27 @@ namespace Ex._2
                         break;
 
                     case 3:
-                        Vocabulary.Delete();
+                        Vocabulary.DeleteWord();
                         Console.ReadLine();
                         Console.Clear();
                         break;
 
                     case 4:
-                        //Vocabulary.Change();
+                        Vocabulary.DeleteTranslation();
                         Console.ReadLine();
                         Console.Clear();
                         break;
                     case 5:
+                        //Vocabulary.PasInfo();
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 6:
+                        //Vocabulary.PasInfo();
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 7:
                         //Vocabulary.PasInfo();
                         Console.ReadLine();
                         Console.Clear();
@@ -86,14 +96,14 @@ namespace Ex._2
             {
                 Console.WriteLine("-Словарь-\n");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("Слово\t\t\tПеревод\t\t");
+                Console.WriteLine(" Слово\t\t\tПеревод\t\t");
                 Console.ResetColor();
                 foreach (var j in vocabulary)
                 {
-                    Console.Write("{0}\t\t- ", j.Key);
-                    //PrintVal(j.Value);
+                    Console.Write($" {j.Key, -20}");
+                    Console.Write($"{ "-",-3}");
                     foreach (var word in j.Value)
-                        Console.Write(word + " ");
+                        Console.Write($"{word}{(j.Value.IndexOf(word) == j.Value.Count - 1 ? "" : ", ")}");
                     Console.WriteLine();
                 }
             }
@@ -105,28 +115,54 @@ namespace Ex._2
                 Console.WriteLine(" Введите перевод на английском:");
                 var list = new List<string>();
                 list.Add(Console.ReadLine()!);
+                int choice = 0;
 
-                this.vocabulary.Add(key, list);
+                while(true) // пока пользователь желает добавлять переводы к слову
+                {
+                    Console.WriteLine($" Желаете добавить еще перевод слова \"{key}\":\n 1 - да\n 2 - нет");
+
+                    while (true)
+                    {
+                        Console.Write(" Сделайте выбор: ");
+                        try
+                        {
+                            choice = int.Parse(Console.ReadLine()!);
+
+                            if (choice < 1 || choice > 2)
+                                throw new Exception(" Некорректный ввод!\n");
+                            break;
+                        }
+                        catch (FormatException) { Console.WriteLine(" Некорректный ввод!\n"); }
+                        catch (Exception ex) { Console.WriteLine(ex.Message); }
+                    }
+
+                    if (choice == 1) // если пользователь желает добавить еще перевод
+                    {
+                        Console.WriteLine(" Введите перевод на английском:");
+                        list.Add(Console.ReadLine()!);
+                    }
+                    else break; // прерывает внешний цикл while
+                }                
+
+                this.vocabulary.Add(key, list); // добавляем в словарь слово и его переводы
 
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Данные успешно добавлены!");
+                Console.WriteLine(" Слово и перевод успешно добавлены!");
                 Console.ResetColor();
             }
             public void Add(string key, List<string> list) // добавление без ввода (параметры)
             {
                 vocabulary.Add(key, list);
             }
-            public void Delete()
+            public void DeleteWord() // удаление ключа (слово на русском)
             {
                 Output();
                 Console.WriteLine("-Удаление слова-\n");
                 Console.WriteLine(" Введите слово на русском:");
                 string del = Console.ReadLine()!;
                 bool flag = false;
-                foreach (var word in vocabulary.Keys)
-                {
+                foreach (var word in vocabulary.Keys) // перебираем все ключи словаря
                     if (word == del) flag = true;  // найдено ли слово
-                }
 
                 if (flag)   // если совпадение найдено
                 {
@@ -136,14 +172,61 @@ namespace Ex._2
                         {
                             vocabulary.Remove(j.Key); // удаляем слово
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Сотрудник успешно удалён из базы!");
+                            Console.WriteLine("Слово успешно удалёно из словаря!");
                             Console.ResetColor();
                             break;
                         }
                     }
                 }
-                else { Console.WriteLine($" Слова {del} нет в словаре!"); }
+                else { Console.WriteLine($" Слова \"{del}\" нет в словаре!"); }
             }
+            public void DeleteTranslation() // удаление перевода слова
+            {
+                Output();
+                Console.WriteLine("-Удаление перевода-\n");
+                Console.WriteLine(" Введите слово на русском:");
+                string word = Console.ReadLine()!;
+                bool flag = false;
+
+                foreach (var w in vocabulary.Keys) // перебираем все ключи словаря
+                    if (w == word) flag = true;  // найдено ли слово
+
+                if (flag)   // если совпадение найдено
+                {
+                    foreach (var j in vocabulary)
+                    {
+                        if (j.Key == word)
+                        {
+                            Console.WriteLine($" Варианты перевода слова \"{j.Key}\":");
+                            for (int i = 0; i < j.Value.Count; i++)  // показ всех переводов List
+                                Console.WriteLine($"{i + 1}. {j.Value[i]}");
+
+                            while(true)
+                            {
+                                Console.Write(" Введите номер перевода:");
+                                try
+                                {
+                                    int ind = int.Parse(Console.ReadLine()!);
+                                    if(ind < 1 || ind > j.Value.Count)  // если номер перевода меньше 1 или больше кол-ва элементов в List
+                                        throw new Exception("Некорректный ввод номера!");
+
+                                    j.Value.RemoveAt(ind - 1); // удаление элемента из List
+
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine(" Перевод успешно удалён!");
+                                    Console.ResetColor();
+                                    break; // прерывает while
+                                }
+                                catch (FormatException) { Console.WriteLine(" Некорректный ввод номера!"); }
+                                catch(Exception ex) { Console.WriteLine(ex.Message); }                                
+                            }
+                            break;  // прерывает foreach
+                        }
+                    }
+                }
+                else { Console.WriteLine($" Слова \"{word}\" нет в словаре!"); }
+            }
+
             //public void Change()
             //{
             //    Output();
