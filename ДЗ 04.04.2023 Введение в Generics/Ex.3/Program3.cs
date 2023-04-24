@@ -91,11 +91,6 @@
                 for (int i = 0; i < count; i++)
                      persons.Enqueue(new Person());
             }
-            public void Remove(int count) // удаление гостей из очереди без брони
-            {
-                for (int i = 0; i < count; i++)
-                    persons.Dequeue();
-            }
             public void RemovePerson(int value)
             {
                 var temp = persons.ToList();
@@ -107,11 +102,9 @@
                             Console.WriteLine($" {guest.Name} проходит по брони!");
                             temp.Remove(guest);
                             value--;
-                            //persons.Clear();
                             persons = new Queue<Person>(temp);
                         }
                     }
-                Console.WriteLine($" Value {value}");
                 
                 while(value > 0 && persons.Count > 0)
                 {
