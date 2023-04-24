@@ -1,14 +1,27 @@
 ﻿using System.Collections.Generic;
 
+// ДОРАБОТАТЬ!
+// сделать проверки на вводимые слова (цифры, язык, регистр) проверка на
+// пустоту строки. Слово или перевод не может быть пустым!
+
+// вынести лишнее из методов, убрать повторы.
+// продумать использование linq запросов
+// сортировка словаря по алфавиту!!!!!!!!
+// сериализация
+// сделать более приличный интерфейс, красивый вывод
+// Добавить условие - Нельзя удалить перевод слова, если это последний вариант перевода.
+
 namespace Ex._2
 {
     internal class Program2
     {
         static void Main(string[] args)
         {
-            Vocabulary Vocabulary = new Vocabulary("волосы", new List<string>() { "hair" });
+            Vocabulary Vocabulary = new Vocabulary("собака", new List<string>() { "dog", "pooch", "hound" });
             Vocabulary.Add("яблоко", new List<string>() { "apple" });
             Vocabulary.Add("голова", new List<string>() { "head", "brain", "pate" });
+            Vocabulary.Add("ходить", new List<string>() { "walk", "go" });
+
             while (true)
             {
                 Console.SetCursorPosition(0, 0);
@@ -16,7 +29,7 @@ namespace Ex._2
                 Console.WriteLine(" Меню операций");
                 Console.WriteLine(" 1 - Показать словарь\n 2 - Добавление слова и перевода\n" +
                     " 3 - Удалить слово\n 4 - Удалить вариант перевода\n 5 - Изменить слово\n" +
-                    " 6 - Изменить вариант перевода\n 7 - Поиск варианта перевода\n 0 - Выход\n");
+                    " 6 - Изменить вариант перевода\n 7 - Поиск перевода слова\n 0 - Выход\n");
 
                 Console.Write(" Сделайте выбор: ");
                 int choice = -1;
@@ -62,17 +75,17 @@ namespace Ex._2
                         Console.Clear();
                         break;
                     case 5:
-                        //Vocabulary.PasInfo();
+                        Vocabulary.ChangeWord();
                         Console.ReadLine();
                         Console.Clear();
                         break;
                     case 6:
-                        //Vocabulary.PasInfo();
+                        Vocabulary.ChangeTranslation();
                         Console.ReadLine();
                         Console.Clear();
                         break;
                     case 7:
-                        //Vocabulary.PasInfo();
+                        Vocabulary.FindTranslation();
                         Console.ReadLine();
                         Console.Clear();
                         break;
@@ -86,13 +99,12 @@ namespace Ex._2
         public class Vocabulary
         {
             private Dictionary<string, List<string>> vocabulary = new();
-            public Vocabulary() { } // конструктор по умолчанию
+            public Vocabulary() { }  // конструктор по умолчанию
             public Vocabulary(string key, List<string> list) // конструктор с параметрами
             {
                 this.vocabulary.Add(key, list);
             }
-
-            public void Output() // форматированный вывод на экран словаря
+            public void Output()    // форматированный вывод на экран словаря
             {
                 Console.WriteLine("-Словарь-\n");
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -107,7 +119,7 @@ namespace Ex._2
                     Console.WriteLine();
                 }
             }
-            public void Add() // добавление с вводом
+            public void Add()       // добавление с вводом
             {
                 Console.WriteLine("-Добавление слова и перевода-\n");
                 Console.WriteLine(" Введите слово на русском:");
@@ -154,7 +166,7 @@ namespace Ex._2
             {
                 vocabulary.Add(key, list);
             }
-            public void DeleteWord() // удаление ключа (слово на русском)
+            public void DeleteWord()        // удаление ключа (слово на русском)
             {
                 Output();
                 Console.WriteLine("-Удаление слова-\n");
@@ -226,111 +238,115 @@ namespace Ex._2
                 }
                 else { Console.WriteLine($" Слова \"{word}\" нет в словаре!"); }
             }
+            public void ChangeWord()        // изменение слова
+            {
+                Output();
+                Console.WriteLine("-Изменение слова на русском-\n");
+                Console.WriteLine(" Введите искомое слово:");
+                string ch = Console.ReadLine()!;
+                bool flag = false;
+                foreach (var w in vocabulary.Keys)
+                {
+                    if (w == ch) flag = true;
+                }
 
-            //public void Change()
-            //{
-            //    Output();
-            //    Console.WriteLine("-Изменение логина и пароля сотрудника-\n");
-            //    Console.WriteLine(" Введите фамилию и имя сотрудника:");
-            //    string ch = Console.ReadLine()!;
-            //    bool flag = false;
-            //    foreach ((Employee, string) c in manage.Keys)
-            //    {
-            //        if (c.Item1.Name == ch) flag = true;
-            //    }
+                if (flag)
+                {
+                    foreach (var j in vocabulary)
+                    {
+                        if (j.Key == ch)
+                        {
+                            Console.WriteLine(" Введите новое слово на русском:");
+                            string newKey = Console.ReadLine()!;
 
-            //    if (flag)
-            //    {
-            //        foreach (var j in manage)
-            //        {
-            //            if (j.Key.Item1.Name == ch)
-            //            {
-            //                string log = CheckLog();
-            //                string pas = CheckPas();
+                            var oldList = j.Value;           // сохраняем переводы
+                            vocabulary.Remove(j.Key);        // удаляем из коллекции текущий элемент
+                            vocabulary.Add(newKey, oldList); // добавляем новый элемент с новым словом, но со старыми переводами
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(" Слово успешно изменено!");
+                            Console.ResetColor();
+                            break;
+                        }
+                    }
+                }
+                else { Console.WriteLine($" Слова \"{ch}\" нет в словаре!"); }
+            }
+            public void ChangeTranslation() // изменение перевода
+            {
+                Output();
+                Console.WriteLine("-Изменение перевода слова-\n");
+                Console.WriteLine(" Введите искомое слово на русском:");
+                string word = Console.ReadLine()!;
+                bool flag = false;
+                foreach (var w in vocabulary.Keys)
+                {
+                    if (w == word) flag = true;
+                }
 
-            //                var old = j.Key.Item1;      // сохраняем сотрудника(фио)
-            //                manage.Remove(j.Key);       // удаляем из коллекции текущий элемент
-            //                manage.Add((old, log), pas);  // добавляем новый элемент с новым логином и паролем, но со старой ФИО
-            //                Console.ForegroundColor = ConsoleColor.Green;
-            //                Console.WriteLine("Данные успешно изменены!");
-            //                Console.ResetColor();
-            //                break;
-            //            }
-            //        }
-            //    }
-            //    else { Console.WriteLine($" Сотрудника {ch} нет в базе!"); }
-            //}
-            //public void PasInfo()
-            //{
-            //    Output();
-            //    Console.WriteLine("-Получение информации о пароле сотрудника-\n");
-            //    Console.WriteLine(" Введите фамилию и имя сотрудника:");
-            //    string ch = Console.ReadLine()!;
-            //    bool flag = false;
-            //    foreach ((Employee, string) c in manage.Keys)
-            //    {
-            //        if (c.Item1.Name == ch) flag = true;
-            //    }
+                if (flag)
+                {
+                    foreach (var j in vocabulary)
+                    {
+                        if (j.Key == word)
+                        {
+                            Console.WriteLine($" Варианты перевода слова \"{j.Key}\":");
+                            for (int i = 0; i < j.Value.Count; i++)  // показ всех переводов List
+                                Console.WriteLine($"{i + 1}. {j.Value[i]}");
 
-            //    if (flag)
-            //    {
-            //        foreach (var j in manage)
-            //        {
-            //            if (j.Key.Item1.Name == ch)
-            //            {
-            //                Console.WriteLine($" Пароль: {j.Value}");
-            //                break;
-            //            }
-            //        }
-            //    }
-            //    else { Console.WriteLine($" Сотрудника {ch} нет в базе!"); }
-            //}
-            //static string CheckLog()
-            //{
-            //    string log;
-            //    while (true)
-            //    {
-            //        Console.WriteLine(" Введите логин (не менее 7, не более 10 символов):");
-            //        try
-            //        {
-            //            log = Console.ReadLine()!;
-            //            if (log.Length < 7 || log.Length > 10)
-            //            {
-            //                throw new Exception(" Неверное кол-во символов!");
-            //            }
-            //            break;
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine(ex.Message);
-            //        }
-            //    }
-            //    return log;
-            //}
-            //static string CheckPas()
-            //{
-            //    string pas;
-            //    while (true)
-            //    {
-            //        Console.WriteLine(" Введите пароль (не менее 8 символов, не более 12):");
-            //        try
-            //        {
-            //            pas = Console.ReadLine()!;
-            //            if (pas.Length < 8 || pas.Length > 12)
-            //            {
-            //                throw new Exception(" Неверное кол-во символов!");
-            //            }
-            //            break;
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine(ex.Message);
-            //        }
-            //    }
-            //    return pas;
-            //}
+                            while (true)
+                            {
+                                Console.Write(" Введите номер перевода для изменения:");
+                                try
+                                {
+                                    int ind = int.Parse(Console.ReadLine()!);
+                                    if (ind < 1 || ind > j.Value.Count)  // если номер перевода меньше 1 или больше кол-ва элементов в List
+                                        throw new Exception("Некорректный ввод номера!");
 
+                                    Console.WriteLine(" Введите новый перевод:");
+                                    string newTranslation = Console.ReadLine()!;
+                                    j.Value[ind - 1] = newTranslation;
+
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine(" Новый перевод успешно сохранён!");
+                                    Console.ResetColor();
+                                    break; // прерывает while
+                                }
+                                catch (FormatException) { Console.WriteLine(" Некорректный ввод номера!"); }
+                                catch (Exception ex) { Console.WriteLine(ex.Message); }
+                            }
+                            break;  // прерывает foreach
+                        }
+                    }
+                }
+                else { Console.WriteLine($" Слова \"{word}\" нет в словаре!"); }
+            }
+            public void FindTranslation()   // поиск перевода слова
+            {
+                Console.WriteLine("-Поиск перевода слова-\n");
+                Console.WriteLine(" Введите искомое слово на русском:");
+                string word = Console.ReadLine()!;
+                bool flag = false;
+                foreach (var w in vocabulary.Keys)
+                {
+                    if (w == word) flag = true;
+                }
+
+                if (flag)
+                {
+                    foreach (var j in vocabulary)
+                    {
+                        if (j.Key == word)
+                        {
+                            Console.WriteLine($" Варианты перевода слова \"{j.Key}\":");
+                            for (int i = 0; i < j.Value.Count; i++)  // показ всех переводов List
+                                Console.WriteLine($"{i + 1}. {j.Value[i]}");
+
+                            break;  // прерывает foreach
+                        }
+                    }
+                }
+                else { Console.WriteLine($" Слова \"{word}\" нет в словаре!"); }
+            }
         }
-
     }
 }
