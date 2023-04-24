@@ -1,4 +1,6 @@
-﻿namespace Ex._3
+﻿using System.Drawing;
+
+namespace Ex._3
 {
     internal class Program3
     {
@@ -25,6 +27,9 @@
             while(cafe.QueLine?.persons.Count != 0)
             {
                 openCafe.Open(cafe);
+
+                Console.WriteLine(" Пожалуйста, подождите . . .");
+                Thread.Sleep(1500);
             }           
         }
    
@@ -47,22 +52,11 @@
             {
                 Random rnd = new Random();
                 int value = rnd.Next(1, 4);
+                Console.WriteLine();
                 Console.WriteLine($"\n Свободных столиков - {value}");
                 return value;
             }
-
-
-        }
-        class OpenCafe
-        {
-            public void Open(Cafe cafe)
-            {
-                int free = cafe.FreeTable();
-                cafe.QueLine?.ShowLine();
-                cafe.QueLine?.RemovePerson(free);
-            }
-        }
-        
+        }       
         class Line
         {
             public Queue<Person> persons = new();
@@ -137,6 +131,15 @@
                 if (value == 5) return true;
                 else return false;
             }          
+        }
+        class OpenCafe
+        {
+            public void Open(Cafe cafe)
+            {
+                int free = cafe.FreeTable();
+                cafe.QueLine?.ShowLine();
+                cafe.QueLine?.RemovePerson(free);
+            }
         }
     }
 }
