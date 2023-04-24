@@ -16,12 +16,15 @@
         {
             public string? Title { get; set; } // название кафе
             public int Table { get; set; }     // кол-во столиков
+            Line? QueLine { get; set; }        // очередь
             int IFree.Free()                   // кол-во свободных столиков
             {
                 Random rnd = new Random();
                 int value = rnd.Next(0, 5);
                 return value;
             }
+
+
         }
         class Line
         {
@@ -29,7 +32,12 @@
             public Line() { }       // конструктор по умолчанию
             public Line(string p)   // конструктор с параметрами
             {
-                this.persons.Enqueue(new Person() { Name = "Tom" });
+                this.persons.Enqueue(new Person() { Name = p });
+            }
+            public Line(List <Person> people)   // конструктор c полным списком гостей
+            {
+                for (int i = 0; i < people.Count(); i++)
+                    this.persons.Enqueue(people[i]);
             }
             public void ShowLine()  // показ очереди
             {
