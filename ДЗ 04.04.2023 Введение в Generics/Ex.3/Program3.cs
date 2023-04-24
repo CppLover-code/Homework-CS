@@ -93,7 +93,9 @@ namespace Ex._3
                     {
                         if(guest.Reserved())
                         {
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine($" {guest.Name} проходит по брони!");
+                            Console.ResetColor();
                             temp.Remove(guest);
                             value--;
                             persons = new Queue<Person>(temp);
