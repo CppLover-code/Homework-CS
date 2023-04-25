@@ -25,10 +25,8 @@ namespace Ex._3
             var openCafe = new OpenCafe();
 
             while(cafe.QueLine?.persons.Count != 0)
-            {
-                openCafe.Open(cafe);
-
-                Console.WriteLine(" Пожалуйста, подождите . . .");
+            {                
+                openCafe.Open(cafe);                
                 Thread.Sleep(1500);
             }           
         }
@@ -52,8 +50,10 @@ namespace Ex._3
             {
                 Random rnd = new Random();
                 int value = rnd.Next(1, 4);
-                Console.WriteLine();
-                Console.WriteLine($"\n Свободных столиков - {value}");
+                Console.WriteLine("\n");
+                Console.WriteLine("* * * * * * * * * * * *");
+                Console.WriteLine($" Свободных столиков - {value}");
+                Console.WriteLine("* * * * * * * * * * * *");
                 return value;
             }
         }       
@@ -72,7 +72,7 @@ namespace Ex._3
             }
             public void ShowLine()  // показ очереди
             {
-                Console.WriteLine("Сейчас в очереди {0} человек", persons.Count);
+                Console.WriteLine("Сейчас в очереди {0} человек:", persons.Count);
                 int numb = 1;
                 foreach (Person p in persons)
                 {
@@ -85,28 +85,34 @@ namespace Ex._3
                 for (int i = 0; i < count; i++)
                      persons.Enqueue(new Person());
             }
-            public void RemovePerson(int value)
+            public void RemovePerson(int value) // удаление гостей из очереди
             {
-                var temp = persons.ToList();
+                var temp = persons.ToList();                    // очередь в список, чтоб удалять Person, независимо от месторасположения
 
-                    foreach (var guest in persons)
+                    // 1 - происходит удаление из очереди по приоритету
+                    foreach (var guest in persons)              // перебор очереди
                     {
-                        if(guest.Reserved())
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
+                    if (guest.Reserved() &&                 // если Person резервировал
+                            value > 0 &&                        // и свободные столы есть
+                            persons.Count > 0)                  // и очередь не пустая 
+                    {
+                            Console.ForegroundColor = ConsoleColor.Green;                           
                             Console.WriteLine($" {guest.Name} проходит по брони!");
                             Console.ResetColor();
-                            temp.Remove(guest);
-                            value--;
-                            persons = new Queue<Person>(temp);
+                            temp.Remove(guest);                 // удаляем Person          
+                            value--;                            // уменьшаем кол-во столов
+                            persons = new Queue<Person>(temp);  // по новой записываем в очередь измененный список
                         }
                     }
-                
-                while(value > 0 && persons.Count > 0)
+
+                // 2 -  происходит удаление первостоящего в очереди без брони
+                while(value > 0 && persons.Count > 0) // пока свободные столики есть и очередь не пустая
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($" {persons.Peek().Name} проходит из живой очереди!");
-                    persons.Dequeue();
-                    value--;
+                    Console.ResetColor();
+                    persons.Dequeue();  // удаляем первостоящего из очереди
+                    value--;            // уменьшаем кол-во столов
                 }
             }
         }
