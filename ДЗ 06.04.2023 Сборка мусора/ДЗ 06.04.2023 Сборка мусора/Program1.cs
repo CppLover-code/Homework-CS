@@ -13,6 +13,7 @@
             GC.Collect();
             Console.Read();
 
+            Console.WriteLine();
             // Использование Dispose
             Play[] plays = new Play[2];
             plays[0] = new Play("Король Лир", "Уильям Шекспир", "трагедия", 1606);
@@ -36,8 +37,7 @@
 
             foreach (var item in list)
                 item.ShowPlay();
-        }
-        
+        }   
     }
     class Play :IDisposable
     {
@@ -55,17 +55,21 @@
         }
         public void ShowPlay()
         {
-            Console.WriteLine(" Название:\t{0}\n Автор:\t\t{1}\n Жанр:\t\t{2}\n Год выпуска:\t{3}\n",
+            Console.WriteLine(" Название:\t\"{0}\"\n Автор:\t\t{1}\n Жанр:\t\t{2}\n Год выпуска:\t{3}\n",
                 Title, Author, Genre, Year);
         }
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Пьеса {this.Title} уничтожена (Dispose)!");
+            Console.ResetColor();
         }
         ~Play()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($" Объект с названием {Title} уничтожен (d-tor)!");
+            Console.ResetColor();
         }
     }
 
