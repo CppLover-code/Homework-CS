@@ -19,8 +19,8 @@
 
             Collection collection = new Collection(poetries);
             //collection.ShowCollection();
-            int choice;
-            
+            int choice = -1;
+
             while (true)
             {
                 Console.WriteLine("\tМеню\n" +
@@ -31,48 +31,70 @@
                     " 5 - сохранить сборник стихов в файл\n" +
                     " 6 - загрузить сборник стихов из файла\n" +
                     " 0 - выход\n");
-                Console.Write(" Сделайте выбор: ");                   
-                try
+                while (true)
                 {
-                    choice = int.Parse(Console.ReadLine()!);
-                    if(choice < 0 || choice > 6)
+                    Console.Write(" Сделайте выбор: ");
+                    try
                     {
-                        throw new Exception(" Некорректный выбор!");
+                        choice = int.Parse(Console.ReadLine()!);
+                        if (choice < 0 || choice > 6)
+                        {
+                            throw new Exception(" Некорректный выбор!");
+                        }
+                        break;
                     }
-                    break;
+                    catch (FormatException)
+                    {
+                        Console.WriteLine(" Некорректный ввод!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
-                catch(FormatException)
-                {
-                    Console.WriteLine(" Некорректный ввод!");
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
 
-            switch (choice)
-            {
-                //case 0:
+                switch (choice)
+                {
+                    case 0:
+                        return;
 
-                case 1:
-                    collection.ShowCollection();
-                    break;
-                case 2:
-                    collection.Add();
-                    break;
-                case 3:
-                    collection.Remove();
-                    break;
-                case 4:
-                    collection.Change();
-                    break;
-                case 5:
-                    collection.ShowCollection();
-                    break;
-                case 6:
-                    collection.ShowCollection();
-                    break;
+                    case 1:
+                        collection.ShowCollection();
+                        Console.WriteLine(" Для продолжения нажмите Enter!");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 2:
+                        collection.Add();
+                        Console.WriteLine(" Для продолжения нажмите Enter!");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 3:
+                        collection.Remove();
+                        Console.WriteLine(" Для продолжения нажмите Enter!");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 4:
+                        collection.Change();
+                        Console.WriteLine(" Для продолжения нажмите Enter!");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 5:
+                        collection.ShowCollection();
+                        Console.WriteLine(" Для продолжения нажмите Enter!");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                    case 6:
+                        collection.ShowCollection();
+                        Console.WriteLine(" Для продолжения нажмите Enter!");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                }
             }
         }
         class Poetry
@@ -107,7 +129,7 @@
             public void ShowPoetry()
             {
                 Console.WriteLine(" Название:\t{0}\n Автор:\t\t{1}\n " +
-                    "Год написания:\t{2} г.\n Тема:\t\t{3}\n Текст стиха\u2193\n{4}\n",
+                    "Год написания:\t{2} г.\n Тема:\t\t{3}\n Текст стиха\u2193\n\n{4}\n",
                     Title, Author, Date, Theme, Text);
             }
         }
@@ -127,7 +149,9 @@
                 int id = 1;
                 foreach (var poetry in poetries)
                 {
-                    Console.WriteLine($" Стих #{id}");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"\t Стих #{id}");
+                    Console.ResetColor();
                     poetry.ShowPoetry();
                     id++;
                 }    
