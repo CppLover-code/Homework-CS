@@ -1,4 +1,9 @@
-﻿namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
+
+namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
 {
     internal class Program1
     {
@@ -83,13 +88,13 @@
                         Console.Clear();
                         break;
                     case 5:
-                        collection.ShowCollection();
+                        collection.WriteFile();
                         Console.WriteLine(" Для продолжения нажмите Enter!");
                         Console.ReadLine();
                         Console.Clear();
                         break;
                     case 6:
-                        collection.ShowCollection();
+                        collection.ReadFile();
                         Console.WriteLine(" Для продолжения нажмите Enter!");
                         Console.ReadLine();
                         Console.Clear();
@@ -97,7 +102,8 @@
                 }
             }
         }
-        class Poetry
+        [Serializable]
+        public class Poetry
         {
             public string? Title { get; set; }
             public string? Author { get; set; }
@@ -133,9 +139,10 @@
                     Title, Author, Date, Theme, Text);
             }
         }
-        class Collection
+        [Serializable]
+        public class Collection
         {
-            List<Poetry> poetries = new();
+            public List<Poetry> poetries = new();
             public Collection()
             {
 
@@ -168,6 +175,9 @@
             public void Add()   // добавление стиха
             {
                 poetries.Add(new Poetry());
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(" Стих успешно добавлен!\n");
+                Console.ResetColor();
             }
             public void Remove() // удаление по индексу
             {
@@ -200,7 +210,10 @@
                     }
                 }
                 
-                poetries.RemoveAt(ind);
+                poetries.RemoveAt(ind - 1);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(" Стих успешно удалён!\n");
+                Console.ResetColor();
             }
             public void Change()
             {
@@ -269,29 +282,55 @@
                     case 1:
                         Console.WriteLine(" Введите обновленное название:");
                         newInfo = Console.ReadLine()!;
-                        poetries[ind].Title = newInfo;
+                        poetries[ind-1].Title = newInfo;
                         break;
                     case 2:
                         Console.WriteLine(" Введите обновлённую информацию об авторе (ФИО):");
                         newInfo = Console.ReadLine()!;
-                        poetries[ind].Author = newInfo;
+                        poetries[ind - 1].Author = newInfo;
                         break;
                     case 3:
                         Console.WriteLine(" Введите обновлённый год написания:");
                         newDate = int.Parse(Console.ReadLine()!);
-                        poetries[ind].Date = newDate;
+                        poetries[ind - 1].Date = newDate;
                         break;
                     case 4:
                         Console.WriteLine(" Введите обновлённый текст стиха:");
                         newInfo = Console.ReadLine()!;
-                        poetries[ind].Text = newInfo;
+                        poetries[ind - 1].Text = newInfo;
                         break;
                     case 5:
                         Console.WriteLine(" Введите обновлённую тему стиха:");
                         newInfo = Console.ReadLine()!;
-                        poetries[ind].Theme = newInfo;
+                        poetries[ind - 1].Theme = newInfo;
                         break;                   
                 }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(" Изменения успешно сохранены!\n");
+                Console.ResetColor();
+            }
+            public void WriteFile()
+            {
+                FileStream? stream = null;
+                XmlSerializer? serializer = null;
+                stream = new FileStream("Collection.xml", FileMode.Create);
+                serializer = new XmlSerializer(typeof(List<Poetry>));
+                serializer.Serialize(stream, poetries);
+                stream.Close();
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Коллекция стихов сохранена!");
+                Console.ResetColor();
+            }
+            public void ReadFile()
+            {
+                poetries.Clear();
+                FileStream? stream = null;
+                XmlSerializer? serializer = null;
+                stream = new FileStream("Collection.xml", FileMode.Open);
+                serializer = new XmlSerializer(typeof(List<Poetry>));
+                poetries = (List <Poetry>)serializer.Deserialize(stream)!;
+                stream.Close();
             }
 
         }
