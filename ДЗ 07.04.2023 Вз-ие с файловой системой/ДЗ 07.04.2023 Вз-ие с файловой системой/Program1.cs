@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
 namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
 {
-    internal class Program1
+    public class Program1
     {
         static void Main(string[] args)
         {
@@ -22,8 +23,9 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                 " Дали туфельки слону.\r\n Взял он туфельку одну\r\n И сказал: — Нужны пошире,\r\n И не две, а все четыре!\n", "О слоне и туфельках"),
             };
 
-            Collection collection = new Collection(poetries);
-            //collection.ShowCollection();
+            Collection collection = new Collection();
+            collection = new Collection(poetries);
+
             int choice = -1;
 
             while (true)
@@ -88,13 +90,13 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                         Console.Clear();
                         break;
                     case 5:
-                        collection.WriteFile();
+                        collection.WriteFile();                        
                         Console.WriteLine(" Для продолжения нажмите Enter!");
                         Console.ReadLine();
                         Console.Clear();
                         break;
                     case 6:
-                        collection.ReadFile();
+                        collection.ReadFile();                       
                         Console.WriteLine(" Для продолжения нажмите Enter!");
                         Console.ReadLine();
                         Console.Clear();
@@ -102,6 +104,7 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                 }
             }
         }
+
         [Serializable]
         public class Poetry
         {
@@ -111,19 +114,7 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
             public string? Text { get; set; }
             public string? Theme { get; set; }
 
-            public Poetry() // сделать проверки
-            {
-                Console.WriteLine(" Введите название стиха:");
-                this.Title = Console.ReadLine();
-                Console.WriteLine(" Введите имя и фамилию автора:");
-                this.Author = Console.ReadLine();
-                Console.WriteLine(" Введите год написания стиха:");
-                this.Date = int.Parse(Console.ReadLine()!);
-                Console.WriteLine(" Введите тему стиха:");
-                this.Theme = Console.ReadLine();
-                Console.WriteLine(" Введите текст стиха:");
-                this.Text = Console.ReadLine();
-            }
+            public Poetry() { }
             public Poetry(string title, string author, int date, string text, string theme)
             {
                 this.Title = title;
@@ -139,14 +130,11 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                     Title, Author, Date, Theme, Text);
             }
         }
-        [Serializable]
         public class Collection
         {
             public List<Poetry> poetries = new();
-            public Collection()
-            {
+            public Collection() { }
 
-            }
             public Collection(List<Poetry> list)
             {
                 poetries = list;
@@ -174,7 +162,18 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
             }
             public void Add()   // добавление стиха
             {
-                poetries.Add(new Poetry());
+                Console.WriteLine(" Введите название стиха:");
+                string? title = Console.ReadLine();
+                Console.WriteLine(" Введите имя и фамилию автора:");
+                string? author = Console.ReadLine();
+                Console.WriteLine(" Введите год написания стиха:");
+                int date = int.Parse(Console.ReadLine()!);
+                Console.WriteLine(" Введите тему стиха:");
+                string? theme = Console.ReadLine();
+                Console.WriteLine(" Введите текст стиха:");
+                string? text = Console.ReadLine();
+
+                poetries.Add(new Poetry(title!, author!, date, text!, theme!));
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(" Стих успешно добавлен!\n");
                 Console.ResetColor();
@@ -329,10 +328,49 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                 XmlSerializer? serializer = null;
                 stream = new FileStream("Collection.xml", FileMode.Open);
                 serializer = new XmlSerializer(typeof(List<Poetry>));
-                poetries = (List <Poetry>)serializer.Deserialize(stream)!;
+                poetries = (List<Poetry>)serializer.Deserialize(stream)!;
                 stream.Close();
-            }
 
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Коллекция стихов загружена!");
+                Console.ResetColor();
+            }
         }
+        public string CheckTitle()
+        {
+            Console.WriteLine(" Введите название стиха:");
+            string? title = Console.ReadLine();
+
+            return title;
+        }
+        public string CheckAuthor()
+        {
+            Console.WriteLine(" Введите имя и фамилию автора:");
+            string? author = Console.ReadLine();
+
+            return author;
+        }
+        public int CheckDate()
+        {
+            Console.WriteLine(" Введите год написания стиха:");
+            int date = int.Parse(Console.ReadLine()!);
+
+            return date;
+        }
+        public string CheckTheme()
+        {
+            Console.WriteLine(" Введите тему стиха:");
+            string? theme = Console.ReadLine();
+
+            return theme;
+        }
+        public string CheckText()
+        {
+            Console.WriteLine(" Введите текст стиха:");
+            string? text = Console.ReadLine();
+
+            return text;
+        }
+
     }
 }
