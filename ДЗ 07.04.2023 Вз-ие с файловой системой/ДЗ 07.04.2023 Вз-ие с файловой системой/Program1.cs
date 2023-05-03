@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
 {
@@ -35,8 +37,10 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                     " 2 - добавить стих\n" +
                     " 3 - удалить стих\n" +
                     " 4 - изменить информацию о стихе\n" +
-                    " 5 - сохранить сборник стихов в файл\n" +
-                    " 6 - загрузить сборник стихов из файла\n" +
+                    " 5 - искать стих по разным характеристикам\n" +
+                    " 6 - сохранить сборник стихов в файл\n" +
+                    " 7 - загрузить сборник стихов из файла\n" +
+                    " 8 - формирование отчетов\n" +
                     " 0 - выход\n");
                 while (true)
                 {
@@ -44,7 +48,7 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                     try
                     {
                         choice = int.Parse(Console.ReadLine()!);
-                        if (choice < 0 || choice > 6)
+                        if (choice < 0 || choice > 8)
                         {
                             throw new Exception(" Некорректный выбор!");
                         }
@@ -67,41 +71,32 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
 
                     case 1:
                         collection.ShowCollection();
-                        Console.WriteLine(" Для продолжения нажмите Enter!");
-                        Console.ReadLine();
-                        Console.Clear();
                         break;
                     case 2:
                         collection.Add();
-                        Console.WriteLine(" Для продолжения нажмите Enter!");
-                        Console.ReadLine();
-                        Console.Clear();
                         break;
                     case 3:
                         collection.Remove();
-                        Console.WriteLine(" Для продолжения нажмите Enter!");
-                        Console.ReadLine();
-                        Console.Clear();
                         break;
                     case 4:
                         collection.Change();
-                        Console.WriteLine(" Для продолжения нажмите Enter!");
-                        Console.ReadLine();
-                        Console.Clear();
                         break;
                     case 5:
-                        collection.WriteFile();                        
-                        Console.WriteLine(" Для продолжения нажмите Enter!");
-                        Console.ReadLine();
-                        Console.Clear();
+                        collection.Search();
                         break;
                     case 6:
-                        collection.ReadFile();                       
-                        Console.WriteLine(" Для продолжения нажмите Enter!");
-                        Console.ReadLine();
-                        Console.Clear();
+                        collection.WriteFile();
+                        break;
+                    case 7:
+                        collection.ReadFile();
+                        break;
+                    case 8:
+                        //collection.;
                         break;
                 }
+                Console.WriteLine(" Для продолжения нажмите Enter!");
+                Console.ReadLine();
+                Console.Clear();
             }
         }
 
@@ -149,7 +144,7 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                     Console.ResetColor();
                     poetry.ShowPoetry();
                     id++;
-                }    
+                }
             }
             public void ShowMainInfoCollection() // показ названия и автора стиха
             {
@@ -180,41 +175,41 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
             }
             public void Remove() // удаление по индексу
             {
-                if(poetries.Count == 0)
+                if (poetries.Count == 0)
                 {
                     Console.WriteLine(" Сборник стихов пуст!");
                     return;
                 }
                 ShowMainInfoCollection();
                 int ind;
-                while(true)
+                while (true)
                 {
                     Console.WriteLine(" Введите номер стиха для удаления: ");
                     try
                     {
                         ind = int.Parse(Console.ReadLine()!);
-                        if(ind < 0 || ind > poetries.Count)
+                        if (ind < 0 || ind > poetries.Count)
                         {
                             throw new Exception(" Некорректный выбор!");
                         }
                         break;
                     }
-                    catch(FormatException)
+                    catch (FormatException)
                     {
                         Console.WriteLine(" Некорректный ввод!");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
                 }
-                
+
                 poetries.RemoveAt(ind - 1);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(" Стих успешно удалён!\n");
                 Console.ResetColor();
             }
-            public void Change()
+            public void Change() // изменение информации стиха по выбранному пункту
             {
                 if (poetries.Count == 0)
                 {
@@ -222,7 +217,7 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                     return;
                 }
                 ShowMainInfoCollection();
-                int ind; 
+                int ind;
                 while (true)
                 {
                     Console.WriteLine(" Введите номер стиха для изменения: ");
@@ -253,12 +248,13 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                     " 2 - ФИО автора\n" +
                     " 3 - год написания\n" +
                     " 4 - текст стиха\n" +
-                    " 5 - тема стиха\n");
+                    " 5 - тема стиха\n" +
+                    " 0 - выход\n");
                     Console.Write(" Сделайте выбор: ");
                     try
                     {
                         ch = int.Parse(Console.ReadLine()!);
-                        if (ch < 1 || ch > 5)
+                        if (ch < 0 || ch > 5)
                         {
                             throw new Exception(" Некорректный выбор!");
                         }
@@ -278,10 +274,12 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                 int newDate;
                 switch (ch)
                 {
+                    case 0:
+                        return;
                     case 1:
                         Console.WriteLine(" Введите обновленное название:");
                         newInfo = Console.ReadLine()!;
-                        poetries[ind-1].Title = newInfo;
+                        poetries[ind - 1].Title = newInfo;
                         break;
                     case 2:
                         Console.WriteLine(" Введите обновлённую информацию об авторе (ФИО):");
@@ -302,13 +300,160 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                         Console.WriteLine(" Введите обновлённую тему стиха:");
                         newInfo = Console.ReadLine()!;
                         poetries[ind - 1].Theme = newInfo;
-                        break;                   
+                        break;
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(" Изменения успешно сохранены!\n");
                 Console.ResetColor();
-            }
-            public void WriteFile()
+            } 
+            public void Search() // поиск стиха по выбранному пункту
+            {
+                if (poetries.Count == 0)
+                {
+                    Console.WriteLine(" Сборник стихов пуст!");
+                    return;
+                }
+
+                int ch;
+                while (true)
+                {
+                    Console.WriteLine("\tПоиск по\n" +
+                    " 1 - названию стиха\n" +
+                    " 2 - ФИО автора\n" +
+                    " 3 - году написания\n" +
+                    " 4 - тексту стиха\n" +
+                    " 5 - теме стиха\n" +
+                    " 0 - выход\n");
+                    Console.Write(" Сделайте выбор: ");
+                    try
+                    {
+                        ch = int.Parse(Console.ReadLine()!);
+                        if (ch < 0 || ch > 5)
+                        {
+                            throw new Exception(" Некорректный выбор!");
+                        }
+                        break;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine(" Некорректный ввод!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                string temp;
+                int date;
+                switch (ch)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        Console.WriteLine(" Введите название стиха:");
+                        temp = CheckInput();
+
+                        var Res = from i in poetries
+                                  where i.Title!.ToLower() == temp.ToLower()
+                                  select i;
+
+                        Console.Write("Результат поиска: ");
+                        if (Res != null)
+                        {
+                            Console.WriteLine($"найдено {Res.Count()} совпадений!");
+                            foreach (var val in Res)
+                                val.ShowPoetry();
+                        }
+                        else
+                        {
+                            Console.WriteLine("совпадений не найдено!");
+                        }
+
+                        break;
+                    case 2:
+                        Console.WriteLine(" Введите ФИО автора:");
+                        temp = CheckInput();
+
+                        Res = from t in poetries
+                              where t.Author!.ToLower() == temp.ToLower()
+                              select t;
+
+                        Console.Write("Результат поиска: ");
+                        if (Res != null)
+                        {
+                            Console.WriteLine($"найдено {Res.Count()} совпадений!");
+                            foreach (var val in Res)
+                                val.ShowPoetry();
+                        }
+                        else
+                        {
+                            Console.WriteLine("совпадений не найдено!");
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine(" Введите год написания стиха:");
+                        date = CheckDate();
+
+                        Res = from k in poetries
+                              where k.Date == date
+                              select k;
+
+                        Console.Write("Результат поиска: ");
+                        if (Res != null)
+                        {
+                            Console.WriteLine($"найдено {Res.Count()} совпадений!");
+                            foreach (var val in Res)
+                                val.ShowPoetry();
+                        }
+                        else
+                        {
+                            Console.WriteLine("совпадений не найдено!");
+                        }
+                        break;
+                    case 4:
+                        Console.WriteLine(" Введите часть текста стиха:");
+                        temp = CheckInput();
+
+                        Res = from r in poetries
+                              where r.Text!.ToLower().Contains(temp.ToLower())
+                              select r;
+
+                        Console.Write("Результат поиска: ");
+                        if (Res != null)
+                        {
+                            Console.WriteLine($"найдено {Res.Count()} совпадений!");
+                            foreach (var val in Res)
+                                val.ShowPoetry();
+                        }
+                        else
+                        {
+                            Console.WriteLine("совпадений не найдено!");
+                        }
+                        break;
+
+                    case 5:
+                        Console.WriteLine(" Введите тему стиха:");
+                        temp = CheckInput();
+
+                        Res = from s in poetries
+                              where s.Theme!.ToLower() == temp.ToLower()
+                              select s;
+
+                        Console.Write("Результат поиска: ");
+                        if (Res != null)
+                        {
+                            Console.WriteLine($"найдено {Res.Count()} совпадений!");
+                            foreach (var val in Res)
+                                val.ShowPoetry();
+                        }
+                        else
+                        {
+                            Console.WriteLine("совпадений не найдено!");
+                        }
+                        break;
+                }
+            } 
+            public void WriteFile() // запись сборинка в файл
             {
                 FileStream? stream = null;
                 XmlSerializer? serializer = null;
@@ -320,8 +465,8 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Коллекция стихов сохранена!");
                 Console.ResetColor();
-            }
-            public void ReadFile()
+            } 
+            public void ReadFile() // загрузка сборника из файла
             {
                 poetries.Clear();
                 FileStream? stream = null;
@@ -334,43 +479,55 @@ namespace ДЗ_07._04._2023_Вз_ие_с_файловой_системой
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Коллекция стихов загружена!");
                 Console.ResetColor();
+            }  
+        }
+        static string CheckInput() // проверка введенных текстовых данных
+        {
+            string text;
+            while (true)
+            {
+                try
+                {
+                    text = Console.ReadLine()!;
+                    if (string.IsNullOrEmpty(text) ||       // если строка пустая
+                        string.IsNullOrWhiteSpace(text) ||  // если строка содержит только пробел или пустая
+                        Regex.IsMatch(text, @"^\d+$"))      // если строка содержит только цифры
+                    {
+                        throw new Exception(" Некорректный ввод");
+                    }
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
-        }
-        public string CheckTitle()
-        {
-            Console.WriteLine(" Введите название стиха:");
-            string? title = Console.ReadLine();
-
-            return title;
-        }
-        public string CheckAuthor()
-        {
-            Console.WriteLine(" Введите имя и фамилию автора:");
-            string? author = Console.ReadLine();
-
-            return author;
-        }
-        public int CheckDate()
-        {
-            Console.WriteLine(" Введите год написания стиха:");
-            int date = int.Parse(Console.ReadLine()!);
-
-            return date;
-        }
-        public string CheckTheme()
-        {
-            Console.WriteLine(" Введите тему стиха:");
-            string? theme = Console.ReadLine();
-
-            return theme;
-        }
-        public string CheckText()
-        {
-            Console.WriteLine(" Введите текст стиха:");
-            string? text = Console.ReadLine();
-
             return text;
-        }
-
+        } 
+        static int CheckDate() // проверка введённой даты
+        {
+            int date;
+            while (true)
+            {
+                try
+                {
+                    date = int.Parse(Console.ReadLine()!);
+                    if (date < 1000 || date > DateTime.Today.Year)
+                    {
+                        throw new Exception(" Некорректный ввод!");
+                    }
+                    break;
+                }
+                catch(FormatException)
+                {
+                    Console.WriteLine(" Некорректный ввод!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            } 
+            return date;
+        } 
     }
 }
