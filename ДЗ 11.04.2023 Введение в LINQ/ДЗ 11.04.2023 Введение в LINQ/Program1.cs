@@ -175,11 +175,7 @@
                 this.Phone = phone;
                 this.Email = email;
                 this.Salary = salary;
-            }
-            public void ShowEmployee()
-            {
-
-            }
+            }           
         }
         static List<Company> Generate()
         {
