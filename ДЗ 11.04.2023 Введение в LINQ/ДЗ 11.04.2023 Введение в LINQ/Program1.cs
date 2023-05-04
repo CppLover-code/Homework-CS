@@ -5,7 +5,8 @@
         static void Main(string[] args)
         {
             Console.Title = "LINQ запросы";
-
+            
+            Companies companies = new Companies(FillCompanies());
 
             int choice;
             while (true)
@@ -57,7 +58,7 @@
                         return;
 
                     case 1:
-
+                        companies.ShowCompanies();
                         break;
                     case 2:
 
@@ -122,6 +123,13 @@
             {
                 this.companies = list;
             }
+            public void ShowCompanies()   // Получить информацию обо всех фирмах
+            {
+                foreach(var item in companies)
+                {
+                    Console.WriteLine(item);
+                }              
+            }
         }
         class Company
         {
@@ -144,11 +152,11 @@
                 this.CountEmployees = employees.Count;
                 this.Address = address;
             }
-            public void ShowCompany()   // Получить информацию обо всех фирмах
+            public override string ToString()   // информация о фирме
             {
-                Console.WriteLine(" Название фирмы: {0}\n Дата основания: {1}\n " +
-                    "Профиль бизнеса: {2}\n ФИО директора: {3}\n Количество сотрудников: {4}\n " +
-                    "Адрес: {5}\n", this.Title, this.Date, this.Profile, this.Director, this.CountEmployees, this.Address);
+                return $" Название фирмы:\t{Title}\n Дата основания:\t{Date}\n " +
+                    $"Профиль бизнеса: \t{Profile}\n ФИО директора:\t\t{Director}\n " +
+                    $"Кол-во сотрудников:\t{CountEmployees}\n Адрес:\t\t\t{Address}\n";
             }
             public void ShowEmployees() // Получить всех сотрудников конкретной фирмы
             {
@@ -177,7 +185,7 @@
                 this.Salary = salary;
             }           
         }
-        static List<Company> Generate()
+        static List<Company> FillCompanies()
         {
             List<Employee> employees1 = new List<Employee>()
             {
