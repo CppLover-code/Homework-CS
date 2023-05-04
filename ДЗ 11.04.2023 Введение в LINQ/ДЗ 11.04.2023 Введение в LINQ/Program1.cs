@@ -1,4 +1,6 @@
-﻿namespace ДЗ_11._04._2023_Введение_в_LINQ
+﻿using System.ComponentModel;
+
+namespace ДЗ_11._04._2023_Введение_в_LINQ
 {
     internal class Program1
     {
@@ -16,7 +18,7 @@
                     " 2.Получить фирмы, у которых в названии есть слово Food\n" +
                     " 3.Получить фирмы, которые работают в области маркетинга\n" +
                     " 4.Получить фирмы, которые работают в области маркетинга или IT\n" +
-                    " 5.Получить фирмы с количеством сотрудников, большем 3\n" +
+                    " 5.Получить фирмы с количеством сотрудников, большем 6\n" +
                     " 6.Получить фирмы с количеством сотрудников в диапазоне от 5 до 10\n" +
                     " 7.Получить фирмы, которые находятся в Лондоне\n" +
                     " 8.Получить фирмы, у которых фамилия директора White\n" +
@@ -61,31 +63,31 @@
                         companies.ShowCompanies();
                         break;
                     case 2:
-
+                        companies.TitleFood();
                         break;
                     case 3:
-
+                        companies.ProfileMarketing();
                         break;
                     case 4:
-
+                        companies.ProfileMarketingOrIt();
                         break;
                     case 5:
-
+                        companies.EmployeesMore6();
                         break;
                     case 6:
-
+                        companies.Employees5_10();
                         break;
                     case 7:
-                        
+                        companies.AddressLondon();
                         break;
                     case 8:
-                        
+                        companies.SurnameWhite();
                         break;
                     case 9:
-
+                        companies.DateMore2();
                         break;
                     case 10:
-
+                        companies.DateMore123Day();
                         break;
                     case 11:
 
@@ -125,10 +127,87 @@
             }
             public void ShowCompanies()   // Получить информацию обо всех фирмах
             {
+                int id = 1;
                 foreach(var item in companies)
                 {
+                    Console.WriteLine($"-Компания {id}-");
                     Console.WriteLine(item);
+                    id++;
                 }              
+            }
+            public void TitleFood()
+            {
+                var Res = from item in companies
+                          where item.Title!.ToLower().Contains("Food".ToLower())
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void ProfileMarketing()
+            {
+                var Res = from item in companies
+                          where item.Profile!.ToLower().Contains("Marketing".ToLower())
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void ProfileMarketingOrIt()
+            {
+                var Res = from item in companies
+                          where item.Profile!.ToLower().Contains("Marketing".ToLower()) || item.Profile!.Contains("IT")
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void EmployeesMore6()
+            {
+                var Res = from item in companies
+                          where item.CountEmployees > 6
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void Employees5_10()
+            {
+                var Res = from item in companies
+                          where item.CountEmployees >= 5 && item.CountEmployees <= 10
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void AddressLondon()
+            {
+                var Res = from item in companies
+                          where item.Address!.ToLower().Contains("London".ToLower())
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void SurnameWhite()
+            {
+                var Res = from item in companies
+                          where item.Director!.ToLower().Contains("White".ToLower())
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void DateMore2()
+            {
+                var Res = from item in companies
+                          where item.Date!.Value.Year < (DateTime.Now.Year - 2)
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void DateMore123Day()
+            {
+                var Res = from item in companies
+                          let v = DateTime.Today - item.Date
+                          where v.Value.Days >= 123
+                          select item;
+
+                foreach (var item in Res)
+                    Console.WriteLine(item);                   
             }
         }
         class Company
@@ -165,7 +244,7 @@
                 {
                     Console.WriteLine($"{id}. {item.Name}");
                 }
-            }
+            }           
         }
         class Employee
         {
@@ -240,7 +319,7 @@
                 new Employee("Ivan Markov", "architect", "380939727563", "markovvi94@gmail.com", 2365.00),
             };
             DateTime date4 = new DateTime(2010, 09, 13);
-            Company company4 = new Company("Budova", date3, "construction", "Gennadiy Truhanov", employees4, "Odesa");
+            Company company4 = new Company("Budova", date4, "construction", "Gennadiy Truhanov", employees4, "Odesa");
 
 
             List<Company> cmpn = new List<Company>()
