@@ -96,7 +96,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                         companies.CompanyEmployees();
                         break;
                     case 13:
-
+                        companies.CompanyEmployeesSalaryMore();
                         break;
                     case 14:
 
@@ -227,6 +227,28 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                           select item;
                 foreach (var item in Res)
                     item.ShowEmployees();
+            }
+            public void CompanyEmployeesSalaryMore()
+            {
+                Console.Write(" Введите название фирмы: ");
+                string str = Console.ReadLine()!;
+                Console.Write(" Введите минимальную зарплату: ");
+                double salary = double.Parse(Console.ReadLine()!);
+
+                var Res = from item in companies
+                          where item.Title!.ToLower().Contains(str.ToLower())
+                          select item;
+             
+                foreach (List<Employee> emp in Res)
+                {
+                    var Res1 = from i in emp
+                               where i.Salary >= salary
+                               select i;
+
+                    foreach (Employee item in Res1)
+                        Console.WriteLine(item.Name);
+                }
+                    
             }
         }
         class Company
