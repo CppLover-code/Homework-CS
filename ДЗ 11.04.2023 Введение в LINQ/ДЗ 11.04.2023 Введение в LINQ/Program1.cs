@@ -127,16 +127,20 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void ShowCompanies()   // Получить информацию обо всех фирмах
             {
+                Console.WriteLine("\t\t-Все компании-\n");
                 int id = 1;
                 foreach(var item in companies)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($"-Компания {id}-");
+                    Console.ResetColor();
                     Console.WriteLine(item);
                     id++;
                 }              
             }
             public void TitleFood()
             {
+                Console.WriteLine("\t\t-Фирмы, у которых в названии есть слово Food-\n");
                 var Res = from item in companies
                           where item.Title!.ToLower().Contains("Food".ToLower())
                           select item;
@@ -145,6 +149,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void ProfileMarketing()
             {
+                Console.WriteLine("\t\t-Фирмы, которые работают в области маркетинга-\n");
+
                 var Res = from item in companies
                           where item.Profile!.ToLower().Contains("Marketing".ToLower())
                           select item;
@@ -153,6 +159,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void ProfileMarketingOrIt()
             {
+                Console.WriteLine("\t\t-Фирмы, которые работают в области маркетинга или IT-\n");
+
                 var Res = from item in companies
                           where item.Profile!.ToLower().Contains("Marketing".ToLower()) || item.Profile!.Contains("IT")
                           select item;
@@ -161,6 +169,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void EmployeesMore6()
             {
+                Console.WriteLine("\t\t-Фирмы, с количеством сотрудников, большем 6-\n");
+
                 var Res = from item in companies
                           where item.CountEmployees > 6
                           select item;
@@ -169,6 +179,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void Employees5_10()
             {
+                Console.WriteLine("\t\t-Фирмы, с количеством сотрудников в диапазоне от 5 до 10-\n");
+
                 var Res = from item in companies
                           where item.CountEmployees >= 5 && item.CountEmployees <= 10
                           select item;
@@ -177,6 +189,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void AddressLondon()
             {
+                Console.WriteLine("\t\t-Фирмы, которые находятся в Лондоне-\n");
+
                 var Res = from item in companies
                           where item.Address!.ToLower().Contains("London".ToLower())
                           select item;
@@ -185,6 +199,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void SurnameWhite()
             {
+                Console.WriteLine("\t\t-Фирмы, у которых фамилия директора White-\n");
+
                 var Res = from item in companies
                           where item.Director!.ToLower().Contains("White".ToLower())
                           select item;
@@ -193,6 +209,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void DateMore2()
             {
+                Console.WriteLine("\t\t-Фирмы, которые основаны больше двух лет назад-\n");
+
                 var Res = from item in companies
                           where item.Date!.Value.Year < (DateTime.Now.Year - 2)
                           select item;
@@ -201,6 +219,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void DateMore123Day()
             {
+                Console.WriteLine("\t\t-Фирмы, со дня основания которых прошло 123 дня-\n");
+
                 var Res = from item in companies
                           let v = DateTime.Today - item.Date
                           where v.Value.Days >= 123
@@ -211,6 +231,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void DirectorBlackCompanyWhite()
             {
+                Console.WriteLine("\t\t-Фирмы, у которых фамилия директора Black и название фирмы содержит слово White-\n");
+
                 var Res = from item in companies
                           where item.Director!.ToLower().Contains("Black".ToLower()) 
                           && item.Title!.ToLower().Contains("White".ToLower())
@@ -220,6 +242,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void CompanyEmployees()
             {
+                Console.WriteLine("\t\t-Все сотрудники конкретной фирмы-\n");
+
                 Console.Write(" Введите название фирмы: ");
                 string str = Console.ReadLine()!;
                 var Res = from item in companies
@@ -230,6 +254,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void CompanyEmployeesSalaryMore()
             {
+                Console.WriteLine("\t\t-Все сотрудники конкретной фирмы, у которых заработные платы больше заданной-\n");
+
                 Console.Write(" Введите название фирмы: ");
                 string str = Console.ReadLine()!;
                 Console.Write(" Введите минимальную зарплату: ");
@@ -254,7 +280,9 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                 }
             }
             public void CompanyEmployeesManager()
-            {               
+            {
+                Console.WriteLine("\t\t-Сотрудники всех фирм, у которых должность менеджер-\n");
+
                 var Res = from item in companies
                           select item;
 
@@ -283,6 +311,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void CompanyEmployeesPhone23()
             {
+                Console.WriteLine("\t\t-Сотрудники всех фирм, у которых телефон начинается с 23-\n");
+
                 var Res = from item in companies
                           select item;
 
@@ -311,6 +341,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void CompanyEmployeesEmailDi()
             {
+                Console.WriteLine("\t\t-Сотрудники всех фирм, у которых Email начинается с di-\n");
+
                 var Res = from item in companies
                           select item;
 
@@ -339,6 +371,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             }
             public void CompanyEmployeesNameLionel()
             {
+                Console.WriteLine("\t\t-Сотрудники всех фирм, у которых имя Lionel-\n");
+
                 var Res = from item in companies
                           select item;
 
@@ -485,7 +519,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                 company2,
                 company3,
                 company4
-            };            
+            };
             return cmpn;
         }
     }
