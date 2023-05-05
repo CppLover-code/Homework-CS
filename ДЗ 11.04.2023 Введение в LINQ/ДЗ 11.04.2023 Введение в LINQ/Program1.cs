@@ -13,26 +13,26 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             int choice;
             while (true)
             {
-                Console.WriteLine("\tМеню\n" +
-                    " 1.Получить информацию обо всех фирмах\n" +
-                    " 2.Получить фирмы, у которых в названии есть слово Food\n" +
-                    " 3.Получить фирмы, которые работают в области маркетинга\n" +
-                    " 4.Получить фирмы, которые работают в области маркетинга или IT\n" +
-                    " 5.Получить фирмы с количеством сотрудников, большем 6\n" +
-                    " 6.Получить фирмы с количеством сотрудников в диапазоне от 5 до 10\n" +
-                    " 7.Получить фирмы, которые находятся в Лондоне\n" +
-                    " 8.Получить фирмы, у которых фамилия директора White\n" +
-                    " 9.Получить фирмы, которые основаны больше двух лет назад\n" +
-                    " 10.Получить фирмы со дня основания, которых прошло 123 дня\n" +
-                    " 11.Получить фирмы, у которых фамилия директора Black и название\n" +
+                Console.WriteLine("\t-Меню для получения информации-\n" +
+                    " 1.Информация о всех фирмах\n" +
+                    " 2.Фирмы, у которых в названии есть слово Food\n" +
+                    " 3.Фирмы, которые работают в области маркетинга\n" +
+                    " 4.Фирмы, которые работают в области маркетинга или IT\n" +
+                    " 5.Фирмы с количеством сотрудников, большем 6\n" +
+                    " 6.Фирмы с количеством сотрудников в диапазоне от 5 до 10\n" +
+                    " 7.Фирмы, которые находятся в Лондоне\n" +
+                    " 8.Фирмы, у которых фамилия директора White\n" +
+                    " 9.Фирмы, которые основаны больше двух лет назад\n" +
+                    " 10.Фирмы со дня основания, которых прошло 123 дня\n" +
+                    " 11.Фирмы, у которых фамилия директора Black и название\n" +
                     "    фирмы содержит слово White\n" +
-                    " 12.Получить всех сотрудников конкретной фирмы\n" +
-                    " 13.Получить всех сотрудников конкретной фирмы, у которых заработные\n" +
+                    " 12.Все сотрудники конкретной фирмы\n" +
+                    " 13.Все сотрудники конкретной фирмы, у которых заработные\n" +
                     "    платы больше заданной\n" +
-                    " 14.Получить сотрудников всех фирм, у которых должность менеджер\n" +
-                    " 15.Получить сотрудников, у которых телефон начинается с 23\n" +
-                    " 16.Получить сотрудников, у которых Email начинается с di\n" +
-                    " 17.Получить сотрудников, у которых имя Lionel\n" +
+                    " 14.Сотрудников всех фирм, у которых должность менеджер\n" +
+                    " 15.Сотрудники, у которых телефон начинается с 23\n" +
+                    " 16.Сотрудники, у которых Email начинается с di\n" +
+                    " 17.Сотрудников, у которых имя Lionel\n" +
                     " 0 - выход\n");
                 while (true)
                 {
@@ -48,11 +48,15 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                     }
                     catch (FormatException)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(" Некорректный ввод!");
+                        Console.ResetColor();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(ex.Message);
+                        Console.ResetColor();
                     }
                 }
 
@@ -127,7 +131,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             {
                 this.companies = list;
             }
-            public void ShowCompanies()   // Получить информацию обо всех фирмах
+            public void ShowCompanies()
             {
                 Console.WriteLine("\t\t-Все компании-\n");
 
@@ -150,9 +154,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             public void TitleFood()
             {
                 Console.WriteLine("\t\t-Фирмы, у которых в названии есть слово Food-\n");
-                var Res = from item in companies
-                          where item.Title!.ToLower().Contains("Food".ToLower())
-                          select item;
+
+                var Res = companies.Where(item => item.Title!.ToLower().Contains("Food".ToLower()));               
 
                 CheckResult(Res);
 
@@ -163,9 +166,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             {
                 Console.WriteLine("\t\t-Фирмы, которые работают в области маркетинга-\n");
 
-                var Res = from item in companies
-                          where item.Profile!.ToLower().Contains("4".ToLower())
-                          select item;
+                var Res = companies.Where(item => item.Profile!.ToLower().Contains("Marketing".ToLower()));
 
                 CheckResult(Res);
 
@@ -176,10 +177,9 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             {
                 Console.WriteLine("\t\t-Фирмы, которые работают в области маркетинга или IT-\n");
 
-                var Res = from item in companies
-                          where item.Profile!.ToLower().Contains("Marketing".ToLower()) || item.Profile!.Contains("IT")
-                          select item;
-
+                var Res = companies.Where(item => item.Profile!.ToLower().Contains("Marketing".ToLower()) 
+                                            || item.Profile!.Contains("IT"));
+                
                 CheckResult(Res);
 
                 foreach (var item in Res)
@@ -189,9 +189,8 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             {
                 Console.WriteLine("\t\t-Фирмы, с количеством сотрудников, большем 6-\n");
 
-                var Res = from item in companies
-                          where item.CountEmployees > 6
-                          select item;
+                var Res = companies.Where(item =>item.CountEmployees > 6);   
+                
                 CheckResult(Res);
 
                 foreach (var item in Res)
@@ -436,7 +435,9 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
             {
                 if (Res.Count() == 0)
                 {
-                    Console.WriteLine("По вашему запросу нет результатов!");
+                    Console.ForegroundColor= ConsoleColor.Red;
+                    Console.WriteLine("По вашему запросу нет результатов!\n");
+                    Console.ResetColor();
                     return;
                 }
             }
