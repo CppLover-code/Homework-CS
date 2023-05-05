@@ -90,10 +90,10 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                         companies.DateMore123Day();
                         break;
                     case 11:
-
+                        companies.DirectorBlackCompanyWhite();
                         break;
                     case 12:
-
+                        companies.CompanyEmployees();
                         break;
                     case 13:
 
@@ -209,6 +209,25 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                 foreach (var item in Res)
                     Console.WriteLine(item);                   
             }
+            public void DirectorBlackCompanyWhite()
+            {
+                var Res = from item in companies
+                          where item.Director!.ToLower().Contains("Black".ToLower()) 
+                          && item.Title!.ToLower().Contains("White".ToLower())
+                          select item;
+                foreach (var item in Res)
+                    Console.WriteLine(item);
+            }
+            public void CompanyEmployees()
+            {
+                Console.Write(" Введите название фирмы: ");
+                string str = Console.ReadLine()!;
+                var Res = from item in companies
+                          where item.Title!.ToLower().Contains(str.ToLower())
+                          select item;
+                foreach (var item in Res)
+                    item.ShowEmployees();
+            }
         }
         class Company
         {
@@ -243,6 +262,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                 foreach(var item in Employees!)
                 {
                     Console.WriteLine($"{id}. {item.Name}");
+                    id++;
                 }
             }           
         }
@@ -262,7 +282,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                 this.Phone = phone;
                 this.Email = email;
                 this.Salary = salary;
-            }           
+            }
         }
         static List<Company> FillCompanies()
         {
