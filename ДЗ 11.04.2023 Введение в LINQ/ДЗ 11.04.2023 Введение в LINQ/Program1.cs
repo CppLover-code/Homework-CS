@@ -105,10 +105,10 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                         companies.CompanyEmployeesPhone23();
                         break;
                     case 16:
-                        companies.CompanyEmployeesEmailId();
+                        companies.CompanyEmployeesEmailDi();
                         break;
                     case 17:
-
+                        companies.CompanyEmployeesNameLionel();
                         break;
                 }
                 Console.WriteLine(" Для продолжения нажмите Enter!");
@@ -309,7 +309,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                     }
                 }
             }
-            public void CompanyEmployeesEmailId()
+            public void CompanyEmployeesEmailDi()
             {
                 var Res = from item in companies
                           select item;
@@ -320,7 +320,7 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                                select i;
 
                     var Res2 = from i in Res1
-                               where i.Email!.Contains("id")
+                               where i.Email!.StartsWith("di")
                                select i;
 
                     var list = Res2;
@@ -328,11 +328,39 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                     if (list?.Count() != 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($" Сотрудники компании {item.Title} с почтой id...");
+                        Console.WriteLine($" Сотрудники компании {item.Title} с почтой di...");
                         Console.ResetColor();
 
                         foreach (var i in Res2)
                             Console.WriteLine($"{i.Name} - {i.Email}");
+                        Console.WriteLine();
+                    }
+                }
+            }
+            public void CompanyEmployeesNameLionel()
+            {
+                var Res = from item in companies
+                          select item;
+
+                foreach (var item in Res)
+                {
+                    var Res1 = from i in item.Employees
+                               select i;
+
+                    var Res2 = from i in Res1
+                               where i.Name!.StartsWith("Lionel")
+                               select i;
+
+                    var list = Res2;
+
+                    if (list?.Count() != 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($" Сотрудники компании {item.Title} с именем Lionel");
+                        Console.ResetColor();
+
+                        foreach (var i in Res2)
+                            Console.WriteLine($"{i.Name}");
                         Console.WriteLine();
                     }
                 }
