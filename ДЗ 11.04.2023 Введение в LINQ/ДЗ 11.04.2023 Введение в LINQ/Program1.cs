@@ -99,13 +99,13 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                         companies.CompanyEmployeesSalaryMore();
                         break;
                     case 14:
-
+                        companies.CompanyEmployeesManager();
                         break;
                     case 15:
-
+                        companies.CompanyEmployeesPhone23();
                         break;
                     case 16:
-
+                        companies.CompanyEmployeesEmailId();
                         break;
                     case 17:
 
@@ -238,17 +238,104 @@ namespace ДЗ_11._04._2023_Введение_в_LINQ
                 var Res = from item in companies
                           where item.Title!.ToLower().Contains(str.ToLower())
                           select item;
-             
-                foreach (List<Employee> emp in Res)
+
+                foreach (var item in Res)
                 {
-                    var Res1 = from i in emp
+                    Console.WriteLine($" Сотрудники компании {item.Title}, чья зарплата больше {salary}$");
+                    var Res1 = from i in item.Employees
+                               select i;
+
+                    var Res2 = from i in Res1
                                where i.Salary >= salary
                                select i;
 
-                    foreach (Employee item in Res1)
-                        Console.WriteLine(item.Name);
+                    foreach (var i in Res2)
+                        Console.WriteLine($"{ i.Name} - {i.Salary}$");                
                 }
-                    
+            }
+            public void CompanyEmployeesManager()
+            {               
+                var Res = from item in companies
+                          select item;
+
+                foreach (var item in Res)
+                { 
+                    var Res1 = from i in item.Employees
+                               select i;
+
+                    var Res2 = from i in Res1
+                               where i.JobTitle!.Contains("manager")
+                               select i;
+
+                    var list = Res2;
+
+                    if(list?.Count() != 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($" Сотрудники компании {item.Title} с должностью -manager-");
+                        Console.ResetColor();
+
+                        foreach (var i in Res2)
+                            Console.WriteLine($"{i.Name} - {i.JobTitle}");
+                        Console.WriteLine();
+                    }
+                }
+            }
+            public void CompanyEmployeesPhone23()
+            {
+                var Res = from item in companies
+                          select item;
+
+                foreach (var item in Res)
+                {
+                    var Res1 = from i in item.Employees
+                               select i;
+
+                    var Res2 = from i in Res1
+                               where i.Phone!.StartsWith("23")
+                               select i;
+
+                    var list = Res2;
+
+                    if (list?.Count() != 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($" Сотрудники компании {item.Title} с номером телефона 23...");
+                        Console.ResetColor();
+
+                        foreach (var i in Res2)
+                            Console.WriteLine($"{i.Name} - {i.Phone}");
+                        Console.WriteLine();
+                    }
+                }
+            }
+            public void CompanyEmployeesEmailId()
+            {
+                var Res = from item in companies
+                          select item;
+
+                foreach (var item in Res)
+                {
+                    var Res1 = from i in item.Employees
+                               select i;
+
+                    var Res2 = from i in Res1
+                               where i.Email!.Contains("id")
+                               select i;
+
+                    var list = Res2;
+
+                    if (list?.Count() != 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($" Сотрудники компании {item.Title} с почтой id...");
+                        Console.ResetColor();
+
+                        foreach (var i in Res2)
+                            Console.WriteLine($"{i.Name} - {i.Email}");
+                        Console.WriteLine();
+                    }
+                }
             }
         }
         class Company
