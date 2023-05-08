@@ -280,24 +280,29 @@ namespace ДЗ_13._04._2023_Продолжение_LINQ
 
                 var groups = phones.GroupBy(p => p.Manufacturer)
                         .Select(g => new { Name = g.Key, Count = g.Count() });
+
                 foreach (var group in groups)
                     Console.WriteLine("{0,-15} - {1,5}", group.Name, group.Count);                
             }
             public void ShowStatisticsByQuantityTitle()
             {
                 Console.WriteLine(" Статистика по количеству моделей телефонов");
+
                 var groups = phones.GroupBy(p => p.Title)
                        .Select(g => new { Name = g.Key, Count = g.Count() });
+
                 foreach (var group in groups)
                     Console.WriteLine("{0,-15} - {1,5}", group.Name, group.Count);
             }
             public void ShowStatisticsByDate()
             {
                 Console.WriteLine(" Статистика телефонов по годам");
-                var groups = phones.GroupBy(p => p.Date)
+
+                var groups = phones.GroupBy(p => p.Date.Year)
                       .Select(g => new { Date = g.Key, Count = g.Count() });
+
                 foreach (var group in groups)
-                    Console.WriteLine("{0,-20} - {1,5}", group.Date.ToLongDateString(), group.Count);
+                    Console.WriteLine("{0,-5} - {1,3}", group.Date, group.Count);
             }
         }
     }
