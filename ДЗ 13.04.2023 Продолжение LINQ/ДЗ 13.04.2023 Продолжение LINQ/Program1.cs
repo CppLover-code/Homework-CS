@@ -4,6 +4,7 @@
     {
         static void Main(string[] args)
         {
+            Console.Title = "LINQ запросы для массива телефонов";
             var phones = new Phones(new Phone[]
                 {
                     new Phone("Iphone 14", "Apple", 1500, new DateTime(2020, 5, 15)),
@@ -22,6 +23,115 @@
                     new Phone("ThinkPhone 8", "Motorola", 1000, new DateTime(2022, 5, 8))
                 });
 
+            int choice;
+            while (true)
+            {
+                Console.WriteLine("\t-Меню для получения информации-\n" +
+                    " 1.Информация о всех телефонах\n" +
+                    " 2.Количество всех телефонов\n" +
+                    " 3.Количество телефонов с ценой больше 100\n" +
+                    " 4.Количество телефонов с ценой в диапазоне от 400 до 700\n" +
+                    " 5.Количество телефонов конкретного производителя\n" +
+                    " 6.Найти телефон с минимальной ценой\n" +
+                    " 7.Найти телефон с максимальной ценой\n" +
+                    " 8.Отобразить информацию о самом старом телефоне\n" +
+                    " 9.Отобразить информацию о самом свежем телефоне\n" +
+                    " 10.Найти среднюю цену телефона\n" +
+                    " 11.Отобразить пять самых дорогих телефонов\n" +
+                    " 12.Отобразить пять самых дешевых телефонов\n" +
+                    " 14.Отобразить три самых новых телефона\n" +
+                    " 15.Отобразить статистику по количеству телефонов каждого производителя.\n" +
+                    " 16.Отобразить статистику по количеству моделей телефонов\n" +
+                    " 17.Отобразить статистику телефонов по годам\n" +
+                    " 0 - выход\n");
+                while (true)
+                {
+                    Console.Write(" Сделайте выбор: ");
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine()!);
+                        if (choice < 0 || choice > 17)
+                        {
+                            throw new Exception(" Некорректный выбор!");
+                        }
+                        break;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(" Некорректный ввод!");
+                        Console.ResetColor();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(ex.Message);
+                        Console.ResetColor();
+                    }
+                }
+
+                switch (choice)
+                {
+                    case 0:
+                        return;
+
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+
+                        break;
+                    case 7:
+
+                        break;
+                    case 8:
+
+                        break;
+                    case 9:
+
+                        break;
+                    case 10:
+
+                        break;
+                    case 11:
+
+                        break;
+                    case 12:
+
+                        break;
+                    case 13:
+
+                        break;
+                    case 14:
+
+                        break;
+                    case 15:
+
+                        break;
+                    case 16:
+
+                        break;
+                    case 17:
+
+                        break;
+                }
+                Console.WriteLine(" Для продолжения нажмите Enter!");
+                Console.ReadLine();
+                Console.Clear();
+
+            }
         }
         class Phone
         {
@@ -47,6 +157,70 @@
         {
             public Phone[] phones;
             public Phones(Phone[] phones) => this.phones = phones;
+            public void ShowPhones()
+            {
+
+            }
+            public void ShowCount()
+            {
+
+            }
+            public void ShowPhonesMore100()
+            {
+
+            }
+            public void ShowPhonesRange()
+            {
+
+            }
+            public void ShowCountConcreteManufacturer()
+            {
+
+            }
+            public void ShowPhoneMinPrice()
+            {
+
+            }
+            public void ShowPhoneMaxPrice()
+            {
+
+            }
+            public void ShowPhoneOld()
+            {
+
+            }
+            public void ShowPhoneNew()
+            {
+
+            }
+            public void ShowAveragePrice()
+            {
+
+            }
+            public void Show5Expensive()
+            {
+
+            }
+            public void Show5Cheapest()
+            {
+
+            }
+            public void Show3New()
+            {
+
+            }
+            public void ShowStatisticsByQuantityManufacturer()
+            {
+
+            }
+            public void ShowStatisticsByQuantityTitle()
+            {
+
+            }
+            public void ShowStatisticsByDate()
+            {
+
+            }
         }
     }
 }
