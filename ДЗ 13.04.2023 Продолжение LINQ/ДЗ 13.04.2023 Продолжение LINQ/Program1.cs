@@ -6,5 +6,21 @@
         {
             
         }
+        class Phone
+        {
+            public string? Title { get; set; }
+            public string? Manufacturer { get; set; } 
+            public double Price { get; set; }   
+            public DateTime Date { get; set; }
+
+            public Phone() { }
+            public Phone(string title, string manufacturer, double price, DateTime date)
+            {
+                this.Title = title;
+                this.Manufacturer = manufacturer;
+                this.Price = price;
+                this.Date = date;
+            }
+
     }
 }
