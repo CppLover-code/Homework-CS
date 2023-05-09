@@ -50,38 +50,40 @@ namespace ДЗ_14._04._2023_Сериализация_объектов
                     }
                 }
             }
-            Console.WriteLine("--------------------------------------------");
 
-            Console.WriteLine("Entered array:");
+            Console.WriteLine("\n Для продолжения нажмите Enter!");
+            Console.ReadLine();
+            Console.Clear();
+
+            Console.WriteLine(" Массив дробных чисел:");
             foreach (var item in arr)
                 Console.Write(item + "  ");
 
-            Console.WriteLine("\n--------------------------------------------");
-
-            FileStream stream = new FileStream("text.xml", FileMode.Create, FileAccess.Write);
+            FileStream stream = new FileStream("DoubleArray.xml", FileMode.Create, FileAccess.Write);
             XmlSerializer serializer = new XmlSerializer(typeof(double[]));
 
             serializer.Serialize(stream, arr);
             if (stream.CanWrite)
-                Console.WriteLine("Array has been serialised succesfully)))");
+                Console.WriteLine("\n\n Сериализация массива прошла успешно!");
             stream.Close();
-            Console.WriteLine("--------------------------------------------");
+            Console.Write("************************************");
 
-            stream = new FileStream("text.xml", FileMode.Open, FileAccess.Read);
+            stream = new FileStream("DoubleArray.xml", FileMode.Open, FileAccess.Read);
             if (stream.CanRead)
             {
-                arr = (double[])serializer.Deserialize(stream);
-                Console.WriteLine("Deserialize successfully");
-                Console.WriteLine("--------------------------------------------");
+                arr = (double[])serializer.Deserialize(stream)!;
+                Console.WriteLine("\n Дериализация массива прошла успешно!\n");
             }
 
             stream.Close();
             stream.Dispose();
 
-            Console.WriteLine("Array after deserialization:");
+            Console.WriteLine(" Массив после десериализации:");
             foreach (var item in arr)
                 Console.Write(item + "  ");
+
+            Console.WriteLine("\n\n");
         }
     }
-    }
+  
 }
