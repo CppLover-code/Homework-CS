@@ -193,6 +193,17 @@ namespace ДЗ_13._04._2023_Продолжение_LINQ
             {
                 Console.WriteLine(" Введите название производителя телефонов:");
                 string s = Console.ReadLine()!;
+
+                var find = from item in phones
+                           where item.Manufacturer!.ToLower() == s.ToLower()
+                           select item;
+
+                if(find.Count() < 1)
+                {
+                    Console.WriteLine(" Данного производителя нет в списке!");
+                    return;
+                }
+
                 int count = phones.Count(i => i.Manufacturer!.ToLower().Contains(s.ToLower()));
                 Console.WriteLine($" Количество телефонов конкретного производителя: всего {count} телефонов");
             }
