@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Xml.Serialization;
 
 namespace Ex._2
@@ -8,72 +10,55 @@ namespace Ex._2
         static void Main(string[] args)
         {
             Console.Title = "Журнал";
+            FileStream? stream = null;
+            DataContractJsonSerializer? jsonFormatter = null;
 
             Journal[] journals =
             {
                 new Journal("Best car", " Издательство Новый журнал", 35, new DateTime(2022,5,10), new List<Article>
                 {
-                    new Article("A...", "A"),
-                    new Article("B...", "B"),
-                    new Article("C...", "C"),
-                    new Article("D...", "D")
-                }),
-                new Journal("Wall street journal", "Издательство WallStreet", 40, new DateTime(2023,11,25), new List<Article>
-                {
-                    new Article("A...", "A"),
-                    new Article("B...", "B"),
-                    new Article("C...", "C"),
-                    new Article("D...", "D")
-                }),
+                    new Article("Сколько лошадинных сил у Феррари", "О Феррари и новом движке", 580),
+                    new Article("Женщина за рулем - беда на дороге", "Почему женщине нельзя доверять машину", 1325),                   
+                    new Article("Тонкости работы карбюратора", "Как работают карбюраторы на Жиге", 930)
+                }),               
                 new Journal("New york Times", "Издательство Time", 25, new DateTime(2021,2,14), new List<Article>
                 {
-                    new Article("A...", "A"),
-                    new Article("B...", "B"),
-                    new Article("C...", "C"),
-                    new Article("D...", "D")
+                    new Article("Повышение цен не за горами", "Почему растут цены на продукты в Нью Йорке", 896),
+                    new Article("Выборы губернатора", "Кому отдали предпочтение жители города", 997)
                 })
             };
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Before serialization:");
-            Console.ResetColor();
-            foreach (var item in journals)
-                item.ShowAll();
-            Console.WriteLine("-------------------------------------------");
-
-            FileStream stream = new FileStream("journals.xml", FileMode.Create, FileAccess.Write);
-            XmlSerializer serializer = new XmlSerializer(typeof(Journal[]));
-            if (stream.CanWrite)
-            {
-                serializer.Serialize(stream, journals);
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Serialization successfully");
-                stream.Close();
-                stream.Dispose();
-                Console.WriteLine("-------------------------------------------");
-                Console.ResetColor();
-            }
-
-            stream = new FileStream("journals.xml", FileMode.Open, FileAccess.Read);
-            if (stream.CanRead)
-            {
-                journals = (Journal[])serializer.Deserialize(stream);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Deserialization succesfully");
-                stream.Close();
-                stream.Dispose();
-                Console.WriteLine("-------------------------------------------");
-                Console.ResetColor();
-            }
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("After deserialization:");
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine(" ДО сериализации:");
+            Console.WriteLine("-------------------------------------------");
             Console.ResetColor();
+
             foreach (var item in journals)
-                item.ShowAll();
+                item.Show();          
+            /// СЕРИАЛИЗАЦИЯ ///
+            stream = new FileStream("journals.json", FileMode.Create);
+            jsonFormatter = new DataContractJsonSerializer(typeof(Journal[]));
+            jsonFormatter.WriteObject(stream, journals);
+            stream.Close();
+            Console.WriteLine("Сериализация успешно выполнена!");
+
+            /// ДЕСЕРИАЛИЗАЦИЯ //
+            stream = new FileStream("journals.json", FileMode.Open);
+            jsonFormatter = new DataContractJsonSerializer(typeof(Journal[]));
+            journals = (Journal[])jsonFormatter.ReadObject(stream)!;         
+            stream.Close();
+            Console.WriteLine("Десериализация успешно выполнена!");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine(" ПОСЛЕ десериализации:");
+            Console.WriteLine("-------------------------------------------");
+            Console.ResetColor();
+
+            foreach (var item in journals!)
+                item.Show();
 
         }
-
-
-
         [Serializable]
         [DataContract]
         public class Journal
@@ -86,8 +71,9 @@ namespace Ex._2
             public DateTime Date;
             [DataMember]
             public int? Pages { get; set; }
+
             [DataMember]
-            public List<Article> Articles;
+            public List<Article>? Articles = null;
 
             public Journal() { }
             public Journal(string name, string productName, int numberOfPages, DateTime dateOfIssue, List<Article> articles)
@@ -106,17 +92,8 @@ namespace Ex._2
                 Console.Write(" Введите название издательства:");
                 string? producerName = Console.ReadLine();
 
-                Console.WriteLine(" Введите дату выпуска:");
-                int day;
-                int month;
-                int year;
-                Console.Write(" День: ");
-                day = Convert.ToInt32(Console.ReadLine());
-                Console.Write(" Месяц: ");
-                month = Convert.ToInt32(Console.ReadLine());
-                Console.Write(" Год: ");
-                year = Convert.ToInt32(Console.ReadLine());
-                DateTime Date = new DateTime(year, month, day);
+                Console.WriteLine(" Введите дату выпуска (гг.мм.дд):");
+                Date = DateTime.Parse(Console.ReadLine()!);
 
                 Console.Write(" Введите количество страниц: ");
                 int Pages = Convert.ToInt32(Console.ReadLine());
@@ -127,18 +104,18 @@ namespace Ex._2
                 while (count != 0)
                 {
                     Article article = new Article();
-                    article.InputArticleData();
+                    article.InputArticle();
                     Articles.Add(article);
                     count--;
                 }
                 Journal journal = new Journal(name!, producerName!, Pages, Date, Articles);
                 return journal;
             }
-            public void ShowAll()
+            public void Show()
             {
                 Console.WriteLine(this.ToString());
                 Console.WriteLine("---------------------------------------");
-                foreach (var item in Articles)
+                foreach (var item in Articles!)
                 {
                     Console.WriteLine(item.ToString());
                 }
@@ -150,12 +127,10 @@ namespace Ex._2
 
             public override string ToString()
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                return $"Name of journal: {Title}\n" +
-                       $"Name of producer: {Publishing}\n" +
-                       $"Number of pages: {Pages}\n" +
-                       $"Date of issue: {Date.ToShortDateString()}\n" +
-                       $"*************************************";
+                return $" Название журнала: {Title}\n" +
+                       $" Название издательства: {Publishing}\n" +
+                       $" Кол-во страниц: {Pages}\n" +
+                       $" Дата выпуска: {Date.ToShortDateString()}\n";
             }
         }
         [Serializable]
@@ -163,36 +138,33 @@ namespace Ex._2
         public class Article
         {
             [DataMember]
-            public string? ArticleText { get; set; }
+            public string? ArticleTitle { get; set; }
             [DataMember]
             public string? ArticleAnnouncement { get; set; }
             [DataMember]
-            public int? SymbolsAmount;
-
+            public int? Symbols;
             public Article() { }
 
-            public Article(string? articleText, string? articleAnnouncement)
+            public Article(string? articleText, string? articleAnnouncement, int symb)
             {
-                ArticleText = articleText;
+                ArticleTitle = articleText;
                 ArticleAnnouncement = articleAnnouncement;
-                SymbolsAmount = articleText?.Length;
+                Symbols = symb;
             }
-            public void InputArticleData()
+            public void InputArticle()
             {
-                Console.WriteLine("Enter article announcement: ");
+                Console.WriteLine(" Введите название статьи:");
+                ArticleTitle = Console.ReadLine();
+                Console.WriteLine(" Введите анонс статьи: ");
                 ArticleAnnouncement = Console.ReadLine();
-                Console.WriteLine("Enter full article:");
-                ArticleText = Console.ReadLine();
-                SymbolsAmount = ArticleText?.Length;
+                Console.WriteLine(" Введите количество символов статьи: ");
+                Symbols = int.Parse(Console.ReadLine()!);
             }
             public override string ToString()
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                return $"#########################################\n" +
-                    $"Article announcement: {ArticleAnnouncement}\n" +
-                    $"Article text\n{ArticleText}\n" +
-                    $"Amount of symbols in article: {SymbolsAmount}\n";
-
+                return $" Название статьи: {ArticleTitle}\n" +
+                    $" Анонс: {ArticleAnnouncement}\n" +                   
+                    $" Кол-во страниц: {Symbols}\n";
             }
         }
     }
