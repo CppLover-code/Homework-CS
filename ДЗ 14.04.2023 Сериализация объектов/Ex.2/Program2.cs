@@ -73,7 +73,7 @@ namespace Ex._2
             }                
 
         }
-
+        [Serializable]
         [DataContract]
         public class Journal
         {
@@ -148,6 +148,7 @@ namespace Ex._2
             }
         }
 
+        [Serializable]
         [DataContract]
         public class Article
         {
