@@ -11,44 +11,27 @@ namespace Ex._2
 
             Journal[] journals =
             {
-                new Journal("Wall street journal", "WallStreet", 15, new DateTime(2023,12,15), new List<Article>
+                new Journal("Best car", " Издательство Новый журнал", 35, new DateTime(2022,5,10), new List<Article>
                 {
                     new Article("A...", "A"),
                     new Article("B...", "B"),
                     new Article("C...", "C"),
                     new Article("D...", "D")
                 }),
-                new Journal("Wall street journal", "WallStreet", 15, new DateTime(2023,12,15), new List<Article>
+                new Journal("Wall street journal", "Издательство WallStreet", 40, new DateTime(2023,11,25), new List<Article>
                 {
                     new Article("A...", "A"),
                     new Article("B...", "B"),
                     new Article("C...", "C"),
                     new Article("D...", "D")
                 }),
-                new Journal("Wall street journal", "WallStreet", 15, new DateTime(2023,12,15), new List<Article>
+                new Journal("New york Times", "Издательство Time", 25, new DateTime(2021,2,14), new List<Article>
                 {
                     new Article("A...", "A"),
                     new Article("B...", "B"),
                     new Article("C...", "C"),
                     new Article("D...", "D")
-                }),
-                new Journal("Wall street journal", "WallStreet", 15, new DateTime(2023,12,15),
-                new List<Article>
-                {
-                    new Article("A...", "A"),
-                    new Article("B...", "B"),
-                    new Article("C...", "C"),
-                    new Article("D...", "D")
-                }),
-                new Journal("Wall street journal", "WallStreet", 15, new DateTime(2023,12,15),
-                new List<Article>
-                {
-                    new Article("A...", "A"),
-                    new Article("B...", "B"),
-                    new Article("C...", "C"),
-                    new Article("D...", "D")
-                }),
-                //new Journal().InputInfo()
+                })
             };
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Before serialization:");
@@ -117,38 +100,38 @@ namespace Ex._2
             }
             public Journal InputInfo()
             {
-                Console.WriteLine("Enter name of journal:");
+                Console.WriteLine(" Введите название журнала:");
                 string? name = Console.ReadLine();
 
-                Console.Write("Enter name of journal producer:");
+                Console.Write(" Введите название издательства:");
                 string? producerName = Console.ReadLine();
 
-                Console.WriteLine("Enter date of creation:");
+                Console.WriteLine(" Введите дату выпуска:");
                 int day;
                 int month;
                 int year;
-                Console.Write("Day: ");
+                Console.Write(" День: ");
                 day = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Month: ");
+                Console.Write(" Месяц: ");
                 month = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Year: ");
+                Console.Write(" Год: ");
                 year = Convert.ToInt32(Console.ReadLine());
-                DateTime dateOfIssue = new DateTime(year, month, day);
+                DateTime Date = new DateTime(year, month, day);
 
-                Console.Write("Enter number of pages: ");
-                int numberOfPages = Convert.ToInt32(Console.ReadLine());
-                List<Article>? articles = new List<Article>();
+                Console.Write(" Введите количество страниц: ");
+                int Pages = Convert.ToInt32(Console.ReadLine());
+                List<Article>? Articles = new List<Article>();
 
-                Console.Write("Enter how much articles you want add: ");
+                Console.Write(" Введите количество статей: ");
                 int count = Convert.ToInt32(Console.ReadLine());
                 while (count != 0)
                 {
                     Article article = new Article();
                     article.InputArticleData();
-                    articles.Add(article);
+                    Articles.Add(article);
                     count--;
                 }
-                Journal journal = new Journal(name, producerName, numberOfPages, dateOfIssue, articles);
+                Journal journal = new Journal(name!, producerName!, Pages, Date, Articles);
                 return journal;
             }
             public void ShowAll()
