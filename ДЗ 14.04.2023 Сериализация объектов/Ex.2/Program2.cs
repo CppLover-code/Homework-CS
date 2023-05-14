@@ -15,7 +15,7 @@ namespace Ex._2
 
             Journal[] journals =
             {
-                new Journal("Best car", " Издательство Новый журнал", 35, new DateTime(2022,5,10), new List<Article>
+                new Journal("My Best car", "Издательство Новый журнал", 35, new DateTime(2022,5,10), new List<Article>
                 {
                     new Article("Сколько лошадинных сил у Феррари", "О Феррари и новом движке", 580),
                     new Article("Женщина за рулем - беда на дороге", "Почему женщине нельзя доверять машину", 1325),                   
@@ -28,13 +28,20 @@ namespace Ex._2
                 })
             };
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("------------------");
             Console.WriteLine(" ДО сериализации:");
-            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("------------------");
             Console.ResetColor();
 
-            foreach (var item in journals)
-                item.Show();          
+            foreach (var item in journals!)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\t-Журнал {item.Title}-");
+                Console.ResetColor();
+                item.Show();
+                Console.WriteLine("-------------------------------------------");
+            }
+
             /// СЕРИАЛИЗАЦИЯ ///
             stream = new FileStream("journals.json", FileMode.Create);
             jsonFormatter = new DataContractJsonSerializer(typeof(Journal[]));
@@ -48,15 +55,22 @@ namespace Ex._2
             journals = (Journal[])jsonFormatter.ReadObject(stream)!;         
             stream.Close();
             Console.WriteLine("Десериализация успешно выполнена!");
+            Console.WriteLine("-------------------------------------------");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("----------------------");
             Console.WriteLine(" ПОСЛЕ десериализации:");
-            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("----------------------");
             Console.ResetColor();
 
             foreach (var item in journals!)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\t-Журнал {item.Title}-");
+                Console.ResetColor();
                 item.Show();
+                Console.WriteLine("-------------------------------------------");
+            }                
 
         }
         [Serializable]
@@ -114,23 +128,24 @@ namespace Ex._2
             public void Show()
             {
                 Console.WriteLine(this.ToString());
-                Console.WriteLine("---------------------------------------");
+                int i = 1;
                 foreach (var item in Articles!)
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($" -→ Статья #{i}");
+                    Console.ResetColor();
                     Console.WriteLine(item.ToString());
+                    i++;
                 }
-                Console.WriteLine("---------------------------------------");
-                Console.ResetColor();
-
             }
 
 
             public override string ToString()
             {
-                return $" Название журнала: {Title}\n" +
-                       $" Название издательства: {Publishing}\n" +
-                       $" Кол-во страниц: {Pages}\n" +
-                       $" Дата выпуска: {Date.ToShortDateString()}\n";
+                return $" Название журнала:\t{Title}\n" +
+                       $" Издательство:\t\t{Publishing}\n" +
+                       $" Кол-во страниц:\t{Pages}\n" +
+                       $" Дата выпуска:\t\t{Date.ToShortDateString()}\n";
             }
         }
         [Serializable]
@@ -162,9 +177,9 @@ namespace Ex._2
             }
             public override string ToString()
             {
-                return $" Название статьи: {ArticleTitle}\n" +
-                    $" Анонс: {ArticleAnnouncement}\n" +                   
-                    $" Кол-во страниц: {Symbols}\n";
+                return $" Название статьи:\t{ArticleTitle}\n" +
+                    $" Анонс статьи:\t\t{ArticleAnnouncement}\n" +                   
+                    $" Кол-во символов:\t{Symbols}\n";
             }
         }
     }
