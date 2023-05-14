@@ -73,7 +73,7 @@ namespace Ex._2
             }                
 
         }
-        [Serializable]
+
         [DataContract]
         public class Journal
         {
@@ -85,7 +85,6 @@ namespace Ex._2
             public DateTime Date;
             [DataMember]
             public int? Pages { get; set; }
-
             [DataMember]
             public List<Article>? Articles = null;
 
@@ -148,7 +147,7 @@ namespace Ex._2
                        $" Дата выпуска:\t\t{Date.ToShortDateString()}\n";
             }
         }
-        [Serializable]
+
         [DataContract]
         public class Article
         {
