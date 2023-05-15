@@ -50,7 +50,37 @@ namespace Ex._2
 
             #endregion NLog Initializator
 
-            Console.WriteLine(" Генерация фейковых пользователей!");
+            #region NLog Colors
+
+            var Trace = new ConsoleRowHighlightingRule();
+            Trace.Condition = ConditionParser.ParseExpression("level == LogLevel.Trace");
+            Trace.ForegroundColor = ConsoleOutputColor.Yellow;
+            consoleTarget.RowHighlightingRules.Add(Trace);
+            var Debug = new ConsoleRowHighlightingRule();
+            Debug.Condition = ConditionParser.ParseExpression("level == LogLevel.Debug");
+            Debug.ForegroundColor = ConsoleOutputColor.DarkCyan;
+            consoleTarget.RowHighlightingRules.Add(Debug);
+            var Info = new ConsoleRowHighlightingRule();
+            Info.Condition = ConditionParser.ParseExpression("level == LogLevel.Info");
+            Info.ForegroundColor = ConsoleOutputColor.Green;
+            consoleTarget.RowHighlightingRules.Add(Info);
+            var Warn = new ConsoleRowHighlightingRule();
+            Warn.Condition = ConditionParser.ParseExpression("level == LogLevel.Warn");
+            Warn.ForegroundColor = ConsoleOutputColor.DarkYellow;
+            consoleTarget.RowHighlightingRules.Add(Warn);
+            var Error = new ConsoleRowHighlightingRule();
+            Error.Condition = ConditionParser.ParseExpression("level == LogLevel.Error");
+            Error.ForegroundColor = ConsoleOutputColor.DarkRed;
+            consoleTarget.RowHighlightingRules.Add(Error);
+            var Fatal = new ConsoleRowHighlightingRule();
+            Fatal.Condition = ConditionParser.ParseExpression("level == LogLevel.Fatal");
+            Fatal.ForegroundColor = ConsoleOutputColor.Black;
+            Fatal.BackgroundColor = ConsoleOutputColor.DarkRed;
+            consoleTarget.RowHighlightingRules.Add(Fatal);
+
+            #endregion NLog Colors
+
+            Console.WriteLine("\t\t-Генерация фейковых пользователей!-\n");
             try
             {               
                 for (int i = 0; i < 10; i++)
@@ -67,12 +97,9 @@ namespace Ex._2
                 Logger.Fatal("Fatal Error! " + ex);
             }
 
-
-            Console.WriteLine(" Генерация фейковых пользователей завершена!");
-
+            Console.WriteLine("\t\t-Генерация фейковых пользователей завершена!-\n");
             Console.ReadLine();
-        }
-        
+        }  
     }
     public class User
     {
