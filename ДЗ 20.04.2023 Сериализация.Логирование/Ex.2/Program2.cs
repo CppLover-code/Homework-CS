@@ -27,26 +27,26 @@ namespace Ex._2
 
             #region NLog Initializator
 
-            var config = new NLog.Config.LoggingConfiguration();
+            var config = new NLog.Config.LoggingConfiguration(); // создаем новую конфигурацию для логирования
 
-            var consoleTarget = new ColoredConsoleTarget()
+            var consoleTarget = new ColoredConsoleTarget() // для консоли
             {
                 Layout = @"${counter}|[${date:format=yyyy-MM-dd HH\:mm\:ss}] [${logger}/${uppercase: ${level}}] >> ${message} ${exception: format=ToString}"
             };
 
-            config.AddRule(LogLevel.Trace, LogLevel.Fatal, consoleTarget);
+            config.AddRule(LogLevel.Trace, LogLevel.Fatal, consoleTarget);       // добавляем правило - будем ловить все возможные ошибки
 
-            var logfile = new FileTarget();
-            config.AddRule(LogLevel.Error, LogLevel.Fatal, logfile);
+            var logfile = new FileTarget(); // для файла
+            config.AddRule(LogLevel.Error, LogLevel.Fatal, logfile);             // добавляем правило - будем записывать Ошибки и Фатальные ошибки
 
-            logfile.CreateDirs = true;
-            logfile.FileName = $"logs{Path.DirectorySeparatorChar}lastlog2.log";
+            logfile.CreateDirs = true;      // создание директории
+            logfile.FileName = $"logs{Path.DirectorySeparatorChar}lastlog2.log"; // наш файл с записями об ошибках
 
             logfile.Layout = @"${counter}|[${date:format=yyyy-MM-dd HH\:mm\:ss}] [${logger}/${uppercase: ${level}}] >> ${message} ${exception: format=ToString}";
 
-            logfile.KeepFileOpen = true; // файл для записи постоянно открыт
+            logfile.KeepFileOpen = true;    // файл для записи постоянно открыт для быстродействия программы
 
-            NLog.LogManager.Configuration = config;
+            NLog.LogManager.Configuration = config;  // устанавливаем нашу конфигурацию
 
             #endregion NLog Initializator
 
@@ -83,7 +83,7 @@ namespace Ex._2
             Console.WriteLine("\t\t-Генерация фейковых пользователей!-\n");
             try
             {               
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 10; i++) // специально указано i < 10; чтоб произошла ошибка IndexOut.....
                 {
                     Console.WriteLine($" Сгенерирован фейковый пользователь {FakeUsers[i].FirstName} {FakeUsers[i].LastName}");
                     Logger.Info($"Фейковый пользователь {FakeUsers[i].FirstName} {FakeUsers[i].LastName}");
@@ -98,6 +98,7 @@ namespace Ex._2
             }
 
             Console.WriteLine("\t\t-Генерация фейковых пользователей завершена!-\n");
+            Console.WriteLine(" Нажмите Enter для завершения работы программы . . .");
             Console.ReadLine();
         }  
     }
